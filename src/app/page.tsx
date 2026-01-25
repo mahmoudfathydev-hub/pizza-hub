@@ -1,11 +1,9 @@
-import { Button } from "@/src/components/ui/button";
-import Image from "next/image";
+import Hero from "./_components/Hero";
 
 export default function Home() {
   return (
     <main>
-      <h2 className="text-primary">hello world</h2>
-      <Button>hello</Button>
+      <Hero />
     </main>
   );
 }
