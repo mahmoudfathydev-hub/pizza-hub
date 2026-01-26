@@ -1,6 +1,12 @@
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
-  provider   = "prisma-client-js"
-  engineType = "library"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -18,10 +24,52 @@ model User {
   postalCode    String?
   city          String?
   country       String?
+  role          UserRole       @default(USER)
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
+  orders        OrderProduct[]
+  accounts      Account[]
+  sessions      Session[]
+}
 
-  orderItems    OrderProduct[]
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
 }
 
 model Product {
@@ -29,42 +77,37 @@ model Product {
   name        String
   description String
   image       String
-  order       Int
+  order       Int            @default(autoincrement())
   basePrice   Float
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-
   sizes       Size[]
   extras      Extra[]
-
-  category    Category?      @relation(fields: [categoryId], references: [id])
-  categoryId  String?
-
-  orderItems  OrderProduct[]
+  orders      OrderProduct[]
+  category    Category       @relation(fields: [categoryId], references: [id])
+  categoryId  String
 }
 
 model Size {
   id        String       @id @default(cuid())
   name      ProductSizes
   price     Float
-
-  product   Product?     @relation(fields: [productId], references: [id])
-  productId String?
+  product   Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 }
 
 model Extra {
   id        String           @id @default(cuid())
   name      ExtraIngredients
   price     Float
-
-  product   Product?         @relation(fields: [productId], references: [id])
-  productId String?
+  product   Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
 }
 
 model Category {
   id       String    @id @default(uuid())
   name     String
-  order    Int
+  order    Int       @default(autoincrement())
   products Product[]
 }
 
@@ -82,22 +125,19 @@ model Order {
   country       String
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
-
-  orderItems    OrderProduct[]
+  products      OrderProduct[]
 }
 
 model OrderProduct {
-  id        String  @id @default(uuid())
-  quantity  Int
+  id       String @id @default(cuid())
+  quantity Int
 
   order     Order   @relation(fields: [orderId], references: [id])
   orderId   String
-
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
-
   user      User?   @relation(fields: [userId], references: [id])
   userId    String?
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
 }
 
 enum ProductSizes {
@@ -107,13 +147,14 @@ enum ProductSizes {
 }
 
 enum ExtraIngredients {
-  CHESSE
+  CHEESE
   BACON
   TOMATO
-  PEPPER
-  MEET
-  SHRIMP
-  CHICKEN
-  RANCH
   ONION
+  PEPPER
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }

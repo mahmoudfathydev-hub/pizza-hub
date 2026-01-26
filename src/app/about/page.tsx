@@ -1,7 +1,6 @@
 import AboutHero from "./_components/about-hero"
 import AboutValues from "./_components/about-values"
 import AboutTeam from "./_components/about-team"
-import AboutNewsletter from "./_components/about-newsletter"
 
 const AboutPage = () => {
     return (
@@ -9,7 +8,6 @@ const AboutPage = () => {
             <AboutHero />
             <AboutValues />
             <AboutTeam />
-            <AboutNewsletter />
         </main>
     )
 }
