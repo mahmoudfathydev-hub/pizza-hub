@@ -4,6 +4,7 @@ import "./globals.css";
 import { preload } from "react-dom";
 import Header from "../components/header";
 import { AOSInit } from "../components/aos-init";
+import Footer from "../components/footer/Footer";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
         <AOSInit />
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );
