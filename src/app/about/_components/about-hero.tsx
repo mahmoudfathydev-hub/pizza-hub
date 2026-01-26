@@ -5,7 +5,7 @@ const AboutHero = () => {
         <section className="container mx-auto section-gap flex flex-col md:flex-row items-center gap-12">
             <div
                 data-aos="fade-right"
-                className="w-full md:w-1/2 relative h-[500px] bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center"
+                className="w-full md:w-1/2 relative h-125 bg-gray-200 rounded-3xl overflow-hidden flex items-center justify-center"
             >
                 <div className="absolute inset-0 bg-neutral-200 flex items-center justify-center text-neutral-400 font-bold text-xl">
                     <Image src="/heroabout.png" alt="hero" fill className="object-contain"/>
