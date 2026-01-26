@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { preload } from "react-dom";
 import Header from "../components/header";
+import { AOSInit } from "../components/aos-init";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body
         className={roboto.className}
       >
+        <AOSInit />
         <Header />
         {children}
       </body>
