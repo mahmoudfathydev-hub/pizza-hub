@@ -38,7 +38,7 @@ const Deals = () => {
                             Claim Offer
                         </Link>
                     </div>
-                    <div className="absolute right-0 bottom-0 h-48 w-48 opacity-20 pointer-events-none">
+                    <div className="absolute right-5 bottom-15 h-48 w-48 opacity-20 pointer-events-none">
                         <Image src="/fork.png" alt="Decoration" fill className="object-contain" />
                     </div>
                 </div>
