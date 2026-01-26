@@ -17,22 +17,12 @@ import { Label } from "../ui/label"
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group"
 import { formatCurrency } from "@/src/lib/formatters"
 import { Checkbox } from "../ui/checkbox"
-
-const sizes = [
-    { id: crypto.randomUUID(), name: "Small", price: 0 },
-    { id: crypto.randomUUID(), name: "Medium", price: 4 },
-    { id: crypto.randomUUID(), name: "Large", price: 6 },
-]
+import {  Size, Extra } from "@prisma/client"
+import { ProductWithRelation } from "@/src/types/product"
 
 
-const extras = [
-    { id: crypto.randomUUID(), name: "Chesse", price: 2 },
-    { id: crypto.randomUUID(), name: "Onion", price: 1.5 },
-    { id: crypto.randomUUID(), name: "Tomato", price: 1.5 },
-]
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const AddToCartButton = ({ item }: { item: any }) => {
+const AddToCartButton = ({ item }: { item: ProductWithRelation }) => {
     return (
 
         <Dialog>
@@ -55,11 +45,11 @@ const AddToCartButton = ({ item }: { item: any }) => {
                     <div className="space-y-10">
                         <div className="space-y-4 text-center">
                             <Label htmlFor="Pick-size" className="block w-full text-center font-bold">Pick Your Size</Label>
-                            <PickSize sizes={sizes} item={item} />
+                            <PickSize sizes={item.sizes} item={item} />
                         </div>
                         <div className="space-y-4 text-center">
                             <Label htmlFor="any-extra" className="block w-full text-center font-bold">Any extras?</Label>
-                            <Extras extras={extras} />
+                            <Extras extras={item.extras} />
                         </div>
                     </div>
                     <DialogFooter>
@@ -72,15 +62,12 @@ const AddToCartButton = ({ item }: { item: any }) => {
 }
 
 export default AddToCartButton
-
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function PickSize({ sizes, item }: { sizes: { id: string; name: string; price: number }[]; item: any }) {
+function PickSize({ sizes, item }: { sizes: Size[]; item: ProductWithRelation }) {
     return (
         <RadioGroup defaultValue="comfortable" className="w-fit">
             {sizes.map((size) => (
                 <div key={size.id} className="flex items-center gap-3">
-                    <RadioGroupItem value="default" id={size.id} />
+                    <RadioGroupItem value={size.id} id={size.id} />
                     <Label htmlFor={size.id}>
                         {size.name} {formatCurrency(size.price + item.basePrice)}
                     </Label>
@@ -91,7 +78,8 @@ function PickSize({ sizes, item }: { sizes: { id: string; name: string; price: n
 }
 
 
-function Extras({ extras }: { sizes: { id: string; name: string; price: number }[] }) {
+
+function Extras({ extras }: { extras: Extra[]}) {
     return (
         extras.map((extra) => (
             <div key={extra.id} className="flex items-center space-x-2 border border-gray-100 rounded-md p-4">
@@ -101,6 +89,5 @@ function Extras({ extras }: { sizes: { id: string; name: string; price: number }
                 </Label>
             </div>
         ))
-
     )
 }
