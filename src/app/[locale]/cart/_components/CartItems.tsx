@@ -8,15 +8,46 @@ import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
 import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { useTranslations } from '@/src/hooks/use-translations';
 
 function CartItems() {
     const cart = useAppSelector(selectCartItems);
     const dispatch = useAppDispatch();
     const Subtotal = getSubTotal(cart);
+    const { t, loading } = useTranslations('cart');
 
     useEffect(() => {
         localStorage.setItem('cartItems', JSON.stringify(cart));
     }, [cart]);
+
+    if (loading) {
+        return (
+            <div>
+                <div className="space-y-4">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="flex flex-col md:flex-row gap-6 justify-between">
+                            <div className='flex items-center gap-2'>
+                                <div className='w-24 h-24 bg-gray-200 rounded animate-pulse'></div>
+                                <div className="space-y-2">
+                                    <div className="h-5 bg-gray-200 rounded animate-pulse w-32"></div>
+                                    <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                                </div>
+                            </div>
+                            <div className='flex-1 flex items-center gap-4 justify-end'>
+                                <div className="h-5 bg-gray-200 rounded animate-pulse w-16"></div>
+                                <div className="h-8 bg-gray-200 rounded animate-pulse w-8"></div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+                <div className='flex flex-col justify-end items-end pt-6 space-y-2'>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div>
@@ -40,12 +71,12 @@ function CartItems() {
                                             <div className='relative'>
                                                 {item.size && (
                                                     <span className='text-sm text-accent'>
-                                                        Size: {item.size.name}
+                                                        {t.items?.size || 'Size:'} {item.size.name}
                                                     </span>
                                                 )}
                                                 {item.extras && item.extras.length > 0 && (
                                                     <div className='flex gap-1'>
-                                                        <span>Extras:</span>
+                                                        <span>{t.items?.extras || 'Extras:'}</span>
                                                         <ul>
                                                             {item.extras.map((extra) => (
                                                                 <li key={extra.id}>
@@ -58,7 +89,7 @@ function CartItems() {
                                                     </div>
                                                 )}
                                                 <span className='absolute right-0 top-0 text-sm text-black'>
-                                                    x{item.quantity}
+                                                    {t.items?.quantity || 'x'}{item.quantity}
                                                 </span>
                                             </div>
                                         </div>
@@ -83,17 +114,17 @@ function CartItems() {
                     </ul>
                     <div className='flex flex-col justify-end items-end pt-6'>
                         <span className='text-accent font-medium'>
-                            Subtotal:
+                            {t.summary?.subtotal || 'Subtotal:'}
                             <strong className='text-black'>{formatCurrency(Subtotal)}</strong>
                         </span>
                         <span className='text-accent font-medium'>
-                            Delivery:
+                            {t.summary?.delivery || 'Delivery:'}
                             <strong className='text-black'>
                                 {formatCurrency(deliveryFee)}
                             </strong>
                         </span>
                         <span className='text-accent font-medium'>
-                            Total:
+                            {t.summary?.total || 'Total:'}
                             <strong className='text-black'>
                                 {formatCurrency(Subtotal + deliveryFee)}
                             </strong>
@@ -101,7 +132,7 @@ function CartItems() {
                     </div>
                 </>
             ) : (
-                <p className='text-accent'>There are no items in your cart. Add some</p>
+                <p className='text-accent'>{t.empty?.message || 'There are no items in your cart. Add some'}</p>
             )}
         </div>
     );

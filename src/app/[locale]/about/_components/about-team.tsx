@@ -1,38 +1,43 @@
 import MainHeading from "@/src/components/main-heading"
 import Image from "next/image"
+import { getCurrentLocale } from "@/src/lib/getCurrentLocale"
+import getTrans from "@/src/lib/translation"
 
-const team = [
-    {
-        name: "Marco Rossi",
-        role: "Founder & Master Pizzaiolo",
-        bio: "With 25 years of experience in Naples, Marco brought his secret sourdough starter and passion for wood-fire to found PizzaHub.",
-        image: "/Margin.png",
-        delay: 0
-    },
-    {
-        name: "Elena Valli",
-        role: "Head of Culinary Development",
-        bio: "Elena specializes in flavor chemistry, ensuring our unique toppings like Truffle Honey and Spicy Salami perfectly balance our crust.",
-        image: "/Elena.png",
-        delay: 100
-    },
-    {
-        name: "David Chen",
-        role: "Operations Director",
-        bio: "The mind behind our ultra-fast delivery system, David ensures that your pizza arrives as hot as it was when it left the stone.",
-        image: "/David.png",
-        delay: 200
-    }
-]
+const AboutTeam = async () => {
+    const locale = await getCurrentLocale()
+    const translations = await getTrans(locale, 'about')
+    
+    const team = [
+        {
+            name: translations.team.members[0].name,
+            role: translations.team.members[0].role,
+            bio: translations.team.members[0].bio,
+            image: "/Margin.png",
+            delay: 0
+        },
+        {
+            name: translations.team.members[1].name,
+            role: translations.team.members[1].role,
+            bio: translations.team.members[1].bio,
+            image: "/Elena.png",
+            delay: 100
+        },
+        {
+            name: translations.team.members[2].name,
+            role: translations.team.members[2].role,
+            bio: translations.team.members[2].bio,
+            image: "/David.png",
+            delay: 200
+        }
+    ]
 
-const AboutTeam = () => {
     return (
         <section className="container mx-auto section-gap">
             <div className="flex justify-center items-center mb-12">
                 <div data-aos="fade-right" className="text-center">
                     <MainHeading
-                        title="The passionate people behind the fire."
-                        subTitle="Meet the Visionaries"
+                        title={translations.team.heading.title}
+                        subTitle={translations.team.heading.subtitle}
                     />
                 </div>
             </div>

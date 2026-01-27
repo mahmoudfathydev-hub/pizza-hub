@@ -1,37 +1,44 @@
 import MainHeading from "@/src/components/main-heading"
 import { Leaf, Users, UtensilsCrossed } from "lucide-react"
-const values = [
-    {
-        icon: Leaf,
-        title: "Authentic Ingredients",
-        description: "From San Marzano tomatoes to fresh buffalo mozzarella imported weekly, we never compromise on the quality of our components.",
-        color: "bg-orange-100 text-orange-600",
-        delay: 0
-    },
-    {
-        icon: Users,
-        title: "Community First",
-        description: "We source our produce from local farmers and host weekly pizza-making workshops for neighborhood youth centers.",
-        color: "bg-orange-100 text-orange-600",
-        delay: 150
-    },
-    {
-        icon: UtensilsCrossed,
-        title: "Traditional Craft",
-        description: "Our dough is cold-fermented for 48 hours and stretched by hand, ensuring a crust that is both light and complex in flavor.",
-        color: "bg-orange-100 text-orange-600",
-        delay: 300
-    }
-]
-const AboutValues = () => {
+import { getCurrentLocale } from "@/src/lib/getCurrentLocale"
+import getTrans from "@/src/lib/translation"
+
+const AboutValues = async () => {
+    const locale = await getCurrentLocale()
+    const translations = await getTrans(locale, 'about')
+    
+    const values = [
+        {
+            icon: Leaf,
+            title: translations.values.items[0].title,
+            description: translations.values.items[0].description,
+            color: "bg-orange-100 text-orange-600",
+            delay: 0
+        },
+        {
+            icon: Users,
+            title: translations.values.items[1].title,
+            description: translations.values.items[1].description,
+            color: "bg-orange-100 text-orange-600",
+            delay: 150
+        },
+        {
+            icon: UtensilsCrossed,
+            title: translations.values.items[2].title,
+            description: translations.values.items[2].description,
+            color: "bg-orange-100 text-orange-600",
+            delay: 300
+        }
+    ]
+    
     return (
         <section className="container mx-auto section-gap">
             <div className="text-center mb-16" data-aos="fade-up">
                 <div className="flex justify-center items-center mb-12">
                     <div data-aos="fade-right" className="text-center">
                         <MainHeading
-                            title=" We don&apos;t just make pizza; we cultivate an experience built on three core pillars of excellence."
-                            subTitle="Values That Guide Us"
+                            title={translations.values.heading.title}
+                            subTitle={translations.values.heading.subtitle}
                         />
                     </div>
                 </div>

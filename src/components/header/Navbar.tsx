@@ -4,14 +4,19 @@ import Link from "../link"
 import { Button, buttonVariants } from "../ui/button"
 import { useState } from "react"
 import { Menu, XIcon } from "lucide-react"
+import { useTranslations } from "@/src/hooks/use-translations"
+import { useParams, usePathname } from "next/navigation"
 
 const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false)
+    const { t } = useTranslations('navbar')
+    const {locale} = useParams()
+    const pathname = usePathname()
     const linkes = [
-        { id: crypto.randomUUID(), href: Routes.MENU, title: "Menu" },
-        { id: crypto.randomUUID(), href: Routes.ABOUT, title: "About" },
-        { id: crypto.randomUUID(), href: Routes.CONTACT, title: "Contact" },
-        { id: crypto.randomUUID(), href: `${Routes.AUTH}/${Pages.LOGIN}`, title: "Login" },
+        { id: crypto.randomUUID(), href: Routes.MENU, title: t.navbar.menu },
+        { id: crypto.randomUUID(), href: Routes.ABOUT, title: t.navbar.about },
+        { id: crypto.randomUUID(), href: Routes.CONTACT, title: t.navbar.contact },
+        { id: crypto.randomUUID(), href: `${Routes.AUTH}/${Pages.LOGIN}`, title: t.navbar.login },
     ]
     return (
         <nav className="flex-1 justify-end flex">
@@ -34,11 +39,11 @@ const Navbar = () => {
                 {linkes.map(link => (
                     <li key={link.id}>
                         <Link
-                            href={`/${link.href}`}
+                            href={`/${locale}/${link.href}`}
                             className={`${link.href === `${Routes.AUTH}/${Pages.LOGIN}` ?
                                 `${buttonVariants({size: "lg"})} px-8! rounded-full!` :
                                 "text-accent hover:text-primary transition-colors duration-200 "} 
-                                font-semibold`}>
+                                font-semibold ${pathname.startsWith(`/${locale}/${link.href}`) ? "text-primary" : "text-accent"}`}>
                             {link.title}
                         </Link>
                     </li>
@@ -47,5 +52,4 @@ const Navbar = () => {
         </nav>
     )
 }
-
 export default Navbar

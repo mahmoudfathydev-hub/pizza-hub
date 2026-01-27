@@ -1,6 +1,28 @@
+"use client"
+
 import { Mail, MapPin, Phone } from "lucide-react"
+import { useTranslations } from "@/src/hooks/use-translations"
 
 const ContactInfo = () => {
+    const { t, loading } = useTranslations('contact')
+    
+    if (loading) {
+        return (
+            <section className="container mx-auto section-gap">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {[1, 2, 3].map((i) => (
+                        <div key={i} className="bg-neutral-50 rounded-[2rem] p-8 flex flex-col items-center text-center gap-4">
+                            <div className="w-16 h-16 bg-gray-200 rounded-full animate-pulse"></div>
+                            <div className="h-6 bg-gray-200 rounded animate-pulse w-20"></div>
+                            <div className="h-4 bg-gray-200 rounded animate-pulse w-32"></div>
+                            <div className="h-5 bg-gray-200 rounded animate-pulse w-24"></div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+        )
+    }
+    
     return (
         <section className="container mx-auto section-gap">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -13,9 +35,9 @@ const ContactInfo = () => {
                     <div className="bg-orange-100 p-4 rounded-full text-primary mb-2">
                         <Phone className="w-8 h-8" />
                     </div>
-                    <h3 className="text-2xl font-bold">Call Us</h3>
-                    <p className="text-muted-foreground">Direct line to our restaurant floor.</p>
-                    <p className="text-xl font-bold text-primary">(555) 123-4567</p>
+                    <h3 className="text-2xl font-bold">{t.info?.call?.title || ''}</h3>
+                    <p className="text-muted-foreground">{t.info?.call?.description || ''}</p>
+                    <p className="text-xl font-bold text-primary">{t.info?.call?.phone || ''}</p>
                 </div>
 
                 {/* Visit Us */}
@@ -27,9 +49,9 @@ const ContactInfo = () => {
                     <div className="bg-orange-100 p-4 rounded-full text-primary mb-2">
                         <MapPin className="w-8 h-8" />
                     </div>
-                    <h3 className="text-2xl font-bold">Visit Us</h3>
-                    <p className="text-muted-foreground">Come grab a seat by the oven.</p>
-                    <p className="text-xl font-bold text-primary max-w-[200px]">123 Pizza Street, NY 10001</p>
+                    <h3 className="text-2xl font-bold">{t.info?.visit?.title || ''}</h3>
+                    <p className="text-muted-foreground">{t.info?.visit?.description || ''}</p>
+                    <p className="text-xl font-bold text-primary max-w-[200px]">{t.info?.visit?.address || ''}</p>
                 </div>
 
                 {/* Email Us */}
@@ -41,9 +63,9 @@ const ContactInfo = () => {
                     <div className="bg-orange-100 p-4 rounded-full text-primary mb-2">
                         <Mail className="w-8 h-8" />
                     </div>
-                    <h3 className="text-2xl font-bold">Email Us</h3>
-                    <p className="text-muted-foreground">For events and catering inquiries.</p>
-                    <p className="text-xl font-bold text-primary">hello@pizzahub.com</p>
+                    <h3 className="text-2xl font-bold">{t.info?.email?.title || ''}</h3>
+                    <p className="text-muted-foreground">{t.info?.email?.description || ''}</p>
+                    <p className="text-xl font-bold text-primary">{t.info?.email?.email || ''}</p>
                 </div>
             </div>
         </section>

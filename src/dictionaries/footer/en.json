@@ -1,0 +1,36 @@
+{
+    "newsletter": {
+        "title": "Stay in the Loop",
+        "description": "Join our newsletter to get exclusive deals, new secret menu alerts, and pizza-making tips.",
+        "emailPlaceholder": "Your email address",
+        "subscribe": "Subscribe Now"
+    },
+    "brand": {
+        "name": "PizzaHub",
+        "description": "Authentic wood-fired pizzas delivered straight to your door. Taste the tradition in every slice."
+    },
+    "links": {
+        "title": "Quick Links",
+        "menu": "Our Menu",
+        "offers": "Special Offers",
+        "about": "About Us",
+        "gifts": "Gift Cards"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "address": "123 Pizza Street, Crusty Valley, NY 10001",
+        "phone": "(555) 123-4567",
+        "email": "hello@pizzahub.com"
+    },
+    "hours": {
+        "title": "Opening Hours",
+        "monThu": "Mon - Thu",
+        "friSat": "Fri - Sat",
+        "sunday": "Sunday",
+        "monThuTime": "11:00 - 22:00",
+        "friSatTime": "11:00 - 23:30",
+        "sundayTime": "12:00 - 21:00"
+    },
+    "copyright": "All rights reserved.",
+    "madeBy": "Made with 🍕"
+}

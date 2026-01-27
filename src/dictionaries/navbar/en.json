@@ -1,0 +1,11 @@
+{
+    "header": {
+        "logo": "🍕 Pizza Hub"
+    },
+    "navbar": {
+        "menu": "Menu",
+        "about": "About",
+        "contact": "Contact",
+        "login": "Login"
+    }
+}
