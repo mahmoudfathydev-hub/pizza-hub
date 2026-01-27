@@ -1,6 +1,7 @@
 import { Routes } from "@/src/constants/enums"
 import Link from "../link"
 import Navbar from "./Navbar"
+import CartButton from "./CartButton"
 
 const Header = () => {
     return (
@@ -10,6 +11,7 @@ const Header = () => {
                     🍕 Pizza Hub
                 </Link>
                 <Navbar />
+                <CartButton />
             </div>
         </header>
     )
