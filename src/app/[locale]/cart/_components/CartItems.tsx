@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 function CartItems() {
     const cart = useAppSelector(selectCartItems);
     const dispatch = useAppDispatch();
-    const subTotal = getSubTotal(cart);
+    const Subtotal = getSubTotal(cart);
 
     useEffect(() => {
         localStorage.setItem('cartItems', JSON.stringify(cart));
@@ -84,7 +84,7 @@ function CartItems() {
                     <div className='flex flex-col justify-end items-end pt-6'>
                         <span className='text-accent font-medium'>
                             Subtotal:
-                            <strong className='text-black'>{formatCurrency(subTotal)}</strong>
+                            <strong className='text-black'>{formatCurrency(Subtotal)}</strong>
                         </span>
                         <span className='text-accent font-medium'>
                             Delivery:
@@ -95,7 +95,7 @@ function CartItems() {
                         <span className='text-accent font-medium'>
                             Total:
                             <strong className='text-black'>
-                                {formatCurrency(subTotal + deliveryFee)}
+                                {formatCurrency(Subtotal + deliveryFee)}
                             </strong>
                         </span>
                     </div>
@@ -106,5 +106,4 @@ function CartItems() {
         </div>
     );
 }
-
 export default CartItems;

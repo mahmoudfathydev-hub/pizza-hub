@@ -1,4 +1,4 @@
-import { db } from "../lib/prisma";
+import { db } from "../../lib/prisma";
 import BestSellers from "./_components/BestSellers";
 import Deals from "./_components/Deals";
 import Hero from "./_components/Hero";
