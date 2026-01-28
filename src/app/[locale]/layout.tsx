@@ -7,7 +7,7 @@ import { Cairo, Roboto } from "next/font/google";
 import { Locale } from "@/src/i18n.config";
 import "./globals.css";
 import { AOSInit } from "../../components/aos-init";
-// import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 // import NextAuthSessionProvider from "@/providers/NextAuthSessionProvider";
 
 export async function generateStaticParams() {
@@ -55,7 +55,7 @@ export default async function RootLayout({
             <Header />
             {children}
             <Footer />
-            {/* <Toaster /> */}
+            <Toaster />
           </ReduxProvider>
         {/* </NextAuthSessionProvider> */}
       </body>

@@ -1,0 +1,62 @@
+{
+  "login": {
+    "title": "Welcome Back",
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "submit": "Login",
+    "authPrompt": {
+      "message": "Don't have an account? ",
+      "signUpLinkText": "Sign Up"
+    }
+  },
+  "register": {
+    "title": "Register",
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password"
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Re-enter your password"
+    },
+    "submit": "Register",
+    "authPrompt": {
+      "message": "Already have an account? ",
+      "loginLinkText": "Login"
+    }
+  },
+  "validation": {
+    "nameRequired": "Name is required",
+    "validEmail": "Must be a valid email",
+    "passwordMinLength": "Password must be at least 6 characters",
+    "passwordMaxLength": "Password must be at most 40 characters",
+    "confirmPasswordRequired": "Confirm Password is required",
+    "passwordMismatch": "Password do not match"
+  },
+  "messages": {
+    "userNotFound": "User not found",
+    "incorrectPassword": "Incorrect password",
+    "loginSuccessful": "Login successful",
+    "unexpectedError": "An unexpected error occurred",
+    "userAlreadyExists": "User already exists.",
+    "accountCreated": "Account created successfully"
+  }
+}

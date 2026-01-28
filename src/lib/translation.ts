@@ -1,7 +1,7 @@
 import { Locale } from '@/src/i18n.config';
 import { Languages } from '@/src/constants/enums';
 
-type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer';
+type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer' | 'auth';
 
 interface HomeTranslations {
     hero: {
@@ -245,6 +245,69 @@ interface FooterTranslations {
     madeBy: string;
 }
 
+interface AuthTranslations {
+    login: {
+        title: string;
+        name: {
+            label: string;
+            placeholder: string;
+        };
+        email: {
+            label: string;
+            placeholder: string;
+        };
+        password: {
+            label: string;
+            placeholder: string;
+        };
+        submit: string;
+        authPrompt: {
+            message: string;
+            signUpLinkText: string;
+        };
+    };
+    register: {
+        title: string;
+        name: {
+            label: string;
+            placeholder: string;
+        };
+        email: {
+            label: string;
+            placeholder: string;
+        };
+        password: {
+            label: string;
+            placeholder: string;
+        };
+        confirmPassword: {
+            label: string;
+            placeholder: string;
+        };
+        submit: string;
+        authPrompt: {
+            message: string;
+            loginLinkText: string;
+        };
+    };
+    validation: {
+        nameRequired: string;
+        validEmail: string;
+        passwordMinLength: string;
+        passwordMaxLength: string;
+        confirmPasswordRequired: string;
+        passwordMismatch: string;
+    };
+    messages: {
+        userNotFound: string;
+        incorrectPassword: string;
+        loginSuccessful: string;
+        unexpectedError: string;
+        userAlreadyExists: string;
+        accountCreated: string;
+    };
+}
+
 type TranslationMap = {
     home: HomeTranslations;
     about: AboutTranslations;
@@ -253,6 +316,7 @@ type TranslationMap = {
     menu: MenuTranslations;
     navbar: NavbarTranslations;
     footer: FooterTranslations;
+    auth: AuthTranslations;
 };
 
 const dictionaries = {
@@ -264,6 +328,7 @@ const dictionaries = {
         menu: () => import('@/src/dictionaries/menu/ar.json').then((module) => module.default as MenuTranslations),
         navbar: () => import('@/src/dictionaries/navbar/ar.json').then((module) => module.default as NavbarTranslations),
         footer: () => import('@/src/dictionaries/footer/ar.json').then((module) => module.default as FooterTranslations),
+        auth: () => import('@/src/dictionaries/auth/ar.json').then((module) => module.default as AuthTranslations),
     },
     en: {
         home: () => import('@/src/dictionaries/home/en.json').then((module) => module.default as HomeTranslations),
@@ -273,6 +338,7 @@ const dictionaries = {
         menu: () => import('@/src/dictionaries/menu/en.json').then((module) => module.default as MenuTranslations),
         navbar: () => import('@/src/dictionaries/navbar/en.json').then((module) => module.default as NavbarTranslations),
         footer: () => import('@/src/dictionaries/footer/en.json').then((module) => module.default as FooterTranslations),
+        auth: () => import('@/src/dictionaries/auth/en.json').then((module) => module.default as AuthTranslations),
     },
 };
 

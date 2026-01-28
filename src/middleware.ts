@@ -32,6 +32,14 @@ export async function middleware(request: NextRequest) {
 
     const pathname = request.nextUrl.pathname;
 
+    if (pathname.startsWith("/_next") || pathname.includes(".")) {
+        return NextResponse.next({
+            request: {
+                headers: requestHeaders
+            }
+        })
+    }
+
     const pathnameIsMissingLocale = i18n.locales.every(
         (locale) => !pathname.startsWith(`/${locale}`)
     );
@@ -52,7 +60,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
     // Matcher ignoring `/_next/`, `/api/`, ..etc
     matcher: [
-        "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
+        "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)",
     ],
 };
 
@@ -130,9 +138,3 @@ export const config = {
 //   }
 // );
 
-// export const config = {
-//   // Matcher ignoring `/_next/`, `/api/`, ..etc
-//   matcher: [
-//     "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
-//   ],
-// };

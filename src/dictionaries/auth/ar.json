@@ -1,0 +1,62 @@
+{
+  "login": {
+    "title": "مرحباً بعودتك",
+    "name": {
+      "label": "الاسم",
+      "placeholder": "أدخل اسمك"
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "أدخل بريدك الإلكتروني"
+    },
+    "password": {
+      "label": "كلمة المرور",
+      "placeholder": "أدخل كلمة المرور"
+    },
+    "submit": "تسجيل الدخول",
+    "authPrompt": {
+      "message": "ليس لديك حساب؟ ",
+      "signUpLinkText": "سجل الآن"
+    }
+  },
+  "register": {
+    "title": "إنشاء حساب",
+    "name": {
+      "label": "الاسم",
+      "placeholder": "أدخل اسمك"
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "أدخل بريدك الإلكتروني"
+    },
+    "password": {
+      "label": "كلمة المرور",
+      "placeholder": "أدخل كلمة المرور"
+    },
+    "confirmPassword": {
+      "label": "تأكيد كلمة المرور",
+      "placeholder": "أعد إدخال كلمة المرور"
+    },
+    "submit": "إنشاء حساب",
+    "authPrompt": {
+      "message": "لديك حساب بالفعل؟ ",
+      "loginLinkText": "تسجيل الدخول"
+    }
+  },
+  "validation": {
+    "nameRequired": "الاسم مطلوب",
+    "validEmail": "يجب أن يكون بريداً إلكترونياً صالحاً",
+    "passwordMinLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+    "passwordMaxLength": "يجب أن تكون كلمة المرور 40 حرفاً كحد أقصى",
+    "confirmPasswordRequired": "تأكيد كلمة المرور مطلوب",
+    "passwordMismatch": "كلمات المرور غير متطابقة"
+  },
+  "messages": {
+    "userNotFound": "المستخدم غير موجود",
+    "incorrectPassword": "كلمة المرور غير صحيحة",
+    "loginSuccessful": "تم تسجيل الدخول بنجاح",
+    "unexpectedError": "حدث خطأ غير متوقع",
+    "userAlreadyExists": "المستخدم موجود بالفعل.",
+    "accountCreated": "تم إنشاء الحساب بنجاح"
+  }
+}

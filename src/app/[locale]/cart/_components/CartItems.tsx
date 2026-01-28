@@ -17,7 +17,9 @@ function CartItems() {
     const { t, loading } = useTranslations('cart');
 
     useEffect(() => {
-        localStorage.setItem('cartItems', JSON.stringify(cart));
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('cartItems', JSON.stringify(cart));
+        }
     }, [cart]);
 
     if (loading) {
