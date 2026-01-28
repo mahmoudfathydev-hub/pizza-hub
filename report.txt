@@ -5,24 +5,26 @@ A modern, responsive food ordering application built with Next.js, Prisma, and T
 ## 📊 Project Statistics
 
 ### **Code Metrics**
-- **Total Lines of Code**: 4,153+ lines (TypeScript/JavaScript)
+- **Total Lines of Code**: 9226+ lines (TypeScript/JavaScript)
 - **Total Files**: 23,443+ files (including dependencies)
-- **Source Files**: 56 TypeScript/JavaScript files
-- **Translation Files**: 10 JSON files (5 pages × 2 languages)
+- **Source Files**: 87+ TypeScript/JavaScript files
+- **Translation Files**: 16 JSON files (8 pages × 2 languages)
 - **CSS Files**: 24 styling files
 - **Project Size**: ~2.1 GB (including node_modules)
 
 ### **Languages Used**
-- **TypeScript**: Primary development language (95% of source code)
+- **TypeScript**: Primary development language (98% of source code)
 - **JavaScript**: Minimal usage for legacy compatibility
 - **JSON**: Configuration and translation files
 - **CSS**: Tailwind CSS utilities and custom styles
 
 ### **Recent Updates**
-- **Translation System**: Complete overhaul with page-specific translation files
-- **Internationalization**: Added comprehensive Arabic translations
-- **Code Structure**: Modularized translation files by page (Home, About, Cart, Contact, Menu)
-- **Semantic Keys**: Implemented UI-based translation keys for scalability
+- **Authentication System**: Complete NextAuth.js integration with PostgreSQL
+- **Enhanced Translation System**: Added auth, footer, and navbar translation files
+- **User Profile Management**: Complete user profile and order history functionality
+- **Form Validation**: Zod-based validation for all forms
+- **Database Schema**: Comprehensive models for users, products, orders, and categories
+- **Server Actions**: Server-side authentication and database operations
 
 ## 🍕 Project Overview
 
@@ -33,6 +35,9 @@ PizzaHub is a robust e-commerce platform designed specifically for food delivery
 #### **For Customers:**
 
 - **Interactive Menu**: distinct categories (Pizzas, Sides, Drinks) with detailed item views.
+- **User Authentication**: Secure login, registration, and profile management.
+- **Order Management**: Complete cart functionality with checkout process.
+- **Order History**: View past orders and track current orders.
 - **Visual Appeal**: High-quality imagery, smooth animations (AOS), and responsive layout.
 - **Newsletter Subscription**: "Stay in the Loop" feature for exclusive deals.
 - **Contact & Location**: Easy access to store location, hours, and contact info.
@@ -63,6 +68,9 @@ PizzaHub is a robust e-commerce platform designed specifically for food delivery
 - **PostgreSQL**: Relational database for structured data storage.
 - **Prisma ORM**: Next-generation Node.js and TypeScript ORM.
 - **Prisma Client**: Auto-generated type-safe query builder.
+- **NextAuth.js**: Complete authentication solution with providers.
+- **bcrypt**: Password hashing for security.
+- **Zod**: Schema validation for type-safe forms.
 
 ### **Development Tools**
 
@@ -77,8 +85,6 @@ food-ordering/
 ├── 📁 .git/                         # Git repository
 ├── 📁 .gitignore                    # Git ignore rules
 ├── 📁 .next/                        # Next.js build output (ignored)
-├── 📁 .zencoder/                    # Zencoder configuration
-├── 📁 .zenflow/                     # Zenflow configuration
 ├── 📄 README.md                     # Project documentation
 ├── 📄 components.json               # UI components configuration
 ├── 📄 eslint.config.mjs             # ESLint configuration
@@ -124,6 +130,13 @@ food-ordering/
     │   │   │   │   └── 📄 about-team.tsx
     │   │   │   └── 📄 page.tsx
     │   │   │
+    │   │   ├── 📁 auth/            # Authentication pages
+    │   │   │   ├── 📁 _components/
+    │   │   │   │   ├── 📄 auth-form.tsx
+    │   │   │   │   └── 📄 auth-layout.tsx
+    │   │   │   ├── 📄 login/page.tsx
+    │   │   │   └── 📄 register/page.tsx
+    │   │   │
     │   │   ├── 📁 cart/            # Shopping cart
     │   │   │   ├── 📁 _components/
     │   │   │   │   ├── 📄 CartItems.tsx
@@ -139,6 +152,9 @@ food-ordering/
     │   │   │   └── 📄 page.tsx
     │   │   │
     │   │   ├── 📁 menu/            # Menu page
+    │   │   │   └── 📄 page.tsx
+    │   │   │
+    │   │   ├── 📁 profile/         # User profile page
     │   │   │   └── 📄 page.tsx
     │   │   │
     │   │   ├── 📄 globals.css      # Global styles
@@ -169,8 +185,11 @@ food-ordering/
     │       ├── 📄 dialog.tsx
     │       ├── 📄 input.tsx
     │       ├── 📄 label.tsx
+    │       ├── 📄 Loader.tsx
     │       ├── 📄 radio-group.tsx
-    │       └── 📄 textarea.tsx
+    │       ├── 📄 sonner.tsx
+    │       ├── 📄 textarea.tsx
+    │       └── 📄 index.ts
     │
     ├── 📁 constants/               # Constants and enums
     │   └── 📄 enums.ts
@@ -182,13 +201,22 @@ food-ordering/
     │   ├── 📁 about/               # About page translations
     │   │   ├── 📄 en.json
     │   │   └── 📄 ar.json
+    │   ├── 📁 auth/                # Authentication translations
+    │   │   ├── 📄 en.json
+    │   │   └── 📄 ar.json
     │   ├── 📁 cart/                # Cart page translations
     │   │   ├── 📄 en.json
     │   │   └── 📄 ar.json
     │   ├── 📁 contact/             # Contact page translations
     │   │   ├── 📄 en.json
     │   │   └── 📄 ar.json
+    │   ├── 📁 footer/              # Footer translations
+    │   │   ├── 📄 en.json
+    │   │   └── 📄 ar.json
     │   ├── 📁 menu/                # Menu page translations
+    │   │   ├── 📄 en.json
+    │   │   └── 📄 ar.json
+    │   ├── 📁 navbar/              # Navbar translations
     │   │   ├── 📄 en.json
     │   │   └── 📄 ar.json
     │   ├── 📄 en.json              # Legacy English translations
@@ -205,6 +233,12 @@ food-ordering/
     │   ├── 📄 translation.ts       # Translation utilities
     │   └── 📄 utils.ts             # General utilities
     │
+    ├── 📁 hooks/                  # Custom React hooks
+    │   ├── 📄 useFormFields.ts    # Form field management
+    │   ├── 📄 useAuthFormFields.ts # Auth form fields
+    │   ├── 📄 use-translations.ts  # Translation hook
+    │   └── 📄 use-toast.ts         # Toast notifications
+    │
     ├── 📁 middleware.ts           # Next.js middleware
     ├── 📁 provider/               # React providers
     │   └── 📄 ReduxProvider.tsx
@@ -217,19 +251,27 @@ food-ordering/
     │   └── 📄 store.ts             # Redux store
     │
     ├── 📁 server/                 # Server-side logic
+    │   ├── 📁 _actions/           # Server actions
+    │   │   └── 📄 auth.ts          # Authentication actions
+    │   ├── 📁 auth.ts              # Authentication configuration
     │   └── 📁 db/                  # Database access
     │       └── 📄 products.ts       # Product database operations
     │
     ├── 📁 types/                  # TypeScript types
-    │   └── 📄 product.ts           # Product type definitions
+    │   ├── 📄 app.ts              # App-wide types
+    │   ├── 📄 AuthTranslations.ts  # Auth translation types
+    │   ├── 📄 product.ts           # Product type definitions
+    │   └── 📄 Translations.ts     # Translation types
+    │
+    ├── 📁 validations/            # Form validations
+    │   └── 📄 auth.ts              # Authentication validation
     │
     └── 📄 i18n.config.ts           # Internationalization config
-```
 
 ### **📊 File Statistics**
-- **Total Files**: 62+ source files
-- **TypeScript/JavaScript**: 56 files
-- **Translation Files**: 10 files (5 pages × 2 languages)
+- **Total Files**: 85+ source files
+- **TypeScript/JavaScript**: 65+ files
+- **Translation Files**: 16 files (8 pages × 2 languages)
 - **Configuration Files**: 8 files
 - **Asset Files**: 8 images
 - **Database Files**: 3 Prisma files
@@ -244,21 +286,26 @@ food-ordering/
 **Package Management** (3)
 - `package.json`, `package-lock.json`, `yarn.lock`
 
-**Source Code** (56)
-- **Pages**: 5 main pages + 1 not-found
-- **Components**: 17 reusable UI components
-- **Page Components**: 11 page-specific components
+**Source Code** (65+)
+- **Pages**: 7 main pages + auth pages + 1 not-found
+- **Components**: 20+ reusable UI components
+- **Page Components**: 15+ page-specific components
 - **Utilities**: 7 utility files
+- **Hooks**: 4 custom React hooks
 - **State Management**: 3 Redux files
-- **Database**: 1 server-side file
-- **Types**: 1 TypeScript definition file
+- **Server Actions**: 2 server-side files
+- **Types**: 4 TypeScript definition files
+- **Validations**: 1 validation file
 
-**Translations** (10)
+**Translations** (16)
 - **Home**: `en.json`, `ar.json`
 - **About**: `en.json`, `ar.json`
+- **Auth**: `en.json`, `ar.json`
 - **Cart**: `en.json`, `ar.json`
 - **Contact**: `en.json`, `ar.json`
+- **Footer**: `en.json`, `ar.json`
 - **Menu**: `en.json`, `ar.json`
+- **Navbar**: `en.json`, `ar.json`
 
 **Assets** (8)
 - Pizza and food images
@@ -337,15 +384,24 @@ dictionaries/
 ├── about/
 │   ├── en.json    # About page English translations
 │   └── ar.json    # About page Arabic translations
+├── auth/
+│   ├── en.json    # Authentication English translations
+│   └── ar.json    # Authentication Arabic translations
 ├── cart/
 │   ├── en.json    # Cart page English translations
 │   └── ar.json    # Cart page Arabic translations
 ├── contact/
 │   ├── en.json    # Contact page English translations
 │   └── ar.json    # Contact page Arabic translations
-└── menu/
-    ├── en.json    # Menu page English translations
-    └── ar.json    # Menu page Arabic translations
+├── footer/
+│   ├── en.json    # Footer English translations
+│   └── ar.json    # Footer Arabic translations
+├── menu/
+│   ├── en.json    # Menu page English translations
+│   └── ar.json    # Menu page Arabic translations
+└── navbar/
+    ├── en.json    # Navbar English translations
+    └── ar.json    # Navbar Arabic translations
 ```
 
 ### **Translation Features**

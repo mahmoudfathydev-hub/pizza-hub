@@ -6,23 +6,24 @@ import Loader from "@/src/components/ui/Loader";
 import { Pages, Routes } from "@/src/constants/enums";
 import { toast } from "@/src/hooks/use-toast";
 import useAuthFormFields from "@/src/hooks/useAuthFormFields";
-import { signup } from "@/src/server/_actions/auth";
+import { signup, type SignupState } from "@/src/server/_actions/auth";
 import { IFormField } from "@/src/types/app";
 import { AuthTranslations } from "@/src/types/AuthTranslations";
-import { ValidationErrors } from "@/src/validations/auth";
 import { useParams, useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 
-const initialState = {
+const initialState: SignupState = {
   message: "",
-  error: undefined,
-  status: 0,
-  formData: undefined,
+  error: {},
 };
+
 function Form({ translations }: { translations: AuthTranslations }) {
   const { locale } = useParams();
   const router = useRouter();
-  const [state, action, pending] = useActionState(signup, initialState);
+  const [state, action, pending] = useActionState<SignupState, FormData>(
+    signup,
+    initialState,
+  );
   const { getFormField } = useAuthFormFields({
     slug: Pages.Register,
     translations,
@@ -42,7 +43,7 @@ function Form({ translations }: { translations: AuthTranslations }) {
   return (
     <form action={action}>
       {getFormField().map((field: IFormField) => {
-        const fieldValue = state.formData?.get(field.name) as string;
+        const fieldValue = state.values?.[field.name];
         return (
           <div key={field.name} className="mb-3">
             <FormFields

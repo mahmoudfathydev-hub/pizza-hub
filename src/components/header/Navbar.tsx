@@ -1,55 +1,123 @@
-"use client"
-import { Pages, Routes } from "@/src/constants/enums"
-import Link from "../link"
-import { Button, buttonVariants } from "../ui/button"
-import { useState } from "react"
-import { Menu, XIcon } from "lucide-react"
-import { useTranslations } from "@/src/hooks/use-translations"
-import { useParams, usePathname } from "next/navigation"
+"use client";
+import { Routes } from "@/src/constants/enums";
+import Link from "../link";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { Menu, XIcon } from "lucide-react";
+import { useParams, usePathname } from "next/navigation";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { Translations } from "@/src/types/Translations";
+import { UserRole } from "@prisma/client";
+import AuthButtons from "./AuthButtons";
+import { useClientSession } from "@/src/hooks/useClientSession";
+import { Session } from "next-auth";
 
-const Navbar = () => {
-    const [openMenu, setOpenMenu] = useState(false)
-    const { t } = useTranslations('navbar')
-    const {locale} = useParams()
-    const pathname = usePathname()
-    const linkes = [
-        { id: crypto.randomUUID(), href: Routes.MENU, title: t.navbar.menu },
-        { id: crypto.randomUUID(), href: Routes.ABOUT, title: t.navbar.about },
-        { id: crypto.randomUUID(), href: Routes.CONTACT, title: t.navbar.contact },
-        { id: crypto.randomUUID(), href: `${Routes.AUTH}/${Pages.LOGIN}`, title: t.navbar.login },
-    ]
-    return (
-        <nav className="flex-1 justify-end flex">
-            <Button 
-            variant="secondary"
-            size="sm"
-            className="lg:hidden cursor-pointer"
-            onClick={() => setOpenMenu(true)}>
-                <Menu className="w-6! h-6!" />
-            </Button>
-            <ul className={`fixed lg:static ${openMenu ? "left-0 z-50" : "-left-full"
-                } top-0 px-10 py-20 lg:p-0 bg-background lg:bg-transparent transition-all duration-200 h-full lg:h-auto flex-col lg:flex-row w-full lg:w-auto flex items-start lg:items-center gap-10`}>
-                <Button 
-                variant="secondary"
-                size="sm"
-                className="absolute top-5 right-15 lg:hidden cursor-pointer"
-                onClick={() => setOpenMenu(false)}>
-                    <XIcon className="w-6! h-6!" />
-                </Button>
-                {linkes.map(link => (
-                    <li key={link.id}>
-                        <Link
-                            href={`/${locale}/${link.href}`}
-                            className={`${link.href === `${Routes.AUTH}/${Pages.LOGIN}` ?
-                                `${buttonVariants({size: "lg"})} px-8! rounded-full!` :
-                                "text-accent hover:text-primary transition-colors duration-200 "} 
-                                font-semibold ${pathname.startsWith(`/${locale}/${link.href}`) ? "text-primary" : "text-accent"}`}>
-                            {link.title}
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    )
+function Navbar({
+  translations,
+  initialSession,
+}: {
+  translations: Translations;
+  initialSession: Session | null;
+}) {
+  const session = useClientSession(initialSession);
+
+  const [openMenu, setOpenMenu] = useState(false);
+  const { locale } = useParams();
+  const pathname = usePathname();
+
+  const links = [
+    {
+      id: crypto.randomUUID(),
+      title: translations.navbar.menu,
+      href: Routes.MENU,
+    },
+    {
+      id: crypto.randomUUID(),
+      title: translations.navbar.about,
+      href: Routes.ABOUT,
+    },
+    {
+      id: crypto.randomUUID(),
+      title: translations.navbar.contact,
+      href: Routes.CONTACT,
+    },
+  ];
+  const isAdmin = session.data?.user?.role === UserRole.ADMIN;
+  return (
+    <nav className="order-last lg:order-0">
+      <Button
+        variant="secondary"
+        size="sm"
+        className="lg:hidden"
+        onClick={() => setOpenMenu(true)}
+      >
+        <Menu className="w-6! h-6!" />
+      </Button>
+      <ul
+        className={`fixed lg:static ${
+          openMenu ? "left-0 z-50" : "-left-full"
+        } top-0 px-10 py-20 lg:p-0 bg-background lg:bg-transparent transition-all duration-200 h-full lg:h-auto flex-col lg:flex-row w-full lg:w-auto flex items-start lg:items-center gap-10`}
+      >
+        <Button
+          variant="secondary"
+          size="sm"
+          className="absolute top-10 right-10 lg:hidden"
+          onClick={() => setOpenMenu(false)}
+        >
+          <XIcon className="w-6! h-6!" />
+        </Button>
+        {links.map((link) => (
+          <li key={link.id}>
+            <Link
+              onClick={() => setOpenMenu(false)}
+              href={`/${locale}/${link.href}`}
+              className={`hover:text-primary duration-200 transition-colors font-semibold ${
+                pathname.startsWith(`/${locale}/${link.href}`)
+                  ? "text-primary"
+                  : "text-accent"
+              }`}
+            >
+              {link.title}
+            </Link>
+          </li>
+        ))}
+        {session.data?.user && (
+          <li>
+            <Link
+              href={
+                isAdmin
+                  ? `/${locale}/${Routes.ADMIN}`
+                  : `/${locale}/${Routes.PROFILE}`
+              }
+              onClick={() => setOpenMenu(false)}
+              className={`${
+                pathname.startsWith(
+                  isAdmin
+                    ? `/${locale}/${Routes.ADMIN}`
+                    : `/${locale}/${Routes.PROFILE}`,
+                )
+                  ? "text-primary"
+                  : "text-accent"
+              } hover:text-primary duration-200 transition-colors font-semibold`}
+            >
+              {isAdmin
+                ? translations.navbar.admin
+                : translations.navbar.profile}
+            </Link>
+          </li>
+        )}
+        <li className="lg:hidden flex flex-col gap-4">
+          <div onClick={() => setOpenMenu(false)}>
+            <AuthButtons
+              initialSession={initialSession}
+              translations={translations}
+            />
+          </div>
+          <LanguageSwitcher />
+        </li>
+      </ul>
+    </nav>
+  );
 }
-export default Navbar
+
+export default Navbar;

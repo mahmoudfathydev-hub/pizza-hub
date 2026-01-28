@@ -1,6 +1,6 @@
 "use server";
 
-import { Pages, Routes } from "@/src/constants/enums";
+import { Environments, Pages, Routes } from "@/src/constants/enums";
 import { Locale } from "@/src/i18n.config";
 import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
 import { db } from "@/src/lib/prisma";
@@ -8,6 +8,19 @@ import getTrans from "@/src/lib/translation";
 import { loginSchema, signUpSchema } from "@/src/validations/auth";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
+
+export type SignupState = {
+    message?: string;
+    error?: import("@/src/validations/auth").ValidationErrors;
+    status?: number | null;
+    values?: Record<string, string>;
+    attempt?: number;
+    user?: {
+        id: string;
+        name: string;
+        email: string;
+    };
+};
 
 export const login = async (
     credentials: Record<"email" | "password", string> | undefined,
@@ -57,16 +70,24 @@ export const login = async (
     }
 };
 
-export const signup = async (prevState: unknown, formData: FormData) => {
+export const signup = async (prevState: SignupState, formData: FormData): Promise<SignupState> => {
     const locale = await getCurrentLocale();
     const translations = await getTrans(locale, 'auth');
+
+    const values: Record<string, string> = {};
+    formData.forEach((value, key) => {
+        values[key] = value.toString();
+    });
+
     const result = signUpSchema(translations).safeParse(
         Object.fromEntries(formData.entries())
     );
     if (result.success === false) {
         return {
             error: result.error.flatten().fieldErrors,
-            formData,
+            status: 400,
+            values,
+            attempt: (prevState.attempt ?? 0) + 1,
         };
     }
     try {
@@ -79,7 +100,8 @@ export const signup = async (prevState: unknown, formData: FormData) => {
             return {
                 status: 409,
                 message: translations.messages.userAlreadyExists,
-                formData,
+                values,
+                attempt: (prevState.attempt ?? 0) + 1,
             };
         }
         const hashedPassword = await bcrypt.hash(result.data.password, 10);
@@ -97,6 +119,7 @@ export const signup = async (prevState: unknown, formData: FormData) => {
         return {
             status: 201,
             message: translations.messages.accountCreated,
+            attempt: (prevState.attempt ?? 0) + 1,
             user: {
                 id: createdUser.id,
                 name: createdUser.name,
@@ -105,9 +128,15 @@ export const signup = async (prevState: unknown, formData: FormData) => {
         };
     } catch (error) {
         console.error(error);
+        const errorMessage =
+            process.env.NODE_ENV === Environments.DEV
+                ? `${translations.messages.unexpectedError}: ${error instanceof Error ? error.message : String(error)}`
+                : translations.messages.unexpectedError;
         return {
             status: 500,
-            message: translations.messages.unexpectedError,
+            message: errorMessage,
+            values,
+            attempt: (prevState.attempt ?? 0) + 1,
         };
     }
 };

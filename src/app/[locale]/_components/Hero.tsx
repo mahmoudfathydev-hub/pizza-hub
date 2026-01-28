@@ -1,6 +1,6 @@
 import Link from "@/src/components/link";
 import { buttonVariants } from "@/src/components/ui/button";
-import { Routes } from "@/src/constants/enums";
+import { Languages, Routes } from "@/src/constants/enums";
 import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
 import getTrans from "@/src/lib/translation";
 import { ArrowRightCircle } from "lucide-react";
@@ -23,14 +23,15 @@ async function Hero() {
                         space-x-2 px-4! rounded-full! uppercase`}
             >
               {translations.hero.primaryCta}
-              <ArrowRightCircle className={`w-5! h-5!`} />
+              <ArrowRightCircle className={`w-5! h-5! ${locale === Languages.ARABIC ? 'rotate-180 ' : ''}`} />
             </Link>
             <Link
               href={`/${Routes.ABOUT}`}
               className="flex gap-2 items-center text-black hover:text-primary duration-300 transition-all font-semibold"
             >
               {translations.hero.secondaryCta}
-              <ArrowRightCircle className={`w-5! h-5!`} />
+              <ArrowRightCircle className={`w-5! h-5! ${locale === Languages.ARABIC ? 'rotate-180 ' : ''}`}
+              />
             </Link>
           </div>
         </div>

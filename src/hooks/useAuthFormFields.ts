@@ -5,6 +5,7 @@ import { AuthTranslations } from "../types/AuthTranslations";
 interface Props extends IFormFieldsVariables {
     translations: AuthTranslations;
 }
+
 const useAuthFormFields = ({ slug, translations }: Props) => {
     const loginFields = (): IFormField[] => [
         {
@@ -16,12 +17,13 @@ const useAuthFormFields = ({ slug, translations }: Props) => {
         },
         {
             label: translations.login.password.label,
-            name: "Password",
-            type: "password",
+            name: "password",
             placeholder: translations.login.password.placeholder,
-        }
+            type: "password",
+        },
     ];
-    const registerFields = (): IFormField[] => [
+
+    const signupFields = (): IFormField[] => [
         {
             label: translations.register.name.label,
             name: "name",
@@ -46,21 +48,23 @@ const useAuthFormFields = ({ slug, translations }: Props) => {
             name: "confirmPassword",
             type: "password",
             placeholder: translations.register.confirmPassword.placeholder,
-        }
+        },
     ];
+
     const getFormField = (): IFormField[] => {
         switch (slug) {
             case Pages.LOGIN:
                 return loginFields();
             case Pages.Register:
-                return registerFields();
+                return signupFields();
             default:
-                return []
+                return [];
         }
     };
+
     return {
         getFormField,
-    }
-}
+    };
+};
 
 export default useAuthFormFields;

@@ -4,16 +4,12 @@ import { useParams } from "next/navigation"
 import { useMemo, useState, useEffect } from "react"
 import getTrans from "@/src/lib/translation"
 
-type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer'
+type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer' | 'auth'
 
-interface TranslationResponse {
-    [key: string]: any
-}
-
-export const useTranslations = (page: PageType) => {
+export const useTranslations = <T extends PageType>(page: T) => {
     const params = useParams()
     const locale = (params.locale as string) || 'en'
-    const [translations, setTranslations] = useState<TranslationResponse>({})
+    const [translations, setTranslations] = useState<any>(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -22,8 +18,8 @@ export const useTranslations = (page: PageType) => {
                 const trans = await getTrans(locale as any, page)
                 setTranslations(trans)
             } catch (error) {
-                console.error(`Failed to load translations for ${page} in ${locale}:`, error)
-                setTranslations({})
+                console.error(`Failed to load translations for ${String(page)} in ${locale}:`, error)
+                setTranslations(null)
             } finally {
                 setLoading(false)
             }
@@ -32,14 +28,5 @@ export const useTranslations = (page: PageType) => {
         loadTranslations()
     }, [locale, page])
 
-    const t = useMemo(() => {
-        return new Proxy({}, {
-            get(target, prop) {
-                const key = prop.toString()
-                return translations[key] || key
-            }
-        }) as TranslationResponse
-    }, [translations])
-
-    return { t, loading }
+    return { translations, loading }
 }

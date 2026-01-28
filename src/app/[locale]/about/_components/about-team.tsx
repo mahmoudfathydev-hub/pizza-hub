@@ -1,11 +1,52 @@
+"use client";
+
 import MainHeading from "@/src/components/main-heading";
 import Image from "next/image";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import getTrans from "@/src/lib/translation";
 
-const AboutTeam = async () => {
-  const locale = await getCurrentLocale();
-  const translations = await getTrans(locale, "about");
+const AboutTeam = () => {
+  const [translations, setTranslations] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const params = useParams();
+  const locale = (params.locale as string) || "en";
+
+  useEffect(() => {
+    const loadTranslations = async () => {
+      try {
+        const trans = await getTrans(locale as any, "about");
+        setTranslations(trans);
+      } catch (error) {
+        console.error("Failed to load translations:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadTranslations();
+  }, [locale]);
+
+  if (loading || !translations) {
+    return (
+      <section className="container mx-auto section-gap">
+        <div className="text-center mb-8 lg:mb-12">
+          <div className="h-8 bg-gray-200 rounded animate-pulse w-48 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded animate-pulse w-64 mx-auto"></div>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="space-y-4">
+              <div className="h-[250px] md:h-[300px] lg:h-[400px] bg-gray-200 rounded-2xl animate-pulse"></div>
+              <div className="h-6 bg-gray-200 rounded animate-pulse w-32"></div>
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+              <div className="h-16 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   const team = [
     {
@@ -33,7 +74,7 @@ const AboutTeam = async () => {
 
   return (
     <section className="container mx-auto section-gap">
-      <div className="flex justify-center items-center mb-12">
+      <div className="flex justify-center items-center mb-8 lg:mb-12">
         <div data-aos="fade-right" className="text-center">
           <MainHeading
             title={translations.team.heading.title}
@@ -42,7 +83,7 @@ const AboutTeam = async () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {team.map((member, index) => (
           <div
             key={index}
@@ -50,20 +91,25 @@ const AboutTeam = async () => {
             data-aos-delay={member.delay}
             className="group"
           >
-            <div className="h-75 md:h-100 w-full bg-gray-200 rounded-2xl mb-6 overflow-hidden relative">
+            <div className="h-[250px] md:h-[300px] lg:h-[400px] w-full bg-gray-200 rounded-2xl mb-6 overflow-hidden relative">
               <Image
                 src={member.image}
-                alt={member.name}
+                alt={`Team member ${member.name}`}
                 fill
                 className="object-cover"
-                sizes="(max-width: 768px) 100vw, 33vw"
+                onError={(e) => {
+                  console.error(`Failed to load image: ${member.name}`, e);
+                }}
+                onLoad={() => {
+                  console.log(`Image loaded successfully: ${member.name}`);
+                }}
               />
             </div>
-            <h3 className="text-2xl font-bold">{member.name}</h3>
-            <p className="text-primary font-medium text-sm mb-3 uppercase tracking-wider">
+            <h3 className="text-xl lg:text-2xl font-bold">{member.name}</h3>
+            <p className="text-primary font-medium text-xs sm:text-sm mb-3 uppercase tracking-wider">
               {member.role}
             </p>
-            <p className="text-muted-foreground leading-relaxed text-sm">
+            <p className="text-muted-foreground leading-relaxed text-xs sm:text-sm">
               {member.bio}
             </p>
           </div>

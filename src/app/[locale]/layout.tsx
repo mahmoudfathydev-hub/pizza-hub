@@ -7,8 +7,8 @@ import { Cairo, Roboto } from "next/font/google";
 import { Locale } from "@/src/i18n.config";
 import "./globals.css";
 import { AOSInit } from "../../components/aos-init";
-import { Toaster } from "sonner";
-// import NextAuthSessionProvider from "@/providers/NextAuthSessionProvider";
+import { Toaster } from "@/src/components/ui/sonner";
+import NextAuthSessionProvider from "@/src/provider/NextAuthSessionProvider";
 
 export async function generateStaticParams() {
   return [{ locale: Languages.ARABIC }, { locale: Languages.ENGLISH }];
@@ -36,9 +36,9 @@ export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }>) {
-  const locale = (await params).locale;
+  const locale = (await params).locale as Locale;
   return (
     <html
       lang={locale}
@@ -49,15 +49,15 @@ export default async function RootLayout({
           locale === Languages.ARABIC ? cairo.className : roboto.className
         }
       >
-        {/* <NextAuthSessionProvider> */}
-          <ReduxProvider>
-            <AOSInit />
-            <Header />
-            {children}
-            <Footer />
-            <Toaster />
-          </ReduxProvider>
-        {/* </NextAuthSessionProvider> */}
+        <NextAuthSessionProvider>
+        <ReduxProvider>
+          <AOSInit />
+          <Header />
+          {children}
+          <Footer />
+          <Toaster position="top-center" />
+        </ReduxProvider>
+        </NextAuthSessionProvider>
       </body>
     </html>
   );

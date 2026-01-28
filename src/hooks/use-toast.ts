@@ -2,6 +2,7 @@
 
 // Inspired by react-hot-toast library
 import * as React from "react"
+import { toast as sonnerToast } from "sonner"
 
 import type {
     ToastActionElement,
@@ -145,29 +146,41 @@ type Toast = Omit<ToasterToast, "id">
 function toast({ ...props }: Toast) {
     const id = genId()
 
-    const update = (props: ToasterToast) =>
-        dispatch({
-            type: "UPDATE_TOAST",
-            toast: { ...props, id },
-        })
-    const dismiss = () => dispatch({ type: "DISMISS_TOAST", toastId: id })
+    const message = props.title ?? ""
 
-    dispatch({
-        type: "ADD_TOAST",
-        toast: {
-            ...props,
+    if (props.variant === "destructive") {
+        sonnerToast.error(message as never, {
             id,
-            open: true,
-            onOpenChange: (open: boolean) => {
-                if (!open) dismiss()
-            },
-        },
-    })
+            description: props.description,
+            className: props.className,
+        })
+    } else {
+        sonnerToast(message as never, {
+            id,
+            description: props.description,
+            className: props.className,
+        })
+    }
 
     return {
-        id: id,
-        dismiss,
-        update,
+        id,
+        dismiss: () => sonnerToast.dismiss(id),
+        update: (next: ToasterToast) => {
+            const nextMessage = next.title ?? message
+            if (next.variant === "destructive") {
+                sonnerToast.error(nextMessage as never, {
+                    id,
+                    description: next.description,
+                    className: next.className,
+                })
+            } else {
+                sonnerToast(nextMessage as never, {
+                    id,
+                    description: next.description,
+                    className: next.className,
+                })
+            }
+        },
     }
 }
 
