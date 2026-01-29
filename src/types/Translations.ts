@@ -41,7 +41,7 @@ export type Translations = {
         contact: string;
         login: string;
         register: string;
-        signOut: string;
+        logout: string;
         profile: string;
         admin: string;
     };

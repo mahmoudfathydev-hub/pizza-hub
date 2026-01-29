@@ -1,11 +1,17 @@
 {
-    "header": {
-        "logo": "🍕 Pizza Hub"
-    },
-    "navbar": {
-        "menu": "Menu",
-        "about": "About",
-        "contact": "Contact",
-        "login": "Login"
-    }
+  "header": {
+    "logo": "🍕 Pizza Hub"
+  },
+  "navbar": {
+    "menu": "Menu",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "profile": {
+    "title": "Profile"
+  }
 }

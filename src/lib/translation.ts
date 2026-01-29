@@ -205,6 +205,12 @@ interface NavbarTranslations {
         about: string;
         contact: string;
         login: string;
+        register: string;
+        profile: string;
+        logout: string;
+    };
+    profile: {
+        title: string;
     };
 }
 
