@@ -1,7 +1,7 @@
 import { Locale } from '@/src/i18n.config';
 import { Languages } from '@/src/constants/enums';
 
-type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer' | 'auth' | 'profile';
+type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer' | 'auth' | 'profile' | 'admin';
 
 interface HomeTranslations {
     hero: {
@@ -302,6 +302,16 @@ interface ProfileTranslations {
     };
 }
 
+interface AdminTranslations {
+    tabs: {
+        profile: string;
+        categories: string;
+        menuItems: string;
+        users: string;
+        orders: string;
+    };
+}
+
 interface AuthTranslations {
     login: {
         title: string;
@@ -375,6 +385,7 @@ type TranslationMap = {
     footer: FooterTranslations;
     auth: AuthTranslations;
     profile: ProfileTranslations;
+    admin: AdminTranslations;
 };
 
 const dictionaries = {
@@ -388,6 +399,7 @@ const dictionaries = {
         footer: () => import('@/src/dictionaries/footer/ar.json').then((module) => module.default as FooterTranslations),
         auth: () => import('@/src/dictionaries/auth/ar.json').then((module) => module.default as AuthTranslations),
         profile: () => import('@/src/dictionaries/profile/ar.json').then((module) => module.default as ProfileTranslations),
+        admin: () => import('@/src/dictionaries/admin/ar.json').then((module) => module.default as AdminTranslations),
     },
     en: {
         home: () => import('@/src/dictionaries/home/en.json').then((module) => module.default as HomeTranslations),
@@ -399,6 +411,7 @@ const dictionaries = {
         footer: () => import('@/src/dictionaries/footer/en.json').then((module) => module.default as FooterTranslations),
         auth: () => import('@/src/dictionaries/auth/en.json').then((module) => module.default as AuthTranslations),
         profile: () => import('@/src/dictionaries/profile/en.json').then((module) => module.default as ProfileTranslations),
+        admin: () => import('@/src/dictionaries/admin/en.json').then((module) => module.default as AdminTranslations),
     },
 };
 

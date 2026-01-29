@@ -101,6 +101,7 @@ function EditUserForm({ user }: { user: Session["user"] }) {
 
     return (
         <form action={action} className="flex flex-col md:flex-row gap-10">
+            
             <input type="hidden" name="isAdmin" value={isAdmin.toString()} />
             <div className="group relative w-50 h-50 overflow-hidden rounded-full mx-auto">
                 {selectedImage && (
