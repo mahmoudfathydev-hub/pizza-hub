@@ -43,6 +43,7 @@ export type Translations = {
         register: string;
         logout: string;
         profile: string;
+        user: string;
         admin: string;
     };
     auth: {

@@ -28,17 +28,6 @@ function AuthButtons({
             {isLoggedIn ? (
                 <div className="flex items-center gap-4">
                     <Button
-                        className={`${pathname.startsWith(`/${locale}/${Routes.PROFILE}`)
-                                ? "text-primary"
-                                : "text-accent"
-                            } hover:text-primary duration-200 transition-colors font-semibold hover:no-underline px-0!`}
-                        size="lg"
-                        variant="link"
-                        onClick={() => router.push(`/${locale}/${Routes.PROFILE}`)}
-                    >
-                        {translations.navbar.profile}
-                    </Button>
-                    <Button
                         className="px-8! rounded-full!"
                         size="lg"
                         onClick={() => signOut()}
@@ -48,19 +37,6 @@ function AuthButtons({
                 </div>
             ) : (
                 <div className="flex items-center gap-6">
-                    <Button
-                        className={`${pathname.startsWith(`/${locale}/${Routes.AUTH}/${Pages.LOGIN}`)
-                                ? "text-primary"
-                                : "text-accent"
-                            } hover:text-primary duration-200 transition-colors font-semibold hover:no-underline px-0!`}
-                        size="lg"
-                        variant="link"
-                        onClick={() =>
-                            router.push(`/${locale}/${Routes.AUTH}/${Pages.LOGIN}`)
-                        }
-                    >
-                        {translations.navbar.login}
-                    </Button>
                     <Button
                         className="px-8! rounded-full!"
                         size="lg"

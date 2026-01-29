@@ -1,0 +1,51 @@
+{
+  "title": "Profile",
+  "save": "Save",
+  "form": {
+    "name": {
+      "label": "Name",
+      "placeholder": "Enter your name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter your email"
+    },
+    "phone": {
+      "label": "Phone",
+      "placeholder": "Enter your phone number",
+      "validation": {
+        "required": "Phone number is required",
+        "invalid": "Please enter a valid phone number"
+      }
+    },
+    "address": {
+      "label": "Street Address",
+      "placeholder": "Enter your address",
+      "validation": {
+        "required": "Address is required"
+      }
+    },
+    "postalCode": {
+      "label": "Postal Code",
+      "placeholder": "Enter your postal code",
+      "validation": {
+        "required": "Postal code is required",
+        "invalid": "Please enter a valid postal code"
+      }
+    },
+    "city": {
+      "label": "City",
+      "placeholder": "Enter your city",
+      "validation": {
+        "required": "City is required"
+      }
+    },
+    "country": {
+      "label": "Country",
+      "placeholder": "Enter your country",
+      "validation": {
+        "required": "Country is required"
+      }
+    }
+  }
+}

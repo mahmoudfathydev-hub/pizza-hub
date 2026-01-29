@@ -1,26 +1,29 @@
+import EditUserForm from "@/src/components/edit-user-form";
 import { Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
 import { authOptions } from "@/src/server/auth";
-import { getServerSession } from "next-auth/next";
+import { UserRole } from "@prisma/client";
+import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import getTrans from "@/src/lib/translation";
 
-async function ProfilePage({
-  params,
-}: {
-  params: Promise<{ locale: Locale }>;
-}) {
+async function ProfilePage() {
   const session = await getServerSession(authOptions);
-  const { locale } = await params;
+
   if (!session) {
-    redirect(`/${locale}/${Routes.AUTH}/${Pages.LOGIN}`);
+    redirect(`/${Routes.AUTH}/${Pages.LOGIN}`);
   }
-
-  const translations = await getTrans(locale, "navbar");
-
+  if (session && session.user.role === UserRole.ADMIN) {
+    redirect(`/${Routes.ADMIN}`);
+  }
   return (
-    <main className="py-44 md:py-40 bg-gray-50 element-center">
-      test
+    <main>
+      <section className="section-gap">
+        <div className="container">
+          <h1 className="text-primary text-center font-bold text-4xl italic mb-10">
+            {/* {translations.profile.title} */}
+          </h1>
+          <EditUserForm user={session?.user} />
+        </div>
+      </section>
     </main>
   );
 }

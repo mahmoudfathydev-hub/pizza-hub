@@ -1,0 +1,51 @@
+{
+  "title": "الملف الشخصي",
+  "save": "حفظ",
+  "form": {
+    "name": {
+      "label": "الاسم",
+      "placeholder": "أدخل اسمك"
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "أدخل بريدك الإلكتروني"
+    },
+    "phone": {
+      "label": "رقم الهاتف",
+      "placeholder": "أدخل رقم هاتفك",
+      "validation": {
+        "required": "رقم الهاتف مطلوب",
+        "invalid": "يرجى إدخال رقم هاتف صحيح"
+      }
+    },
+    "address": {
+      "label": "العنوان",
+      "placeholder": "أدخل عنوانك",
+      "validation": {
+        "required": "العنوان مطلوب"
+      }
+    },
+    "postalCode": {
+      "label": "الرمز البريدي",
+      "placeholder": "أدخل الرمز البريدي",
+      "validation": {
+        "required": "الرمز البريدي مطلوب",
+        "invalid": "يرجى إدخال رمز بريدي صحيح"
+      }
+    },
+    "city": {
+      "label": "المدينة",
+      "placeholder": "أدخل مدينتك",
+      "validation": {
+        "required": "المدينة مطلوبة"
+      }
+    },
+    "country": {
+      "label": "البلد",
+      "placeholder": "أدخل بلدك",
+      "validation": {
+        "required": "البلد مطلوب"
+      }
+    }
+  }
+}

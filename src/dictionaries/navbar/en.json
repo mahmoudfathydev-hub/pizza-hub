@@ -9,7 +9,9 @@
     "login": "Login",
     "register": "Register",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "user": "Profile",
+    "admin": "Admin"
   },
   "profile": {
     "title": "Profile"

@@ -1,7 +1,7 @@
 import { Locale } from '@/src/i18n.config';
 import { Languages } from '@/src/constants/enums';
 
-type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer' | 'auth';
+type PageType = 'home' | 'about' | 'cart' | 'contact' | 'menu' | 'navbar' | 'footer' | 'auth' | 'profile';
 
 interface HomeTranslations {
     hero: {
@@ -251,6 +251,57 @@ interface FooterTranslations {
     madeBy: string;
 }
 
+interface ProfileTranslations {
+    title: string;
+    form: {
+        name: {
+            label: string;
+            placeholder: string;
+        };
+        email: {
+            label: string;
+            placeholder: string;
+        };
+        phone: {
+            label: string;
+            placeholder: string;
+            validation: {
+                required: string;
+                invalid: string;
+            };
+        };
+        address: {
+            label: string;
+            placeholder: string;
+            validation: {
+                required: string;
+            };
+        };
+        postalCode: {
+            label: string;
+            placeholder: string;
+            validation: {
+                required: string;
+                invalid: string;
+            };
+        };
+        city: {
+            label: string;
+            placeholder: string;
+            validation: {
+                required: string;
+            };
+        };
+        country: {
+            label: string;
+            placeholder: string;
+            validation: {
+                required: string;
+            };
+        };
+    };
+}
+
 interface AuthTranslations {
     login: {
         title: string;
@@ -323,6 +374,7 @@ type TranslationMap = {
     navbar: NavbarTranslations;
     footer: FooterTranslations;
     auth: AuthTranslations;
+    profile: ProfileTranslations;
 };
 
 const dictionaries = {
@@ -335,6 +387,7 @@ const dictionaries = {
         navbar: () => import('@/src/dictionaries/navbar/ar.json').then((module) => module.default as NavbarTranslations),
         footer: () => import('@/src/dictionaries/footer/ar.json').then((module) => module.default as FooterTranslations),
         auth: () => import('@/src/dictionaries/auth/ar.json').then((module) => module.default as AuthTranslations),
+        profile: () => import('@/src/dictionaries/profile/ar.json').then((module) => module.default as ProfileTranslations),
     },
     en: {
         home: () => import('@/src/dictionaries/home/en.json').then((module) => module.default as HomeTranslations),
@@ -345,6 +398,7 @@ const dictionaries = {
         navbar: () => import('@/src/dictionaries/navbar/en.json').then((module) => module.default as NavbarTranslations),
         footer: () => import('@/src/dictionaries/footer/en.json').then((module) => module.default as FooterTranslations),
         auth: () => import('@/src/dictionaries/auth/en.json').then((module) => module.default as AuthTranslations),
+        profile: () => import('@/src/dictionaries/profile/en.json').then((module) => module.default as ProfileTranslations),
     },
 };
 
