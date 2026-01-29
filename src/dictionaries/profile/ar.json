@@ -1,6 +1,9 @@
 {
   "title": "الملف الشخصي",
   "save": "حفظ",
+  "messages": {
+    "updateProfileSucess": "تم تحديث الملف الشخصي بنجاح!"
+  },
   "form": {
     "name": {
       "label": "الاسم",

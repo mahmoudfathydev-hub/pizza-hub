@@ -4,14 +4,14 @@ import FormFields from "@/src/components/form-fields/form-fields";
 import { Button } from "@/src/components/ui/button";
 import Loader from "@/src/components/ui/Loader";
 import { Pages, Routes } from "@/src/constants/enums";
-import { toast } from "@/src/hooks/use-toast";
+import { useToast } from "@/src/hooks/use-toast";
 import useAuthFormFields from "@/src/hooks/useAuthFormFields";
 import { IFormField } from "@/src/types/app";
 import { AuthTranslations } from "@/src/types/AuthTranslations";
 import { ValidationErrors } from "@/src/validations/auth";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 function Form({ translations }: { translations: AuthTranslations }) {
   const router = useRouter();
@@ -19,11 +19,24 @@ function Form({ translations }: { translations: AuthTranslations }) {
   const formRef = useRef<HTMLFormElement>(null);
   const [error, setError] = useState<ValidationErrors>({});
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const { data: session } = useSession();
 
   const { getFormField } = useAuthFormFields({
     slug: Pages.LOGIN,
     translations,
   });
+
+  useEffect(() => {
+    if (session?.user) {
+      // Redirect based on user role
+      if (session.user.role === "ADMIN") {
+        router.replace(`/${locale}/${Routes.ADMIN}`);
+      } else {
+        router.replace(`/${locale}/${Routes.PROFILE}`);
+      }
+    }
+  }, [session, locale, router]);
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formRef.current) return;
@@ -57,7 +70,7 @@ function Form({ translations }: { translations: AuthTranslations }) {
           variant: "default",
           className: "bg-green-50 text-green-700 border border-green-200",
         });
-        router.replace(`/${locale}/${Routes.PROFILE}`);
+        // Redirect will be handled by useEffect when session is updated
       }
     } catch (error) {
       console.log(error);

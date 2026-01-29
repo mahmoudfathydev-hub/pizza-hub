@@ -1,6 +1,9 @@
 {
   "title": "Profile",
   "save": "Save",
+  "messages": {
+    "updateProfileSucess": "Profile updated successfully!"
+  },
   "form": {
     "name": {
       "label": "Name",

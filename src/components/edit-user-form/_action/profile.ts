@@ -42,7 +42,7 @@ export const updateProfile = async (
         });
         if (!user) {
             return {
-                message: authTranslations.messages.userNotFound,
+                message: authTranslations.messages.userNotFound || "User not found",
                 status: 401,
             };
         }
@@ -62,15 +62,16 @@ export const updateProfile = async (
         revalidatePath(
             `/${locale}/${Routes.ADMIN}/${Pages.USERS}/${user.id}/${Pages.EDIT}`
         );
-        return {
+        const successResult = {
             status: 200,
-            message: authTranslations.messages.updateProfileSucess,
+            message: profileTranslations.messages.updateProfileSucess,
         };
+        return successResult;
     } catch (error) {
         console.error(error);
         return {
             status: 500,
-            message: authTranslations.messages.unexpectedError,
+            message: authTranslations.messages.unexpectedError || "An unexpected error occurred",
         };
     }
 };
