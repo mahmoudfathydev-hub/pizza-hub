@@ -20,16 +20,7 @@ async function ProfilePage({
 
   return (
     <main className="py-44 md:py-40 bg-gray-50 element-center">
-      <div className="container element-center">
-        <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-2xl font-semibold text-center text-black mb-4">
-            {translations.profile.title}
-          </h2>
-          <div className="text-center text-accent">
-            <p>Profile page coming soon...</p>
-          </div>
-        </div>
-      </div>
+      test
     </main>
   );
 }
