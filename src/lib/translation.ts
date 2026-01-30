@@ -12,7 +12,8 @@ type PageType =
   | "auth"
   | "profile"
   | "admin"
-  | "categories";
+  | "categories"
+  | "menuItems";
 
 interface HomeTranslations {
   hero: {
@@ -266,6 +267,9 @@ interface FooterTranslations {
 export interface ProfileTranslations {
   title: string;
   save: string;
+  messages: {
+    updateProfileSucess: string;
+  };
   form: {
     name: {
       label: string;
@@ -359,6 +363,69 @@ export interface CategoriesTranslations {
   };
 }
 
+export interface MenuItemsTranslations {
+  title: string;
+  createNewMenuItem: string;
+  addItemSize: string;
+  addExtraItem: string;
+  menuOption: {
+    name: string;
+    extraPrice: string;
+  };
+  form: {
+    editName: string;
+    name: {
+      label: string;
+      placeholder: string;
+      validation: {
+        required: string;
+      };
+    };
+    description: {
+      label: string;
+      placeholder: string;
+      validation: {
+        required: string;
+      };
+    };
+    basePrice: {
+      label: string;
+      placeholder: string;
+      validation: {
+        required: string;
+      };
+    };
+    category: {
+      label: string;
+      placeholder: string;
+      validation: {
+        required: string;
+      };
+    };
+    image: {
+      label: string;
+      placeholder: string;
+      validation: {
+        required: string;
+      };
+    };
+  };
+  menuItem: string;
+  save: string;
+  edit: string;
+  delete: string;
+  cancel: string;
+  create: string;
+  sizes: string;
+  extrasIngredients: string;
+  noMenuItemsFound: string;
+  messages: {
+    menuItemAdded: string;
+    updateMenuItemSuccess: string;
+    deleteMenuItemSuccess: string;
+  };
+}
+
 export interface AuthTranslations {
   login: {
     title: string;
@@ -434,6 +501,7 @@ type TranslationMap = {
   profile: ProfileTranslations;
   admin: AdminTranslations;
   categories: CategoriesTranslations;
+  menuItems: MenuItemsTranslations;
 };
 
 const dictionaries = {
@@ -482,6 +550,10 @@ const dictionaries = {
       import("@/src/dictionaries/categories/ar.json").then(
         (module) => module.default as CategoriesTranslations,
       ),
+    menuItems: () =>
+      import("@/src/dictionaries/menuItems/ar.json").then(
+        (module) => module.default as MenuItemsTranslations,
+      ),
   },
   en: {
     home: () =>
@@ -528,10 +600,13 @@ const dictionaries = {
       import("@/src/dictionaries/categories/en.json").then(
         (module) => module.default as CategoriesTranslations,
       ),
+    menuItems: () =>
+      import("@/src/dictionaries/menuItems/en.json").then(
+        (module) => module.default as MenuItemsTranslations,
+      ),
   },
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getTrans = async <T extends PageType>(
   locale: Locale,
   page: T,

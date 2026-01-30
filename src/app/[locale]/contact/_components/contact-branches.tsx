@@ -5,7 +5,7 @@ import MainHeading from "@/src/components/main-heading";
 import { useTranslations } from "@/src/hooks/use-translations";
 
 const ContactBranches = () => {
-  const { translations: t, loading } = useTranslations("contact");
+  const { t, loading } = useTranslations("contact");
 
   if (loading || !t) {
     return (

@@ -15,9 +15,9 @@ import { Button } from "../ui/button";
 import { useTranslations } from "@/src/hooks/use-translations";
 
 const Footer = () => {
-  const { translations: t } = useTranslations("footer");
+  const { t, loading } = useTranslations("footer");
 
-  if (!t) {
+  if (loading || !t) {
     return null; // Return null while translations are loading
   }
 

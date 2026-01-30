@@ -144,6 +144,7 @@ enum ProductSizes {
   SMALL
   MEDIUM
   LARGE
+  FAMILY
 }
 
 enum ExtraIngredients {

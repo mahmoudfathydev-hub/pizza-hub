@@ -1,0 +1,62 @@
+{
+  "title": "عناصر القائمة",
+  "createNewMenuItem": "إنشاء عنصر قائمة جديد",
+  "addItemSize": "إضافة حجم عنصر",
+  "addExtraItem": "إضافة عنصر إضافي",
+  "menuOption": {
+    "name": "الاسم",
+    "extraPrice": "سعر إضافي"
+  },
+  "form": {
+    "editName": "تغيير اسم عنصر القائمة",
+    "name": {
+      "label": "اسم العنصر",
+      "placeholder": "أدخل اسم العنصر",
+      "validation": {
+        "required": "اسم العنصر مطلوب"
+      }
+    },
+    "description": {
+      "label": "اسم الوصف",
+      "placeholder": "أدخل اسم الوصف",
+      "validation": {
+        "required": "اسم الوصف مطلوب"
+      }
+    },
+    "basePrice": {
+      "label": "السعر الأساسي",
+      "placeholder": "أدخل السعر الأساسي",
+      "validation": {
+        "required": "السعر الأساسي مطلوب"
+      }
+    },
+    "category": {
+      "label": "الفئة",
+      "placeholder": "اختر الفئة",
+      "validation": {
+        "required": "الفئة مطلوبة"
+      }
+    },
+    "image": {
+      "label": "الصورة",
+      "placeholder": "ارفع الصورة",
+      "validation": {
+        "required": "صورة المنتج مطلوبة"
+      }
+    }
+  },
+  "menuItem": "عنصر القائمة",
+  "save": "حفظ",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "cancel": "إلغاء",
+  "create": "إنشاء",
+  "sizes": "الأحجام",
+  "extrasIngredients": "مكونات إضافية",
+  "noMenuItemsFound": "لم يتم العثور على عناصر القائمة",
+  "messages": {
+    "menuItemAdded": "تم إضافة المنتج بنجاح",
+    "updateMenuItemSuccess": "تم تحديث المنتج بنجاح",
+    "deleteMenuItemSuccess": "تم حذف المنتج بنجاح"
+  }
+}

@@ -6,7 +6,7 @@ import { Clock, Send } from "lucide-react";
 import { useTranslations } from "@/src/hooks/use-translations";
 
 const ContactHero = () => {
-  const { translations: t, loading } = useTranslations("contact");
+  const { t, loading } = useTranslations("contact");
 
   if (loading || !t) {
     return (

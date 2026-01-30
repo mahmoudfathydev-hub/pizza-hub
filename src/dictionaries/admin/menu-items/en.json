@@ -1,0 +1,62 @@
+{
+  "title": "Menu Items Management",
+  "createNewMenuItem": "Create new menu item",
+  "addItemSize": "Add item size",
+  "addExtraItem": "Add extra item",
+  "menuOption": {
+    "name": "Name",
+    "extraPrice": "Extra Price"
+  },
+  "form": {
+    "editName": "Change Menu Item Name",
+    "name": {
+      "label": "Item Name",
+      "placeholder": "Enter item name",
+      "validation": {
+        "required": "Item Name is required"
+      }
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Enter description",
+      "validation": {
+        "required": "Description is required"
+      }
+    },
+    "basePrice": {
+      "label": "Base Price",
+      "placeholder": "Enter base price",
+      "validation": {
+        "required": "Base Price is required"
+      }
+    },
+    "category": {
+      "label": "Category",
+      "placeholder": "Select category",
+      "validation": {
+        "required": "Category is required"
+      }
+    },
+    "image": {
+      "label": "Image",
+      "placeholder": "Upload image",
+      "validation": {
+        "required": "Product image is required"
+      }
+    }
+  },
+  "menuItem": "Menu Item",
+  "save": "Save",
+  "edit": "Edit",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "create": "Create",
+  "sizes": "Sizes",
+  "extrasIngredients": "Extras Ingredients",
+  "noMenuItemsFound": "No menu items found",
+  "messages": {
+    "menuItemAdded": "Product added successfully",
+    "updateMenuItemSuccess": "Product updated successfully",
+    "deleteMenuItemSuccess": "Product deleted successfully"
+  }
+}

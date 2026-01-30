@@ -1,0 +1,69 @@
+"use client";
+
+import * as React from "react";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
+import { Category } from "@prisma/client";
+import { Translations } from "@/src/types/Translations";
+import { MenuItemsTranslations } from "@/src/lib/translation";
+import { Label } from "@/src/components/ui/label";
+import { Languages } from "@/src/constants/enums";
+import { useParams } from "next/navigation";
+
+function SelectCategory({
+  categories,
+  categoryId,
+  setCategoryId,
+  translations,
+}: {
+  categories: Category[];
+  categoryId: string;
+  translations: Translations | MenuItemsTranslations;
+  setCategoryId: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  const currentItem = categories.find((item) => item.id === categoryId);
+  const { locale } = useParams();
+  return (
+    <>
+      <Label htmlFor="categoryId" className="capitalize text-black block mb-3">
+        {(translations as MenuItemsTranslations).form.category.label}
+      </Label>
+      <Select
+        name="categoryId"
+        onValueChange={(value) => {
+          setCategoryId(value);
+        }}
+        defaultValue={categoryId}
+      >
+        <SelectTrigger
+          className={`w-48 h-10 bg-gray-100 border-none mb-4 focus:ring-0 ${
+            locale === Languages.ARABIC ? "flex-row-reverse" : "flex-row"
+          }`}
+        >
+          <SelectValue>{currentItem?.name}</SelectValue>
+        </SelectTrigger>
+        <SelectContent className="border-none z-50 bg-gray-100">
+          <SelectGroup className="bg-background text-accent z-50">
+            {categories.map((category) => (
+              <SelectItem
+                key={category.id}
+                value={category.id}
+                className="hover:bg-primary! hover:text-white! text-accent! bg-transparent!"
+              >
+                {category.name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </>
+  );
+}
+export default SelectCategory;
