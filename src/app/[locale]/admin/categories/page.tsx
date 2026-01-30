@@ -16,7 +16,7 @@ async function CategoriesPage({
         <main>
             <section className="section-gap">
                 <div className="container">
-                    <div className="sm:max-w[625px] mx-auto space-y-6">
+                    <div className="sm:max-w-156.25 mx-auto space-y-6">
                         <Form translations={t} />
                         {Categories.length > 0 ? (
                             <ul>

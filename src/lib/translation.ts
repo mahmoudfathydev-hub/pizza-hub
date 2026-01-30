@@ -27,6 +27,7 @@ interface HomeTranslations {
       title: string;
       subtitle: string;
     };
+    noProductsFound: string;
   };
   deals: {
     heading: {
@@ -352,6 +353,9 @@ export interface CategoriesTranslations {
     categoryAdded: string;
     updatecategorySucess: string;
     deleteCategorySucess: string;
+  };
+  categoryName: {
+    [key: string]: string;
   };
 }
 

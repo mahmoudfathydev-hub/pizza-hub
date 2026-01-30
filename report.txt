@@ -458,4 +458,4 @@ dictionaries/
 
 **Built with 🍕 for pizza lovers worldwide.**
 
-*Last Updated: January 2026*
+*Last Updated: January 30, 2026*

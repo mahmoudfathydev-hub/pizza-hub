@@ -20,5 +20,25 @@
     "categoryAdded": "Category added successfully",
     "updatecategorySucess": "Category updated successfull",
     "deleteCategorySucess": "Category deleted successfull"
+  },
+  "categoryName": {
+    "Classic Pizza": "Classic Pizza",
+    "meat_lovers": "Meat Lovers",
+    "chicken": "Chicken",
+    "vegetarian": "Vegetarian",
+    "cheese_lovers": "Cheese Lovers",
+    "seafood": "Seafood",
+    "specialty": "Specialty",
+    "spicy": "Spicy",
+    "bbq": "BBQ",
+    "kids": "Kids",
+    "Meat Lovers": "Meat Lovers",
+    "Chicken Pizzas": "Chicken Pizzas",
+    "Vegetarian": "Vegetarian",
+    "Cheese Lovers": "Cheese Lovers",
+    "Seafood": "Seafood",
+    "Spicy": "Spicy",
+    "BBQ Pizzas": "BBQ Pizzas",
+    "Kids Meal": "Kids Meal"
   }
 }

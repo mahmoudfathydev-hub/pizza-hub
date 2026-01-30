@@ -46,6 +46,14 @@ function EditCategory({
         initialState,
     );
 
+    // Helper function to get translated category name
+    const getCategoryDisplayName = (categoryKey: string) => {
+        return translations.categoryName[categoryKey] || categoryKey;
+    };
+
+    // Get current display name or fallback to original name
+    const displayValue = getCategoryDisplayName(category.name);
+
     useEffect(() => {
         if (state.message) {
             toast({
@@ -83,13 +91,16 @@ function EditCategory({
                                 id="categoryName"
                                 name="categoryName"
                                 defaultValue={category.name}
-                                placeholder={translations.form.name.placeholder}
+                                placeholder={`${translations.form.name.placeholder} (e.g., ${Object.values(translations.categoryName).slice(0, 3).join(", ")})`}
                             />
                             {state.error?.categoryName && (
                                 <p className="text-sm text-destructive absolute top-12">
                                     {state.error?.categoryName}
                                 </p>
                             )}
+                            <div className="text-xs text-gray-500 mt-1">
+                                Current: {displayValue}
+                            </div>
                         </div>
                     </div>
                     <DialogFooter className="mt-10">

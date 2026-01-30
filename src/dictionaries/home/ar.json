@@ -9,9 +9,9 @@
   "bestSellers": {
     "heading": {
       "title": "أفضل مبيعاتنا",
-      "subtitle": "اكتشف",
-        "noProductsFound": "لا توجد منتجات"
-    }
+      "subtitle": "اكتشف"
+    },
+    "noProductsFound": "لا توجد منتجات"
   },
   "deals": {
     "heading": {

@@ -20,5 +20,25 @@
     "categoryAdded": "تمت إضافة الفئة بنجاح",
     "updatecategorySucess": "تم تحديث الفئة بنجاح",
     "deleteCategorySucess": "تم حذف الفئة بنجاح"
+  },
+  "categoryName": {
+    "Classic Pizza": "كلاسيك بيتزا",
+    "meat_lovers": "عشاق اللحوم",
+    "chicken": "بيتزا الدجاج",
+    "vegetarian": "نباتي",
+    "cheese_lovers": "عشاق الجبن",
+    "seafood": "مأكولات بحرية",
+    "specialty": "بيتزا مميزة",
+    "spicy": "حار",
+    "bbq": "باربكيو",
+    "kids": "بيتزا الأطفال",
+    "Meat Lovers": "عشاق اللحوم",
+    "Chicken Pizzas": "بيتزا الدجاج",
+    "Vegetarian": "نباتي",
+    "Cheese Lovers": "عشاق الجبن",
+    "Seafood": "مأكولات بحرية",
+    "Spicy": "حار",
+    "BBQ Pizzas": "بيتزا باربكيو",
+    "Kids Meal": "وجبة الأطفال"
   }
 }
