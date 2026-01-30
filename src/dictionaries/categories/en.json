@@ -1,0 +1,24 @@
+{
+  "form": {
+    "editName": "Change Category Name",
+    "name": {
+      "label": "Category Name",
+      "placeholder": "Enter category name",
+      "validation": {
+        "required": "Category Name is required"
+      }
+    }
+  },
+  "category": "Category",
+  "save": "Save",
+  "edit": "Edit",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "create": "Create",
+  "noCategoriesFound": "No categories found",
+  "messages": {
+    "categoryAdded": "Category added successfully",
+    "updatecategorySucess": "Category updated successfull",
+    "deleteCategorySucess": "Category deleted successfull"
+  }
+}

@@ -119,14 +119,18 @@
   }
 
   .container {
-    @apply mx-auto px-4 md:px-8 lg:px-16 xl:px-32;
+    @apply mx-auto px-4 md:px-8 lg:px-16 xl:px-24 2xl:px-32;
   }
 
   .section-gap {
     @apply my-8 md:my-16;
   }
 
-  .element-center{
+  .element-center {
     @apply flex items-center justify-center
   }
+}
+
+html , body {
+  overflow-x: hidden;
 }

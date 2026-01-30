@@ -1,11 +1,9 @@
 {
-  "admin": {
-    "tabs": {
-      "profile": "Profile",
-      "categories": "Categories",
-      "menuItems": "Menu Items",
-      "users": "Users",
-      "orders": "Orders"
-    }
+  "tabs": {
+    "profile": "Profile",
+    "categories": "Categories",
+    "menuItems": "Menu Items",
+    "users": "Users",
+    "orders": "Orders"
   }
 }

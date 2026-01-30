@@ -9,23 +9,25 @@ type Toast = {
     className?: string
 }
 
+const toastFn = ({ title, description, variant, className }: Toast) => {
+    const message = title as string
+    
+    if (variant === "destructive") {
+        return toast.error(message, {
+            className,
+        })
+    } else {
+        return toast.success(message, {
+            className,
+        })
+    }
+}
+
 function useToast() {
     return {
-        toast: ({ title, description, variant, className }: Toast) => {
-            const message = title as string
-            
-            if (variant === "destructive") {
-                return toast.error(message, {
-                    className,
-                })
-            } else {
-                return toast.success(message, {
-                    className,
-                })
-            }
-        },
+        toast: toastFn,
         dismiss: toast.dismiss,
     }
 }
 
-export { useToast }
+export { useToast, toastFn as toast }

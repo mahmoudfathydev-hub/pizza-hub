@@ -1,0 +1,24 @@
+{
+  "form": {
+    "editName": "تغيير اسم الفئة",
+    "name": {
+      "label": "اسم الفئة",
+      "placeholder": "أدخل اسم الفئة",
+      "validation": {
+        "required": "اسم الفئة مطلوب"
+      }
+    }
+  },
+  "category": "الفئة",
+  "save": "حفظ",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "cancel": "إلغاء",
+  "create": "إنشاء",
+  "noCategoriesFound": "لم يتم العثور على فئات",
+  "messages": {
+    "categoryAdded": "تمت إضافة الفئة بنجاح",
+    "updatecategorySucess": "تم تحديث الفئة بنجاح",
+    "deleteCategorySucess": "تم حذف الفئة بنجاح"
+  }
+}

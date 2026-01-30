@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Button } from "@/src/components/ui/button";
 import { useTranslations } from "@/src/hooks/use-translations";
 
@@ -28,7 +29,6 @@ const ContactNewsletter = () => {
         data-aos="zoom-in"
         className="bg-[#1a1a1a] rounded-[2.5rem] p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden relative"
       >
-        {/* Background Pattern Hint */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-neutral-800 rounded-full blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
 
         <div className="w-full md:w-1/2 z-10">
@@ -37,12 +37,12 @@ const ContactNewsletter = () => {
               .split(" ")
               .map((word: string, index: number) =>
                 word === "Loop" ? (
-                  <>
+                  <React.Fragment key={`word-${index}`}>
                     <br />
                     {word}
-                  </>
+                  </React.Fragment>
                 ) : (
-                  <>{word} </>
+                  <React.Fragment key={`word-${index}`}>{word} </React.Fragment>
                 ),
               )}
           </h2>

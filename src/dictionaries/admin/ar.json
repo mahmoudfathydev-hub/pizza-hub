@@ -1,11 +1,9 @@
 {
-  "admin": {
-    "tabs": {
-      "profile": "الملف الشخصي",
-      "categories": "الفئات",
-      "menuItems": "عناصر القائمة",
-      "users": "المستخدمون",
-      "orders": "الطلبات"
-    }
+  "tabs": {
+    "profile": "الملف الشخصي",
+    "categories": "الفئات",
+    "menuItems": "عناصر القائمة",
+    "users": "المستخدمون",
+    "orders": "الطلبات"
   }
 }
