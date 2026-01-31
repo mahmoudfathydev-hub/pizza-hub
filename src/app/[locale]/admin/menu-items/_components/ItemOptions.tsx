@@ -30,11 +30,26 @@ const sizesNames = [
 ];
 
 const extrasNames = [
-  ExtraIngredients.CHEESE,
+  ExtraIngredients.MOZZARELLA,
+  ExtraIngredients.CHEDDAR,
+  ExtraIngredients.BLUE_CHEESE,
+  ExtraIngredients.PARMESAN,
+  ExtraIngredients.PEPPERONI,
   ExtraIngredients.BACON,
-  ExtraIngredients.ONION,
-  ExtraIngredients.PEPPER,
+  ExtraIngredients.CHICKEN,
+  ExtraIngredients.SAUSAGE,
+  ExtraIngredients.MUSHROOMS,
+  ExtraIngredients.OLIVES,
+  ExtraIngredients.BELL_PEPPERS,
+  ExtraIngredients.SPINACH,
+  ExtraIngredients.ONIONS,
+  ExtraIngredients.JALAPENOS,
+  ExtraIngredients.PINEAPPLE,
+  ExtraIngredients.TRUFFLE_OIL,
+  ExtraIngredients.GARLIC,
+  ExtraIngredients.CHEESE,
   ExtraIngredients.TOMATO,
+  ExtraIngredients.PEPPER,
 ];
 
 function handleOptions(
@@ -75,8 +90,8 @@ function ItemOptions({
 }: {
   state: Partial<Size>[] | Partial<Extra>[];
   setState:
-  | React.Dispatch<React.SetStateAction<Partial<Size>[]>>
-  | React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
+    | React.Dispatch<React.SetStateAction<Partial<Size>[]>>
+    | React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
   translations: Translations | MenuItemsTranslations;
   optionKey: ItemOptionsKeys;
 }) {
@@ -138,7 +153,8 @@ function ItemOptions({
           type="button"
           variant="outline"
           className="w-full"
-          onClick={addOption} >
+          onClick={addOption}
+        >
           <Plus />
           {optionKey === ItemOptionsKeys.SIZES
             ? "admin" in translations
@@ -194,12 +210,13 @@ const SelectName = ({
       defaultValue={item.name ? item.name : "select..."}
     >
       <SelectTrigger
-        className={` bg-white border-none mb-4 focus:ring-0 ${locale === Languages.ARABIC ? "flex-row-reverse" : "flex-row"
-          }`}
+        className={` bg-white border-none mb-4 focus:ring-0 ${
+          locale === Languages.ARABIC ? "flex-row-reverse" : "flex-row"
+        }`}
       >
         <SelectValue>{item.name ? item.name : "select..."}</SelectValue>
       </SelectTrigger>
-      <SelectContent className=" border-none z-50 bg-white">
+      <SelectContent className=" border-none z-50 bg-white max-h-[150px] overflow-y-auto">
         <SelectGroup className="bg-background text-accent z-50">
           {names.map((name, index) => (
             <SelectItem

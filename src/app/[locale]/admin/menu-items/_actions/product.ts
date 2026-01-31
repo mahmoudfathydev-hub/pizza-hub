@@ -465,6 +465,8 @@ export const updateProduct = async (
       });
 
       if (args.options.sizes && args.options.sizes.length > 0) {
+        console.log("Processing sizes:", args.options.sizes);
+
         const validSizes = args.options.sizes
           .filter((s) => s.name && s.price !== undefined)
           .map((s) => ({
@@ -472,6 +474,8 @@ export const updateProduct = async (
             name: s.name as ProductSizes,
             price: Number(s.price),
           }));
+
+        console.log("Valid sizes to create:", validSizes);
 
         if (validSizes.length > 0) {
           await tx.size.createMany({ data: validSizes });
