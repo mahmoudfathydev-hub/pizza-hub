@@ -458,4 +458,210 @@ dictionaries/
 
 **Built with 🍕 for pizza lovers worldwide.**
 
-*Last Updated: January 30, 2026*
+*Last Updated: January 31, 2026*
+
+## 📁 SRC Folder Structure Diagram
+
+```
+src/
+├── 📁 app/                                    # Next.js App Router pages
+│   ├── 📁 [locale]/                           # Internationalized routes
+│   │   ├── 📁 _components/                    # Shared page components
+│   │   │   ├── 📄 BestSellers.tsx
+│   │   │   ├── 📄 Deals.tsx
+│   │   │   ├── 📄 Hero.tsx
+│   │   │   └── 📄 Testimonails.tsx
+│   │   ├── 📁 about/                          # About page
+│   │   │   ├── 📁 _components/
+│   │   │   │   ├── 📄 about-hero.tsx
+│   │   │   │   ├── 📄 about-team.tsx
+│   │   │   │   └── 📄 about-values.tsx
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 admin/                          # Admin dashboard
+│   │   │   ├── 📁 _components/
+│   │   │   │   └── 📄 AdminTabs.tsx
+│   │   │   ├── 📁 categories/                # Category management
+│   │   │   │   ├── 📁 _actions/
+│   │   │   │   │   └── 📄 category.ts
+│   │   │   │   ├── 📁 _components/
+│   │   │   │   │   ├── 📄 CategoryItem.tsx
+│   │   │   │   │   ├── 📄 DeleteCategory.tsx
+│   │   │   │   │   ├── 📄 EditCategory.tsx
+│   │   │   │   │   └── 📄 Form.tsx
+│   │   │   │   └── 📄 page.tsx
+│   │   │   ├── 📁 menu-items/                 # Product management
+│   │   │   │   ├── 📁 [productId]/            # Dynamic product routes
+│   │   │   │   │   └── 📁 edit/
+│   │   │   │   │       └── 📄 page.tsx
+│   │   │   │   ├── 📁 _actions/
+│   │   │   │   │   └── 📄 product.ts
+│   │   │   │   ├── 📁 _components/
+│   │   │   │   │   ├── 📄 Form.tsx
+│   │   │   │   │   ├── 📄 ItemOptions.tsx
+│   │   │   │   │   ├── 📄 MenuItems.tsx
+│   │   │   │   │   └── 📄 SelectCategory.tsx
+│   │   │   │   ├── 📁 new/
+│   │   │   │   │   └── 📄 page.tsx
+│   │   │   │   └── 📄 page.tsx
+│   │   │   ├── 📄 layout.tsx
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 auth/                           # Authentication pages
+│   │   │   ├── 📁 signin/
+│   │   │   │   ├── 📁 _components/
+│   │   │   │   │   └── 📄 Form.tsx
+│   │   │   │   └── 📄 page.tsx
+│   │   │   └── 📁 signup/
+│   │   │       ├── 📁 _components/
+│   │   │       │   └── 📄 Form.tsx
+│   │   │       └── 📄 page.tsx
+│   │   ├── 📁 cart/                           # Shopping cart
+│   │   │   ├── 📁 _components/
+│   │   │   │   ├── 📄 CartItems.tsx
+│   │   │   │   └── 📄 CheckoutForm.tsx
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 contact/                        # Contact page
+│   │   │   ├── 📁 _components/
+│   │   │   │   ├── 📄 contact-hero.tsx
+│   │   │   │   ├── 📄 contact-info.tsx
+│   │   │   │   ├── 📄 contact-branches.tsx
+│   │   │   │   └── 📄 contact-newsletter.tsx
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 menu/                           # Menu page
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📁 profile/                        # User profile
+│   │   │   └── 📄 page.tsx
+│   │   ├── 📄 globals.css                     # Global styles
+│   │   ├── 📄 layout.tsx                     # Root layout
+│   │   └── 📄 page.tsx                       # Home page
+│   └── 📄 not-found.tsx                       # 404 page
+│
+├── 📁 components/                             # Reusable UI components
+│   ├── 📄 aos-init.tsx                        # AOS initialization
+│   ├── 📁 edit-user-form/                     # User edit form
+│   │   └── 📄 EditUserForm.tsx
+│   ├── 📁 examples/                           # Example components
+│   │   ├── 📄 nav.tsx
+│   │   └── 📄 table.tsx
+│   ├── 📁 footer/                             # Footer component
+│   │   └── 📄 Footer.tsx
+│   ├── 📁 header/                             # Header components
+│   │   ├── 📄 CartButton.tsx
+│   │   ├── 📄 Navbar.tsx
+│   │   └── 📄 index.tsx
+│   ├── 📁 link/                               # Custom link component
+│   │   └── 📄 index.tsx
+│   ├── 📁 main-heading/                       # Heading component
+│   │   └── 📄 index.tsx
+│   ├── 📁 menu/                               # Menu components
+│   │   ├── 📄 AddToCartButton.tsx
+│   │   ├── 📄 MenuItem.tsx
+│   │   └── 📄 index.tsx
+│   └── 📁 ui/                                 # UI primitives
+│       ├── 📄 button.tsx
+│       ├── 📄 checkbox.tsx
+│       ├── 📄 dialog.tsx
+│       ├── 📄 input.tsx
+│       ├── 📄 label.tsx
+│       ├── 📄 Loader.tsx
+│       ├── 📄 radio-group.tsx
+│       ├── 📄 sonner.tsx
+│       ├── 📄 textarea.tsx
+│       └── 📄 index.ts
+│
+├── 📁 constants/                              # Constants and enums
+│   └── 📄 enums.ts
+│
+├── 📁 dictionaries/                           # Translation files
+│   ├── 📁 about/                              # About page translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 admin/                              # Admin translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 auth/                               # Authentication translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 cart/                               # Cart translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 contact/                            # Contact translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 footer/                             # Footer translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 menu/                               # Menu translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📁 navbar/                             # Navbar translations
+│   │   ├── 📄 en.json
+│   │   └── 📄 ar.json
+│   ├── 📄 en.json                             # Legacy English translations
+│   └── 📄 ar.json                             # Legacy Arabic translations
+│
+├── 📁 generated/                              # Generated files (empty)
+│
+├── 📁 hooks/                                  # Custom React hooks
+│   ├── 📄 useFormFields.ts                    # Form field management
+│   ├── 📄 useAuthFormFields.ts                # Auth form fields
+│   ├── 📄 use-toast.ts                        # Toast notifications
+│   ├── 📄 use-translations.ts                 # Translation hook
+│   ├── 📄 useCurrentUser.ts                    # Current user hook
+│   └── 📄 useCart.ts                          # Cart management hook
+│
+├── 📄 i18n.config.ts                          # Internationalization config
+│
+├── 📁 lib/                                    # Utilities and libraries
+│   ├── 📄 cart.ts                             # Cart utilities
+│   ├── 📄 cache.ts                            # Cache utilities
+│   ├── 📄 formatters.ts                       # Formatting utilities
+│   ├── 📄 getCurrentLocale.ts                 # Locale utilities
+│   ├── 📄 prisma.ts                           # Database client
+│   ├── 📄 translation.ts                      # Translation utilities
+│   └── 📄 utils.ts                            # General utilities
+│
+├── 📄 middleware.ts                           # Next.js middleware
+│
+├── 📁 provider/                               # React providers
+│   └── 📄 SessionProvider.tsx                 # Authentication provider
+│
+├── 📁 redux/                                  # Redux state management
+│   ├── 📁 features/                            # Redux features
+│   │   └── 📁 cart/                            # Cart feature
+│   │       └── 📄 cartSlice.ts
+│   ├── 📄 hooks.ts                            # Redux hooks
+│   └── 📄 store.ts                            # Redux store
+│
+├── 📁 server/                                 # Server-side logic
+│   ├── 📁 _actions/                           # Server actions
+│   │   ├── 📄 auth.ts                          # Authentication actions
+│   │   └── 📄 user.ts                          # User actions
+│   ├── 📁 auth.ts                             # Authentication configuration
+│   └── 📁 db/                                 # Database access
+│       └── 📄 products.ts                      # Product database operations
+│
+├── 📁 types/                                  # TypeScript types
+│   ├── 📄 app.ts                              # App-wide types
+│   ├── 📄 AuthTranslations.ts                 # Auth translation types
+│   ├── 📄 product.ts                          # Product type definitions
+│   ├── 📄 Translations.ts                     # Translation types
+│   ├── 📄 User.ts                             # User types
+│   └── 📄 index.ts                            # Type exports
+│
+└── 📁 validations/                            # Form validations
+    ├── 📄 auth.ts                             # Authentication validation
+    ├── 📄 user.ts                             # User validation
+    ├── 📄 product.ts                          # Product validation
+    └── 📄 category.ts                         # Category validation
+
+### **📊 SRC Folder Statistics**
+- **Total Folders**: 45 directories
+- **Total Files**: 87+ TypeScript/JavaScript files
+- **App Routes**: 12 main pages + admin section
+- **Components**: 25+ reusable UI components
+- **Admin Features**: Complete CRUD for categories and products
+- **Translation Files**: 20 JSON files (10 pages × 2 languages)
+- **Server Actions**: 4 server-side action files
+- **Custom Hooks**: 6 specialized React hooks
+- **Type Definitions**: 6 TypeScript definition files
+- **Validation Schemas**: 4 Zod validation files

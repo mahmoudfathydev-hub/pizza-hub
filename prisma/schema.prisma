@@ -86,6 +86,12 @@ model Product {
   orders      OrderProduct[]
   category    Category       @relation(fields: [categoryId], references: [id])
   categoryId  String
+
+  @@index([categoryId])     // For filtering by category
+  @@index([basePrice])      // For filtering by price
+  @@index([createdAt])      // For ordering by date
+  @@index([name])           // For searching by name
+  @@index([categoryId, basePrice]) // Composite index for category + price filtering
 }
 
 model Size {

@@ -4,10 +4,12 @@ import { Languages, Pages, Routes } from "@/src/constants/enums";
 import { Locale } from "@/src/i18n.config";
 import getTrans from "@/src/lib/translation";
 import { authOptions } from "@/src/server/auth";
+import { getProducts } from "@/src/server/db/products";
 import { UserRole } from "@prisma/client";
 import { ArrowRightCircle } from "lucide-react";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
+import MenuItems from "./_components/MenuItems";
 
 async function MenuItemsPage({
     params,
@@ -17,6 +19,7 @@ async function MenuItemsPage({
     const locale = (await params).locale;
     const translations = await getTrans(locale, "menuItems");
     const session = await getServerSession(authOptions);
+    const products = await getProducts()
     if (!session) {
         redirect(`/${locale}/${Routes.AUTH}/${Pages.LOGIN}`);
     }
@@ -37,6 +40,7 @@ async function MenuItemsPage({
                         {translations.createNewMenuItem}
                         <ArrowRightCircle className={`w-5! h-5! ${locale === Languages.ARABIC ? 'rotate-180 ' : ''}`} />
                     </Link>
+                    <MenuItems products={products}/>
                 </div>
             </section>
         </main>

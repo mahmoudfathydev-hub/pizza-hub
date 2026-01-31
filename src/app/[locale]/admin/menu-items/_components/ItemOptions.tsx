@@ -75,8 +75,8 @@ function ItemOptions({
 }: {
   state: Partial<Size>[] | Partial<Extra>[];
   setState:
-    | React.Dispatch<React.SetStateAction<Partial<Size>[]>>
-    | React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
+  | React.Dispatch<React.SetStateAction<Partial<Size>[]>>
+  | React.Dispatch<React.SetStateAction<Partial<Extra>[]>>;
   translations: Translations | MenuItemsTranslations;
   optionKey: ItemOptionsKeys;
 }) {
@@ -98,9 +98,7 @@ function ItemOptions({
             return (
               <li key={index} className="flex gap-2 mb-2">
                 <div className="space-y-1 basis-1/2">
-                  <Label>
-                    {(translations as MenuItemsTranslations).menuOption.name}
-                  </Label>
+                  <Label>name</Label>
                   <SelectName
                     item={item}
                     onChange={onChange}
@@ -110,12 +108,7 @@ function ItemOptions({
                   />
                 </div>
                 <div className="space-y-1 basis-1/2">
-                  <Label>
-                    {
-                      (translations as MenuItemsTranslations).menuOption
-                        .extraPrice
-                    }
-                  </Label>
+                  <Label>Extra Price</Label>
                   <Input
                     type="number"
                     placeholder="0"
@@ -126,7 +119,7 @@ function ItemOptions({
                     className="bg-white focus:ring-0!"
                   />
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-center">
                   <Button
                     type="button"
                     variant="outline"
@@ -145,12 +138,15 @@ function ItemOptions({
           type="button"
           variant="outline"
           className="w-full"
-          onClick={addOption}
-        >
+          onClick={addOption} >
           <Plus />
           {optionKey === ItemOptionsKeys.SIZES
-            ? (translations as MenuItemsTranslations).addItemSize
-            : (translations as MenuItemsTranslations).addExtraItem}
+            ? "admin" in translations
+              ? translations.admin["menu-items"].addItemSize
+              : translations.addItemSize
+            : "admin" in translations
+              ? translations.admin["menu-items"].addExtraItem
+              : translations.addExtraItem}
         </Button>
       )}
     </>
@@ -188,7 +184,6 @@ const SelectName = ({
         return filteredExtras;
     }
   };
-
   const names = getNames();
 
   return (
@@ -199,9 +194,8 @@ const SelectName = ({
       defaultValue={item.name ? item.name : "select..."}
     >
       <SelectTrigger
-        className={` bg-white border-none mb-4 focus:ring-0 ${
-          locale === Languages.ARABIC ? "flex-row-reverse" : "flex-row"
-        }`}
+        className={` bg-white border-none mb-4 focus:ring-0 ${locale === Languages.ARABIC ? "flex-row-reverse" : "flex-row"
+          }`}
       >
         <SelectValue>{item.name ? item.name : "select..."}</SelectValue>
       </SelectTrigger>

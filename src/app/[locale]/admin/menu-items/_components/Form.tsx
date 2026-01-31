@@ -4,11 +4,10 @@ import { Button, buttonVariants } from "@/src/components/ui/button";
 import { Pages, Routes } from "@/src/constants/enums";
 import useFormFields from "@/src/hooks/useFormFields";
 import { IFormField } from "@/src/types/app";
-import { Translations } from "@/src/types/Translations";
 import { MenuItemsTranslations } from "@/src/lib/translation";
 import { CameraIcon } from "lucide-react";
 import Image from "next/image";
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useEffect, useState, useRef } from "react";
 import SelectCategory from "./SelectCategory";
 import { Category, Extra, Size } from "@prisma/client";
 import {
@@ -58,24 +57,40 @@ function Form({
   });
   const initialState: {
     message?: string;
-    error?: ValidationErrors;
-    status?: number | null;
-    formData?: FormData | null;
+    error?: Record<string, string[]>;
+    status?: number;
   } = {
     message: "",
     error: {},
-    status: null,
-    formData: null,
+    status: undefined,
   };
-  const [state, action, pending] = useActionState(
-    product
-      ? updateProduct.bind(null, {
-          productId: product.id,
-          options: { sizes, extras },
-        })
-      : addProduct.bind(null, { categoryId, options: { sizes, extras } }),
-    initialState,
-  );
+  const sizesRef = useRef(sizes);
+  const extrasRef = useRef(extras);
+  const categoryIdRef = useRef(categoryId);
+
+  // Update refs when state changes
+  useEffect(() => {
+    sizesRef.current = sizes;
+    extrasRef.current = extras;
+    categoryIdRef.current = categoryId;
+  }, [sizes, extras, categoryId]);
+
+  // Create action that gets fresh values from refs
+  const createAction = () => {
+    if (product) {
+      return updateProduct.bind(null, {
+        productId: product.id,
+        options: { sizes: sizesRef.current, extras: extrasRef.current },
+      });
+    } else {
+      return addProduct.bind(null, {
+        categoryId: categoryIdRef.current,
+        options: { sizes: sizesRef.current, extras: extrasRef.current },
+      });
+    }
+  };
+
+  const [state, action, pending] = useActionState(createAction(), initialState);
   useEffect(() => {
     if (state.message && state.status && !pending) {
       toast({
@@ -102,8 +117,7 @@ function Form({
       </div>
       <div className="flex-1">
         {getFormFields().map((field: IFormField) => {
-          const fieldValue =
-            state.formData?.get(field.name) ?? formData.get(field.name);
+          const fieldValue = formData.get(field.name);
           return (
             <div key={field.name} className="mb-3">
               <FormFields
@@ -150,12 +164,49 @@ const UploadImage = ({
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
+      // Client-side validation: Check file size (max 8MB to be safe)
+      const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
+      if (file.size > MAX_FILE_SIZE) {
+        alert(
+          `File size must be less than 8MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+        );
+        event.target.value = ""; // Clear the input
+        return;
+      }
+
+      // Client-side validation: Check file type
+      const ALLOWED_TYPES = [
+        "image/jpeg",
+        "image/png",
+        "image/gif",
+        "image/webp",
+      ];
+      if (!ALLOWED_TYPES.includes(file.type)) {
+        alert("Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.");
+        event.target.value = ""; // Clear the input
+        return;
+      }
+
+      // Clean up previous object URL if it exists
+      if (selectedImage && selectedImage.startsWith("blob:")) {
+        URL.revokeObjectURL(selectedImage);
+      }
       const url = URL.createObjectURL(file);
       setSelectedImage(url);
     }
   };
+
+  // Cleanup object URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (selectedImage && selectedImage.startsWith("blob:")) {
+        URL.revokeObjectURL(selectedImage);
+      }
+    };
+  }, [selectedImage]);
+
   return (
-    <div className="group mx-auto md:mx-0 relative w-[200px] h-[200px] overflow-hidden rounded-full">
+    <div className="group mx-auto md:mx-0 relative w-50 h-50 overflow-hidden rounded-full">
       {selectedImage && (
         <Image
           src={selectedImage}
@@ -174,7 +225,7 @@ const UploadImage = ({
       >
         <input
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/gif,image/webp"
           className="hidden"
           id="image-upload"
           onChange={handleImageChange}
@@ -182,7 +233,8 @@ const UploadImage = ({
         />
         <label
           htmlFor="image-upload"
-          className="border rounded-full w-[200px] h-[200px] element-center cursor-pointer"
+          className="border rounded-full w-50 h-50 element-center cursor-pointer"
+          title="Upload image (Max 8MB, JPEG/PNG/GIF/WebP)"
         >
           <CameraIcon className="w-8 h-8 text-accent" />
         </label>
@@ -216,13 +268,22 @@ const FormActions = ({
       });
       const res = await deleteProduct(id);
       setState((prev) => {
-        return { ...prev, status: res.status, message: res.message };
+        return {
+          ...prev,
+          status: res.status,
+          message: res.message || "Unknown operation result",
+          pending: false,
+        };
       });
     } catch (error) {
-      console.log(error);
-    } finally {
+      console.error("Delete product error:", error);
       setState((prev) => {
-        return { ...prev, pending: false };
+        return {
+          ...prev,
+          status: 500,
+          message: "Failed to delete product",
+          pending: false,
+        };
       });
     }
   };
