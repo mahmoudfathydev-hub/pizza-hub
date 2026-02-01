@@ -11,9 +11,6 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import MenuItems from "./_components/MenuItems";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
-
 async function MenuItemsPage({
   params,
 }: {

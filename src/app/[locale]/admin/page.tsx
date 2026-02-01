@@ -6,9 +6,6 @@ import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
-
 async function AdminPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const session = await getServerSession(authOptions);

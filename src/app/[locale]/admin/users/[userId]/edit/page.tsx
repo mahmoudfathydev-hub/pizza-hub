@@ -4,9 +4,6 @@ import { Locale } from "@/i18n.config";
 import { getUser, getUsers } from "@/server/db/users";
 import { redirect } from "next/navigation";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
-
 async function EditUserPage({
   params,
 }: {

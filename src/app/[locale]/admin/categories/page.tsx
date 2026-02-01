@@ -5,9 +5,6 @@ import { Category } from "@prisma/client";
 import Form from "./_components/Form";
 import CategoryItem from "./_components/CategoryItem";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
-
 async function CategoriesPage({
   params,
 }: {

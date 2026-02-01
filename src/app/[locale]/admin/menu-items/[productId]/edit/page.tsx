@@ -6,9 +6,6 @@ import Form from "../../_components/Form";
 import { getCategories } from "@/server/db/categories";
 import getTrans from "@/lib/translation";
 
-// Force dynamic rendering to avoid static generation issues
-export const dynamic = "force-dynamic";
-
 async function EditProductPage({
   params,
 }: {

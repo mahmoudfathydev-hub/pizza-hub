@@ -7,9 +7,6 @@ import { Suspense } from "react";
 import { Category } from "@prisma/client";
 import { CategorySkeleton } from "@/components/ui/skeleton";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
-
 async function MenuPage() {
   const locale = await getCurrentLocale();
   const t = await getTrans(locale, "categories");

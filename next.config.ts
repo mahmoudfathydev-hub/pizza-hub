@@ -31,8 +31,9 @@ const nextConfig: NextConfig = {
     },
     optimizeCss: true,
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
-    cacheComponents: true, // Enable cacheTag() support
   },
+  // Enable cache components for Next.js 16
+  cacheComponents: true,
   // Performance optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",

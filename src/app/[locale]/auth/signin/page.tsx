@@ -6,9 +6,6 @@ import Form from "./_components/Form";
 import getTrans from "@/lib/translation";
 import { aosAnimations } from "@/utils/aos";
 
-// Force dynamic rendering
-export const dynamic = "force-dynamic";
-
 async function SigninPage() {
   const locale = await getCurrentLocale();
   const translations = await getTrans(locale, "auth");
