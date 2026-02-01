@@ -1,0 +1,712 @@
+# 🚀 PizzaHub - Vercel Deployment Guide
+
+## 📋 Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Environment Setup](#environment-setup)
+3. [Database Configuration](#database-configuration)
+4. [Vercel Deployment](#vercel-deployment)
+5. [Post-Deployment Configuration](#post-deployment-configuration)
+6. [Troubleshooting](#troubleshooting)
+7. [Best Practices](#best-practices)
+
+## 🔧 Prerequisites
+
+### Required Accounts
+- **GitHub Account**: For code repository
+- **Vercel Account**: For deployment platform
+- **Database Provider**: PostgreSQL database (recommended options below)
+- **Cloudinary Account**: For image management
+
+### Recommended Database Providers
+- **Vercel Postgres** (Recommended for simplicity)
+- **Supabase** (Free tier available)
+- **Neon** (Modern PostgreSQL platform)
+- **Railway** (Easy PostgreSQL hosting)
+- **Heroku Postgres** (Reliable option)
+
+### Required Tools
+- **Node.js** 18+ installed locally
+- **Git** for version control
+- **Code Editor** (VS Code recommended)
+
+## 🌍 Environment Setup
+
+### 1. Prepare Your Local Environment
+
+#### Update Package.json Scripts
+Ensure your `package.json` has the correct scripts:
+
+```json
+{
+  "name": "food-ordering",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    // ... your dependencies
+  },
+  "devDependencies": {
+    // ... your dev dependencies
+  }
+}
+```
+
+#### Create Vercel Configuration
+Create a `vercel.json` file in your root directory:
+
+```json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NEXTAUTH_URL": "@nextauth_url",
+    "NEXTAUTH_SECRET": "@nextauth_secret"
+  }
+}
+```
+
+### 2. Environment Variables Setup
+
+#### Create `.env.local` for Development
+```env
+# Database
+DATABASE_URL="postgresql://username:password@localhost:5432/pizzahub_local"
+
+# NextAuth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-local-secret-key-min-32-chars"
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
+
+# Optional: Google OAuth (if using)
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+```
+
+#### Generate NextAuth Secret
+Run this command to generate a secure secret:
+
+```bash
+openssl rand -base64 32
+```
+
+## 🗄️ Database Configuration
+
+### Option 1: Vercel Postgres (Recommended)
+
+#### 1. Create Vercel Postgres Database
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Click "Storage" → "Create Database"
+3. Choose "Postgres"
+4. Select region closest to your users
+5. Give it a name (e.g., `pizzahub-db`)
+6. Click "Create"
+
+#### 2. Get Database Connection String
+1. Go to your database dashboard
+2. Click ".env.local" tab
+3. Copy the `POSTGRES_URL` value
+
+#### 3. Update Your Local Environment
+Add to your `.env.local`:
+```env
+DATABASE_URL="your-postgres-url-from-vercel"
+```
+
+#### 4. Run Database Migrations
+```bash
+npx prisma db push
+npx prisma generate
+```
+
+### Option 2: External PostgreSQL (Supabase, Neon, etc.)
+
+#### 1. Create Database Account
+- Sign up for your chosen provider
+- Create a new PostgreSQL database
+- Get the connection string
+
+#### 2. Configure Connection String
+Format: `postgresql://[user]:[password]@[host]:[port]/[database]`
+
+#### 3. Update Environment Variables
+```env
+DATABASE_URL="your-external-postgres-connection-string"
+```
+
+### Option 3: Existing Database Setup
+
+If you have an existing database:
+
+#### 1. Export Existing Data (Optional)
+```bash
+# If you have existing data to migrate
+pg_dump your_database > backup.sql
+```
+
+#### 2. Update Schema
+```bash
+npx prisma db push
+npx prisma generate
+```
+
+#### 3. Seed Data (Optional)
+Create a `prisma/seed.ts` file:
+
+```typescript
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
+
+async function main() {
+  // Create default categories
+  const pizzaCategory = await prisma.category.create({
+    data: {
+      name: 'Pizzas',
+      order: 1,
+    },
+  });
+
+  const sidesCategory = await prisma.category.create({
+    data: {
+      name: 'Sides',
+      order: 2,
+    },
+  });
+
+  const drinksCategory = await prisma.category.create({
+    data: {
+      name: 'Drinks',
+      order: 3,
+    },
+  });
+
+  // Create sample products
+  await prisma.product.create({
+    data: {
+      name: 'Margherita Pizza',
+      description: 'Classic pizza with tomato sauce, mozzarella, and fresh basil',
+      basePrice: 12.99,
+      image: 'https://res.cloudinary.com/your-cloud/image/upload/margherita.jpg',
+      categoryId: pizzaCategory.id,
+      sizes: {
+        create: [
+          { name: 'SMALL', price: 12.99 },
+          { name: 'MEDIUM', price: 15.99 },
+          { name: 'LARGE', price: 18.99 },
+          { name: 'FAMILY', price: 24.99 },
+        ],
+      },
+      extras: {
+        create: [
+          { name: 'MOZZARELLA', price: 2.50 },
+          { name: 'PEPPERONI', price: 3.00 },
+          { name: 'MUSHROOMS', price: 2.00 },
+        ],
+      },
+    },
+  });
+
+  console.log('Database seeded successfully!');
+}
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
+```
+
+Add to `package.json`:
+```json
+{
+  "scripts": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  }
+}
+```
+
+Run seed:
+```bash
+npm run seed
+```
+
+## 🚀 Vercel Deployment
+
+### Step 1: Push to GitHub
+
+#### 1. Initialize Git Repository
+```bash
+git init
+git add .
+git commit -m "Initial commit: PizzaHub food ordering platform"
+```
+
+#### 2. Create GitHub Repository
+1. Go to [GitHub](https://github.com)
+2. Click "New repository"
+3. Name it `pizzahub-food-ordering`
+4. Choose "Public" or "Private"
+5. Don't initialize with README (we already have code)
+6. Click "Create repository"
+
+#### 3. Push to GitHub
+```bash
+git remote add origin https://github.com/yourusername/pizzahub-food-ordering.git
+git branch -M main
+git push -u origin main
+```
+
+### Step 2: Deploy to Vercel
+
+#### 1. Connect Vercel to GitHub
+1. Go to [Vercel Dashboard](https://vercel.com/dashboard)
+2. Click "Add New..." → "Project"
+3. Click "Import Git Repository"
+4. Connect your GitHub account
+5. Select your `pizzahub-food-ordering` repository
+6. Click "Import"
+
+#### 2. Configure Project Settings
+```
+Project Name: pizzahub-food-ordering
+Framework Preset: Next.js
+Root Directory: ./
+Build Command: npm run build
+Output Directory: .next
+Install Command: npm install
+```
+
+#### 3. Set Environment Variables
+Add these environment variables in Vercel:
+
+```env
+# Database (from your database provider)
+DATABASE_URL="your-production-database-url"
+
+# NextAuth (generate new secrets for production)
+NEXTAUTH_URL="https://your-domain.vercel.app"
+NEXTAUTH_SECRET="your-production-secret-32-chars-min"
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
+
+# Optional: Google OAuth
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+```
+
+#### 4. Deploy
+Click "Deploy" and wait for the build to complete.
+
+### Step 3: Configure Custom Domain (Optional)
+
+#### 1. Add Custom Domain
+1. In Vercel project dashboard, click "Domains"
+2. Click "Add" → "Custom"
+3. Enter your domain (e.g., `pizzahub.com`)
+4. Click "Add"
+
+#### 2. Update DNS
+Vercel will provide DNS records. Add them to your domain registrar:
+
+```
+Type: CNAME
+Name: @
+Value: cname.vercel-dns.com
+
+Type: CNAME
+Name: www
+Value: cname.vercel-dns.com
+```
+
+#### 3. Update NextAuth URL
+Update your environment variable:
+```env
+NEXTAUTH_URL="https://pizzahub.com"
+```
+
+## ⚙️ Post-Deployment Configuration
+
+### 1. Database Setup
+
+#### Run Migrations on Production
+If using Vercel Postgres, migrations are automatic. For external databases:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Login to Vercel
+vercel login
+
+# Run migrations
+vercel env pull .env.production
+npx prisma db push --schema=./prisma/schema.prisma
+```
+
+#### Seed Production Database (Optional)
+```bash
+# Run seed script in production
+vercel env pull .env.production
+npm run seed
+```
+
+### 2. Cloudinary Configuration
+
+#### 1. Set Up Cloudinary
+1. Go to [Cloudinary Dashboard](https://cloudinary.com/console)
+2. Note your Cloud name, API Key, and API Secret
+3. Configure upload presets if needed
+
+#### 2. Test Image Uploads
+Test the image upload functionality in your deployed app:
+1. Go to admin panel
+2. Try adding a new product with an image
+3. Verify the image appears correctly
+
+### 3. Authentication Setup
+
+#### 1. Configure OAuth Providers (Optional)
+For Google OAuth:
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com)
+2. Create a new project
+3. Enable Google+ API
+4. Create OAuth 2.0 credentials
+5. Add authorized redirect URI: `https://your-domain.vercel.app/api/auth/callback/google`
+
+#### 2. Test Authentication
+1. Try logging in/registrating
+2. Test admin access
+3. Verify session persistence
+
+### 4. Performance Optimization
+
+#### 1. Enable Vercel Analytics
+```bash
+# Install analytics
+npm install @vercel/analytics
+
+# Add to app/layout.tsx
+import { Analytics } from '@vercel/analytics/react';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  );
+}
+```
+
+#### 2. Configure Caching
+Add to `next.config.js`:
+```javascript
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: ['res.cloudinary.com'],
+    formats: ['image/webp', 'image/avif'],
+  },
+  async headers() {
+    return [
+      {
+        source: '/api/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'no-store, must-revalidate' },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
+    ];
+  },
+};
+
+module.exports = nextConfig;
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues and Solutions
+
+#### 1. Build Failures
+
+**Issue**: `TypeError: Cannot read properties of undefined (reading 'DATABASE_URL')`
+**Solution**: 
+- Check environment variables in Vercel dashboard
+- Ensure all required variables are set
+- Redeploy after adding variables
+
+**Issue**: `PrismaClientUnknownRequestError`
+**Solution**:
+- Verify database connection string
+- Check if database is accessible from Vercel
+- Ensure Prisma schema matches database
+
+#### 2. Database Connection Issues
+
+**Issue**: Connection timeout errors
+**Solution**:
+- Check database region vs Vercel region
+- Verify connection string format
+- Ensure database allows external connections
+
+**Issue**: Migration failures
+**Solution**:
+- Run `npx prisma db push` instead of migrate
+- Check database permissions
+- Verify schema compatibility
+
+#### 3. Authentication Issues
+
+**Issue**: NextAuth callbacks not working
+**Solution**:
+- Verify NEXTAUTH_URL matches deployed domain
+- Check NEXTAUTH_SECRET is set and 32+ characters
+- Ensure database adapter is configured
+
+**Issue**: OAuth provider errors
+**Solution**:
+- Verify redirect URIs in OAuth provider console
+- Check client ID and secret
+- Ensure provider is enabled in NextAuth config
+
+#### 4. Image Upload Issues
+
+**Issue**: Cloudinary upload failures
+**Solution**:
+- Verify Cloudinary credentials
+- Check upload presets
+- Ensure image size limits
+
+#### 5. Performance Issues
+
+**Issue**: Slow page loads
+**Solution**:
+- Enable Vercel Edge Functions
+- Optimize images
+- Check bundle size with `npm run build`
+
+**Issue**: Memory errors
+**Solution**:
+- Increase function timeout in `vercel.json`
+- Optimize database queries
+- Add proper indexing
+
+### Debugging Steps
+
+#### 1. Check Build Logs
+```bash
+# View build logs
+vercel logs your-deployment-url
+```
+
+#### 2. Test Locally with Production Env
+```bash
+# Pull production environment
+vercel env pull .env.local
+
+# Test locally
+npm run build
+npm start
+```
+
+#### 3. Database Connection Test
+Create `test-db.js`:
+```javascript
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
+async function testConnection() {
+  try {
+    await prisma.$connect();
+    console.log('✅ Database connected successfully');
+    
+    const count = await prisma.category.count();
+    console.log(`✅ Found ${count} categories`);
+    
+    await prisma.$disconnect();
+  } catch (error) {
+    console.error('❌ Database connection failed:', error);
+  }
+}
+
+testConnection();
+```
+
+Run: `node test-db.js`
+
+## 📋 Best Practices
+
+### 1. Security
+
+#### Environment Variables
+- Never commit `.env` files
+- Use different secrets for production
+- Rotate secrets regularly
+- Use Vercel's built-in secret management
+
+#### Database Security
+- Use connection pooling
+- Enable SSL connections
+- Limit database user permissions
+- Regular backups
+
+#### API Security
+- Implement rate limiting
+- Validate all inputs
+- Use HTTPS everywhere
+- Sanitize user data
+
+### 2. Performance
+
+#### Optimization Techniques
+- Enable Next.js Image optimization
+- Use Vercel Edge Functions
+- Implement proper caching
+- Monitor Core Web Vitals
+
+#### Monitoring
+- Set up Vercel Analytics
+- Monitor error rates
+- Track performance metrics
+- Set up alerts
+
+### 3. Maintenance
+
+#### Regular Tasks
+- Update dependencies monthly
+- Review security advisories
+- Monitor database performance
+- Backup data regularly
+
+#### Deployment Workflow
+- Use feature branches
+- Test in preview environments
+- Automated testing
+- Gradual rollouts
+
+### 4. Scaling
+
+#### Database Scaling
+- Monitor query performance
+- Add indexes as needed
+- Consider read replicas
+- Plan for data growth
+
+#### Application Scaling
+- Use Vercel's global network
+- Implement CDN strategies
+- Optimize bundle sizes
+- Monitor resource usage
+
+## 🎯 Quick Deployment Checklist
+
+### Pre-Deployment
+- [ ] Environment variables configured locally
+- [ ] Database is accessible
+- [ ] All tests pass locally
+- [ ] Code pushed to GitHub
+- [ ] README is updated
+
+### Deployment
+- [ ] Vercel project created
+- [ ] Environment variables set in Vercel
+- [ ] Build completes successfully
+- [ ] Domain is configured
+- [ ] SSL certificate is active
+
+### Post-Deployment
+- [ ] Database migrations run
+- [ ] Authentication works
+- [ ] Image uploads work
+- [ ] All pages load correctly
+- [ ] Mobile responsiveness verified
+- [ ] Performance is acceptable
+
+### Monitoring Setup
+- [ ] Analytics installed
+- [ ] Error tracking configured
+- [ ] Performance monitoring active
+- [ ] Backup strategy in place
+- [ ] Security scan completed
+
+## 📞 Support Resources
+
+### Official Documentation
+- [Vercel Docs](https://vercel.com/docs)
+- [Next.js Docs](https://nextjs.org/docs)
+- [Prisma Docs](https://www.prisma.io/docs)
+- [NextAuth.js Docs](https://next-auth.js.org/docs)
+
+### Community Support
+- [Vercel Discord](https://vercel.com/discord)
+- [Next.js GitHub](https://github.com/vercel/next.js)
+- [Stack Overflow](https://stackoverflow.com)
+
+### Troubleshooting Help
+- Check Vercel status page
+- Review build logs
+- Test with minimal reproduction
+- Contact support for critical issues
+
+---
+
+## 🎉 Congratulations!
+
+Your PizzaHub food ordering platform is now deployed on Vercel! 🚀
+
+### Next Steps:
+1. **Test thoroughly** - Try all features
+2. **Monitor performance** - Keep an eye on metrics
+3. **Gather feedback** - Get user input
+4. **Iterate and improve** - Add new features
+5. **Scale as needed** - Grow with your user base
+
+### Remember:
+- Keep dependencies updated
+- Monitor security advisories
+- Backup your data regularly
+- Test new features in preview deployments
+
+Happy coding and good luck with your PizzaHub platform! 🍕✨
+
+---
+
+*Last Updated: February 1, 2026*
+*For PizzaHub Food Ordering Platform*

@@ -5,30 +5,30 @@ import { getUser, getUsers } from "@/src/server/db/users";
 import { redirect } from "next/navigation";
 
 export async function generateStaticParams() {
-  const users = await getUsers();
+    const users = await getUsers();
 
-  return users.map((user) => ({ userId: user.id }));
+    return users.map((user) => ({ userId: user.id }));
 }
 
 async function EditUserPage({
-  params,
+    params,
 }: {
-  params: Promise<{ userId: string; locale: Locale }>;
+    params: Promise<{ userId: string; locale: Locale }>;
 }) {
-  const { locale, userId } = await params;
-  const user = await getUser(userId);
-  if (!user) {
-    redirect(`/${locale}/${Routes.ADMIN}/${Pages.USERS}`);
-  }
-  return (
-    <main>
-      <section className="section-gap">
-        <div className="container">
-          <EditUserForm user={user} />
-        </div>
-      </section>
-    </main>
-  );
+    const { locale, userId } = await params;
+    const user = await getUser(userId);
+    if (!user) {
+        redirect(`/${locale}/${Routes.ADMIN}/${Pages.USERS}`);
+    }
+    return (
+        <main>
+            <section className="section-gap">
+                <div className="container">
+                    <EditUserForm user={user} />
+                </div>
+            </section>
+        </main>
+    );
 }
 
 export default EditUserPage;
