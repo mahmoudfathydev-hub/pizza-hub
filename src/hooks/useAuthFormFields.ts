@@ -22,11 +22,10 @@ const useAuthFormFields = ({ slug, translations }: Props) => {
       type: "password",
     },
     {
-      label: "Access Key (Optional)",
+      label: "Admin Access Key",
       name: "accessKey",
-      type: "text",
-      placeholder: "Enter access key (optional)",
-      defaultValue: "1234",
+      type: "password",
+      placeholder: "Enter admin access key",
     },
   ];
 
