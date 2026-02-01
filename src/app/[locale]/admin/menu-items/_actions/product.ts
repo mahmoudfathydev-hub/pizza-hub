@@ -542,8 +542,8 @@ export const updateProduct = async (
 export const deleteProduct = async (
   id: string,
 ): Promise<ProductActionResponse> => {
-  // Validate ID format
-  const idSchema = z.string().uuid("Invalid product ID format");
+  // Validate ID format - Product IDs use CUID format, not UUID
+  const idSchema = z.string().min(1, "Invalid product ID format");
   const idValidation = idSchema.safeParse(id);
 
   if (!idValidation.success) {

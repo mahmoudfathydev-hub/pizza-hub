@@ -13,30 +13,55 @@ A modern, responsive food ordering application built with Next.js, Prisma, and T
 - **Responsive Design**: Optimized experience across Desktop, Tablet, and Mobile devices
 - **Newsletter Subscription**: Stay updated with exclusive deals
 - **Multi-language Support**: English and Arabic with RTL support
+- **Visual Appeal**: High-quality imagery, smooth animations (AOS), and modern UI
+
+### For Administrators
+
+- **Admin Dashboard**: Complete management interface for restaurant operations
+- **Category Management**: Create, edit, and delete product categories
+- **Menu Item Management**: Full CRUD operations for products with image uploads
+- **User Management**: Manage customer accounts and orders
+- **Cloudinary Integration**: Advanced image upload and optimization
 
 ### Technical Highlights
 
 - **Component-Based Architecture**: Modular UI using React and modern standards
 - **SEO Optimized**: Built with Next.js for optimal search engine visibility
 - **Type Safety**: Full TypeScript implementation for robust code quality
-- **Modern Styling**: Tailwind CSS for rapid, maintainable design
+- **Modern Styling**: Tailwind CSS v4 for rapid, maintainable design
+- **State Management**: Redux Toolkit for efficient state handling
+- **API Integration**: RESTful API endpoints for authentication and file uploads
 
 ## 🛠️ Technology Stack
 
 ### Frontend
 
-- **Next.js 16.1.4**: React framework with App Router
-- **React 19**: Latest UI library
-- **TypeScript**: Statically typed JavaScript
-- **Tailwind CSS**: Utility-first CSS framework
-- **next-intl**: Internationalization framework
+- **Next.js 16.1.4**: React framework with App Router for server-side rendering
+- **React 19.2.3**: Latest UI library with modern hooks
+- **TypeScript**: Statically typed JavaScript for scalable development
+- **Tailwind CSS v4**: Utility-first CSS framework for custom designs
+- **next-intl**: Internationalization framework for multi-language support
+- **Redux Toolkit**: State management for cart and application state
+- **React Hot Toast**: Toast notification system
+- **Lucide React**: Beautiful, consistent icons
+- **AOS (Animate On Scroll)**: Library for scroll animations
+- **Radix UI**: Unstyled, accessible UI primitives (Dialog, Checkbox, Select, etc.)
+- **Cloudinary**: Cloud-based image management and optimization
 
 ### Backend & Database
 
-- **PostgreSQL**: Relational database
+- **PostgreSQL**: Relational database for structured data storage
 - **Prisma ORM**: Next-generation Node.js and TypeScript ORM
-- **NextAuth.js**: Complete authentication solution
-- **Zod**: Schema validation
+- **Prisma Client**: Auto-generated type-safe query builder
+- **NextAuth.js**: Complete authentication solution with providers
+- **bcrypt**: Password hashing for security
+- **Zod**: Schema validation for type-safe forms
+
+### Development Tools
+
+- **ESLint**: Pluggable linting utility for JavaScript and JSX
+- **PostCSS**: Tool for transforming CSS with JavaScript
+- **TypeScript**: Static type checking and enhanced developer experience
 
 ## 🚀 Getting Started
 
@@ -68,6 +93,11 @@ yarn install
 
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/pizzahub"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
 ```
 
 4. **Initialize Database:**
@@ -88,12 +118,21 @@ npm run dev
 
 ## 🌍 Internationalization
 
-This project supports:
+This project supports comprehensive multi-language functionality:
 
-- **English (en)**: Default language
-- **Arabic (ar)**: Full RTL support
+- **English (en)**: Default language with professional translations
+- **Arabic (ar)**: Full RTL support with contextually appropriate translations
 - **Dynamic Routing**: Locale-based URLs (/en/..., /ar/...)
 - **Page-Specific Translations**: Dedicated translation files for each page
+- **Semantic Keys**: UI-based translation structure for maintainability
+- **Translation Coverage**: 26 JSON files (13 pages × 2 languages)
+
+### Supported Pages
+
+- Home, About, Menu, Contact, Cart, Profile, Admin
+- Authentication (Login/Register)
+- Admin sections (Categories, Menu Items, Users, Orders)
+- Shared components (Navbar, Footer)
 
 ## 📁 Project Structure
 
@@ -112,13 +151,42 @@ src/
 │   │   │   │   ├── about-values.tsx      # Company values
 │   │   │   │   └── about-team.tsx        # Team section
 │   │   │   └── page.tsx                  # About page component
-│   │   ├── auth/                         # Authentication pages
+│   │   ├── admin/                        # Admin dashboard
 │   │   │   ├── _components/
-│   │   │   │   ├── auth-form.tsx         # Login/register form
-│   │   │   │   └── auth-layout.tsx       # Auth page layout
-│   │   │   ├── login/
+│   │   │   │   └── AdminTabs.tsx         # Admin navigation tabs
+│   │   │   ├── categories/               # Category management
+│   │   │   │   ├── _actions/
+│   │   │   │   │   └── category.ts       # Category server actions
+│   │   │   │   ├── _components/
+│   │   │   │   │   ├── CategoryItem.tsx   # Category item component
+│   │   │   │   │   ├── DeleteCategory.tsx # Delete category modal
+│   │   │   │   │   ├── EditCategory.tsx   # Edit category form
+│   │   │   │   │   └── Form.tsx           # Category form
+│   │   │   │   └── page.tsx              # Categories management page
+│   │   │   ├── menu-items/               # Product management
+│   │   │   │   ├── [productId]/          # Dynamic product routes
+│   │   │   │   │   └── edit/
+│   │   │   │   │       └── page.tsx      # Edit product page
+│   │   │   │   ├── _actions/
+│   │   │   │   │   └── product.ts        # Product server actions
+│   │   │   │   ├── _components/
+│   │   │   │   │   ├── Form.tsx           # Product form
+│   │   │   │   │   ├── ItemOptions.tsx    # Product options
+│   │   │   │   │   ├── MenuItems.tsx      # Menu items list
+│   │   │   │   │   └── SelectCategory.tsx # Category selector
+│   │   │   │   ├── new/
+│   │   │   │   │   └── page.tsx          # Create new product
+│   │   │   │   └── page.tsx              # Products management page
+│   │   │   ├── layout.tsx                # Admin layout
+│   │   │   └── page.tsx                  # Admin dashboard
+│   │   ├── auth/                         # Authentication pages
+│   │   │   ├── signin/
+│   │   │   │   ├── _components/
+│   │   │   │   │   └── Form.tsx           # Login form
 │   │   │   │   └── page.tsx              # Login page
-│   │   │   └── register/
+│   │   │   └── signup/
+│   │   │       ├── _components/
+│   │   │       │   └── Form.tsx           # Registration form
 │   │   │       └── page.tsx              # Registration page
 │   │   ├── cart/                         # Shopping cart
 │   │   │   ├── _components/
@@ -144,9 +212,12 @@ src/
 ├── components/                            # Reusable UI Components
 │   ├── aos-init.tsx                      # AOS animation initializer
 │   ├── edit-user-form/                   # User edit form components
+│   ├── examples/                         # Example components
 │   ├── footer/                           # Footer components
 │   │   └── Footer.tsx                   # Main footer component
 │   ├── form-fields/                      # Form field components
+│   │   ├── checkbox.tsx                 # Checkbox component
+│   │   └── form-fields.tsx              # Form field wrapper
 │   ├── header/                           # Header components
 │   │   ├── CartButton.tsx               # Shopping cart button
 │   │   ├── index.tsx                    # Header wrapper
@@ -155,10 +226,21 @@ src/
 │   │   └── index.tsx
 │   ├── main-heading/                     # Heading component
 │   │   └── index.tsx
-│   └── menu/                             # Menu-related components
-│       ├── AddToCartButton.tsx          # Add to cart functionality
-│       ├── index.tsx                    # Menu wrapper
-│       └── MenuItem.tsx                 # Individual menu item
+│   ├── menu/                             # Menu-related components
+│   │   ├── AddToCartButton.tsx          # Add to cart functionality
+│   │   ├── index.tsx                    # Menu wrapper
+│   │   └── MenuItem.tsx                 # Individual menu item
+│   └── ui/                               # UI primitives
+│       ├── button.tsx                   # Button component
+│       ├── checkbox.tsx                 # Checkbox component
+│       ├── dialog.tsx                   # Dialog component
+│       ├── input.tsx                    # Input component
+│       ├── label.tsx                    # Label component
+│       ├── Loader.tsx                   # Loading spinner
+│       ├── radio-group.tsx              # Radio group component
+│       ├── sonner.tsx                   # Toast notifications
+│       ├── textarea.tsx                 # Textarea component
+│       └── index.ts                     # UI exports
 │
 ├── constants/                             # Constants and enums
 │   └── enums.ts                          # Application enums
@@ -168,6 +250,9 @@ src/
 │   │   ├── en.json                      # English translations
 │   │   └── ar.json                      # Arabic translations
 │   ├── admin/                           # Admin panel translations
+│   │   ├── en.json
+│   │   └── ar.json
+│   ├── admin/menu-items/                # Menu items translations
 │   │   ├── en.json
 │   │   └── ar.json
 │   ├── auth/                            # Authentication translations
@@ -185,16 +270,19 @@ src/
 │   ├── footer/                          # Footer translations
 │   │   ├── en.json
 │   │   └── ar.json
+│   ├── home/                            # Home page translations
+│   │   ├── en.json
+│   │   └── ar.json
 │   ├── menu/                            # Menu page translations
+│   │   ├── en.json
+│   │   └── ar.json
+│   ├── menuItems/                       # Menu items translations (legacy)
 │   │   ├── en.json
 │   │   └── ar.json
 │   ├── navbar/                          # Navbar translations
 │   │   ├── en.json
 │   │   └── ar.json
 │   ├── profile/                         # Profile page translations
-│   │   ├── en.json
-│   │   └── ar.json
-│   ├── shared/                          # Shared translations
 │   │   ├── en.json
 │   │   └── ar.json
 │   ├── en.json                          # Legacy English translations
@@ -204,11 +292,15 @@ src/
 │   ├── useFormFields.ts                # Form field management
 │   ├── useAuthFormFields.ts             # Auth form fields
 │   ├── use-translations.ts             # Translation hook
-│   └── use-toast.ts                    # Toast notifications
+│   ├── use-toast.ts                    # Toast notifications
+│   ├── useClientSession.ts             # Client session management
+│   ├── useCurrentLocale.ts             # Current locale hook
+│   └── useCart.ts                      # Cart management hook
 │
 ├── lib/                                  # Utilities and libraries
 │   ├── cart.ts                          # Cart utilities
 │   ├── cache.ts                         # Cache utilities
+│   ├── cloudinary.ts                    # Cloudinary integration
 │   ├── formatters.ts                    # Formatting utilities
 │   ├── getCurrentLocale.ts              # Locale utilities
 │   ├── prisma.ts                        # Database client
@@ -217,34 +309,63 @@ src/
 │
 ├── middleware.ts                         # Next.js middleware for i18n
 │
+├── provider/                             # React providers
+│   └── SessionProvider.tsx              # Authentication provider
+│
+├── redux/                                # Redux state management
+│   ├── features/                        # Redux features
+│   │   └── cart/                        # Cart feature
+│   │       └── cartSlice.ts             # Cart state management
+│   ├── hooks.ts                         # Redux hooks
+│   └── store.ts                         # Redux store
+│
 ├── server/                               # Server-side logic
 │   ├── _actions/                        # Server actions
-│   │   └── auth.ts                      # Authentication actions
+│   │   ├── auth.ts                      # Authentication actions
+│   │   └── user.ts                      # User actions
 │   ├── auth.ts                          # Authentication configuration
 │   └── db/                              # Database access
+│       ├── categories.ts                # Category database operations
 │       └── products.ts                  # Product database operations
 │
 ├── types/                                # TypeScript type definitions
 │   ├── app.ts                          # App-wide types
 │   ├── AuthTranslations.ts             # Auth translation types
+│   ├── ProfileTranslations.ts           # Profile translation types
+│   ├── User.ts                          # User type definitions
+│   ├── index.ts                        # Type exports
+│   ├── next-auth.d.ts                  # NextAuth types
 │   ├── product.ts                       # Product type definitions
 │   └── Translations.ts                 # Translation types
 │
 ├── validations/                          # Form validation schemas
-│   └── auth.ts                          # Authentication validation
+│   ├── auth.ts                          # Authentication validation
+│   ├── category.ts                      # Category validation
+│   ├── product.ts                       # Product validation
+│   └── profile.ts                       # Profile validation
 │
 └── i18n.config.ts                        # Internationalization configuration
 ```
 
 ## 🎯 Key Pages
 
-- **Home**: Landing page with hero section and featured items
+### Customer Pages
+
+- **Home**: Landing page with hero section, best sellers, deals, and testimonials
 - **Menu**: Interactive menu with categories and detailed items
-- **About**: Company information and team details
-- **Contact**: Contact form and branch information
-- **Cart**: Shopping cart and checkout process
-- **Profile**: User profile and order history
-- **Auth**: Login and registration pages
+- **About**: Company information, story, values, and team details
+- **Contact**: Contact form, branch information, and newsletter signup
+- **Cart**: Shopping cart with item management and checkout process
+- **Profile**: User profile management and order history
+- **Auth**: Secure login and registration pages
+
+### Admin Pages
+
+- **Dashboard**: Overview of restaurant operations
+- **Categories**: Manage product categories (Create, Read, Update, Delete)
+- **Menu Items**: Full product management with image uploads
+- **Users**: Customer account management
+- **Orders**: Order tracking and management
 
 ## 🔒 Best Practices
 
@@ -256,13 +377,50 @@ src/
 
 ## 📈 Project Stats
 
-- **Total Lines of Code**: 9,226+ lines
-- **Source Files**: 87+ TypeScript/JavaScript files
-- **Translation Files**: 16 JSON files (8 pages × 2 languages)
+- **Total Lines of Code**: 12,000+ lines (TypeScript/JavaScript)
+- **Source Files**: 96+ TypeScript/JavaScript files (49 TS + 47 TSX)
+- **Translation Files**: 26 JSON files (13 pages × 2 languages)
 - **Component Coverage**: 100% TypeScript implementation
+- **Project Size**: ~2.3 GB (including node_modules)
+- **Admin Features**: Complete CRUD operations for categories and products
+- **API Endpoints**: Authentication and file upload routes
+- **State Management**: Redux Toolkit integration
+- **Image Management**: Cloudinary integration
+
+## 🚀 Deployment
+
+### Environment Variables Required
+
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/pizzahub"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+CLOUDINARY_CLOUD_NAME="your-cloud-name"
+CLOUDINARY_API_KEY="your-api-key"
+CLOUDINARY_API_SECRET="your-api-secret"
+```
+
+### Production Build
+
+```bash
+npm run build
+npm start
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
 Built with 🍕 for pizza lovers worldwide.
 
-_Last Updated: January 2026_
+_Last Updated: January 31, 2026 - Enhanced with Admin Dashboard, Cloudinary Integration, and Advanced Translation System_

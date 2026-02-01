@@ -1,277 +1,7 @@
-# PizzaHub - Premium Food Ordering Platform
-
-A modern, responsive food ordering application built with Next.js, Prisma, and Tailwind CSS. PizzaHub offers a seamless experience for browsing menus, discovering offers, and ordering delicious pizzas, all wrapped in a visually stunning interface.
-
-## 📊 Project Statistics
-
-### **Code Metrics**
-- **Total Lines of Code**: 9226+ lines (TypeScript/JavaScript)
-- **Total Files**: 23,443+ files (including dependencies)
-- **Source Files**: 87+ TypeScript/JavaScript files
-- **Translation Files**: 16 JSON files (8 pages × 2 languages)
-- **CSS Files**: 24 styling files
-- **Project Size**: ~2.1 GB (including node_modules)
-
-### **Languages Used**
-- **TypeScript**: Primary development language (98% of source code)
-- **JavaScript**: Minimal usage for legacy compatibility
-- **JSON**: Configuration and translation files
-- **CSS**: Tailwind CSS utilities and custom styles
-
-### **Recent Updates**
-- **Authentication System**: Complete NextAuth.js integration with PostgreSQL
-- **Enhanced Translation System**: Added auth, footer, and navbar translation files
-- **User Profile Management**: Complete user profile and order history functionality
-- **Form Validation**: Zod-based validation for all forms
-- **Database Schema**: Comprehensive models for users, products, orders, and categories
-- **Server Actions**: Server-side authentication and database operations
-
-## 🍕 Project Overview
-
-PizzaHub is a robust e-commerce platform designed specifically for food delivery businesses. It combines high-performance server-side rendering with a dynamic client-side interface to ensure fast load times and smooth interactions.
-
-### 🎯 Key Features
-
-#### **For Customers:**
-
-- **Interactive Menu**: distinct categories (Pizzas, Sides, Drinks) with detailed item views.
-- **User Authentication**: Secure login, registration, and profile management.
-- **Order Management**: Complete cart functionality with checkout process.
-- **Order History**: View past orders and track current orders.
-- **Visual Appeal**: High-quality imagery, smooth animations (AOS), and responsive layout.
-- **Newsletter Subscription**: "Stay in the Loop" feature for exclusive deals.
-- **Contact & Location**: Easy access to store location, hours, and contact info.
-- **Responsive Design**: Optimized experience across Desktop, Tablet, and Mobile devices.
-
-#### **Technical Highlights:**
-
-- **Component-Based Architecture**: Modular UI using React and Headless UI standards.
-- **SEO Optimized**: Built with Next.js for optimal search engine visibility.
-- **Type Safety**: Full TypeScript implementation for robust code quality.
-- **Modern Styling**: Tailwind CSS v4 for rapid, maintainable design.
-
-## 🛠️ Technology Stack
-
-### **Frontend Technologies**
-
-- **Next.js 16.1.4**: React framework with App Router for server-side rendering and routing.
-- **React 19**: The latest library for building user interfaces.
-- **TypeScript**: Statically typed JavaScript for scalable development.
-- **Tailwind CSS v4**: Utility-first CSS framework for custom designs.
-- **Lucide React**: Beautiful, consistent icons.
-- **AOS (Animate On Scroll)**: Library for scroll animations.
-- **Radix UI**: Unstyled, accessible UI primitives (Dialog, Checkbox, etc.).
-- **next-intl**: Internationalization framework for multi-language support.
-
-### **Backend & Database**
-
-- **PostgreSQL**: Relational database for structured data storage.
-- **Prisma ORM**: Next-generation Node.js and TypeScript ORM.
-- **Prisma Client**: Auto-generated type-safe query builder.
-- **NextAuth.js**: Complete authentication solution with providers.
-- **bcrypt**: Password hashing for security.
-- **Zod**: Schema validation for type-safe forms.
-
-### **Development Tools**
-
-- **ESLint**: Pluggable linting utility for JavaScript and JSX.
-- **PostCSS**: Tool for transforming CSS with JavaScript.
-
-## 📁 Project Structure Diagram
-
-```
-food-ordering/
-├── 📁 .env                          # Environment variables
-├── 📁 .git/                         # Git repository
-├── 📁 .gitignore                    # Git ignore rules
-├── 📁 .next/                        # Next.js build output (ignored)
-├── 📄 README.md                     # Project documentation
-├── 📄 components.json               # UI components configuration
-├── 📄 eslint.config.mjs             # ESLint configuration
-├── 📄 next-env.d.ts                 # Next.js TypeScript definitions
-├── 📄 next.config.ts                # Next.js configuration
-├── 📄 package-lock.json             # npm lock file
-├── 📄 package.json                  # Dependencies and scripts
-├── 📄 postcss.config.mjs            # PostCSS configuration
-├── 📄 prisma.config.ts              # Prisma configuration
-├── 📄 report.txt                    # Project report
-├── 📄 tsconfig.json                 # TypeScript configuration
-├── 📄 tsconfig.tsbuildinfo          # TypeScript build cache
-├── 📄 yarn.lock                     # Yarn lock file
-│
-├── 📁 prisma/                       # Database schema and migrations
-│   ├── 📄 migrations/                # Database migrations
-│   ├── 📄 schema.prisma             # Prisma schema definition
-│   └── 📄 seed.ts                   # Database seed data
-│
-├── 📁 public/                       # Static assets
-│   ├── 🖼️ pizza.png                 # Pizza image
-│   ├── 🖼️ heroabout.png             # About hero image
-│   ├── 🖼️ fork.png                  # Fork decoration image
-│   ├── 🖼️ Vector.png                # Vector decoration image
-│   ├── 🖼️ Margin.png                # Team member image
-│   ├── 🖼️ Elena.png                 # Team member image
-│   └── 🖼️ David.png                 # Team member image
-│
-└── 📁 src/                          # Source code
-    │
-    ├── 📁 app/                      # Next.js App Router
-    │   ├── 📁 [locale]/             # Internationalized routes
-    │   │   ├── 📁 _components/      # Page-specific components
-    │   │   │   ├── 📄 BestSellers.tsx
-    │   │   │   ├── 📄 Deals.tsx
-    │   │   │   ├── 📄 Hero.tsx
-    │   │   │   └── 📄 Testimonails.tsx
-    │   │   │
-    │   │   ├── 📁 about/           # About page
-    │   │   │   ├── 📁 _components/
-    │   │   │   │   ├── 📄 about-hero.tsx
-    │   │   │   │   ├── 📄 about-values.tsx
-    │   │   │   │   └── 📄 about-team.tsx
-    │   │   │   └── 📄 page.tsx
-    │   │   │
-    │   │   ├── 📁 auth/            # Authentication pages
-    │   │   │   ├── 📁 _components/
-    │   │   │   │   ├── 📄 auth-form.tsx
-    │   │   │   │   └── 📄 auth-layout.tsx
-    │   │   │   ├── 📄 login/page.tsx
-    │   │   │   └── 📄 register/page.tsx
-    │   │   │
-    │   │   ├── 📁 cart/            # Shopping cart
-    │   │   │   ├── 📁 _components/
-    │   │   │   │   ├── 📄 CartItems.tsx
-    │   │   │   │   └── 📄 CheckoutForm.tsx
-    │   │   │   └── 📄 page.tsx
-    │   │   │
-    │   │   ├── 📁 contact/         # Contact page
-    │   │   │   ├── 📁 _components/
-    │   │   │   │   ├── 📄 contact-hero.tsx
-    │   │   │   │   ├── 📄 contact-info.tsx
-    │   │   │   │   ├── 📄 contact-branches.tsx
-    │   │   │   │   └── 📄 contact-newsletter.tsx
-    │   │   │   └── 📄 page.tsx
-    │   │   │
-    │   │   ├── 📁 menu/            # Menu page
-    │   │   │   └── 📄 page.tsx
-    │   │   │
-    │   │   ├── 📁 profile/         # User profile page
-    │   │   │   └── 📄 page.tsx
-    │   │   │
-    │   │   ├── 📄 globals.css      # Global styles
-    │   │   ├── 📄 layout.tsx       # Root layout
-    │   │   └── 📄 page.tsx        # Home page
-    │   │
-    │   └── 📄 not-found.tsx        # 404 page
-    │
-    ├── 📁 components/              # Reusable UI Components
-    │   ├── 📄 aos-init.tsx         # AOS initialization
-    │   ├── 📁 footer/              # Footer component
-    │   │   └── 📄 Footer.tsx
-    │   ├── 📁 header/              # Header components
-    │   │   ├── 📄 CartButton.tsx
-    │   │   ├── 📄 index.tsx
-    │   │   └── 📄 Navbar.tsx
-    │   ├── 📁 link/                # Link component
-    │   │   └── 📄 index.tsx
-    │   ├── 📁 main-heading/        # Heading component
-    │   │   └── 📄 index.tsx
-    │   ├── 📁 menu/                # Menu components
-    │   │   ├── 📄 AddToCartButton.tsx
-    │   │   ├── 📄 index.tsx
-    │   │   └── 📄 MenuItem.tsx
-    │   └── 📁 ui/                  # UI primitives
-    │       ├── 📄 button.tsx
-    │       ├── 📄 checkbox.tsx
-    │       ├── 📄 dialog.tsx
-    │       ├── 📄 input.tsx
-    │       ├── 📄 label.tsx
-    │       ├── 📄 Loader.tsx
-    │       ├── 📄 radio-group.tsx
-    │       ├── 📄 sonner.tsx
-    │       ├── 📄 textarea.tsx
-    │       └── 📄 index.ts
-    │
-    ├── 📁 constants/               # Constants and enums
-    │   └── 📄 enums.ts
-    │
-    ├── 📁 dictionaries/            # Translation files
-    │   ├── 📁 home/                # Home page translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 about/               # About page translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 auth/                # Authentication translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 cart/                # Cart page translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 contact/             # Contact page translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 footer/              # Footer translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 menu/                # Menu page translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📁 navbar/              # Navbar translations
-    │   │   ├── 📄 en.json
-    │   │   └── 📄 ar.json
-    │   ├── 📄 en.json              # Legacy English translations
-    │   └── 📄 ar.json              # Legacy Arabic translations
-    │
-    ├── 📁 generated/              # Generated files
-    │
-    ├── 📁 lib/                    # Utilities and libraries
-    │   ├── 📄 cart.ts              # Cart utilities
-    │   ├── 📄 cache.ts             # Cache utilities
-    │   ├── 📄 formatters.ts        # Formatting utilities
-    │   ├── 📄 getCurrentLocale.ts  # Locale utilities
-    │   ├── 📄 prisma.ts            # Database client
-    │   ├── 📄 translation.ts       # Translation utilities
-    │   └── 📄 utils.ts             # General utilities
-    │
-    ├── 📁 hooks/                  # Custom React hooks
-    │   ├── 📄 useFormFields.ts    # Form field management
-    │   ├── 📄 useAuthFormFields.ts # Auth form fields
-    │   ├── 📄 use-translations.ts  # Translation hook
-    │   └── 📄 use-toast.ts         # Toast notifications
-    │
-    ├── 📁 middleware.ts           # Next.js middleware
-    ├── 📁 provider/               # React providers
-    │   └── 📄 ReduxProvider.tsx
-    │
-    ├── 📁 redux/                  # Redux state management
-    │   ├── 📁 features/            # Redux features
-    │   │   └── 📁 cart/            # Cart feature
-    │   │       └── 📄 cartSlice.ts
-    │   ├── 📄 hooks.ts             # Redux hooks
-    │   └── 📄 store.ts             # Redux store
-    │
-    ├── 📁 server/                 # Server-side logic
-    │   ├── 📁 _actions/           # Server actions
-    │   │   └── 📄 auth.ts          # Authentication actions
-    │   ├── 📁 auth.ts              # Authentication configuration
-    │   └── 📁 db/                  # Database access
-    │       └── 📄 products.ts       # Product database operations
-    │
-    ├── 📁 types/                  # TypeScript types
-    │   ├── 📄 app.ts              # App-wide types
-    │   ├── 📄 AuthTranslations.ts  # Auth translation types
-    │   ├── 📄 product.ts           # Product type definitions
-    │   └── 📄 Translations.ts     # Translation types
-    │
-    ├── 📁 validations/            # Form validations
-    │   └── 📄 auth.ts              # Authentication validation
-    │
-    └── 📄 i18n.config.ts           # Internationalization config
-
 ### **📊 File Statistics**
-- **Total Files**: 85+ source files
-- **TypeScript/JavaScript**: 65+ files
-- **Translation Files**: 16 files (8 pages × 2 languages)
+- **Total Files**: 107+ source files (54 TS + 53 TSX)
+- **TypeScript/JavaScript**: 107 files
+- **Translation Files**: 26 files (13 pages × 2 languages)
 - **Configuration Files**: 8 files
 - **Asset Files**: 8 images
 - **Database Files**: 3 Prisma files
@@ -286,18 +16,19 @@ food-ordering/
 **Package Management** (3)
 - `package.json`, `package-lock.json`, `yarn.lock`
 
-**Source Code** (65+)
-- **Pages**: 7 main pages + auth pages + 1 not-found
-- **Components**: 20+ reusable UI components
-- **Page Components**: 15+ page-specific components
-- **Utilities**: 7 utility files
-- **Hooks**: 4 custom React hooks
+**Source Code** (107)
+- **Pages**: 13 main pages + admin section + auth pages + 1 not-found
+- **Components**: 33+ reusable UI components
+- **Page Components**: 20+ page-specific components
+- **Utilities**: 12 utility files
+- **Hooks**: 6 custom React hooks
 - **State Management**: 3 Redux files
-- **Server Actions**: 2 server-side files
-- **Types**: 4 TypeScript definition files
-- **Validations**: 1 validation file
+- **Server Actions**: 6 server-side files
+- **Types**: 6 TypeScript definition files
+- **Validations**: 6 validation files
+- **API Routes**: 2 API route files
 
-**Translations** (16)
+**Translations** (26)
 - **Home**: `en.json`, `ar.json`
 - **About**: `en.json`, `ar.json`
 - **Auth**: `en.json`, `ar.json`
@@ -306,6 +37,11 @@ food-ordering/
 - **Footer**: `en.json`, `ar.json`
 - **Menu**: `en.json`, `ar.json`
 - **Navbar**: `en.json`, `ar.json`
+- **Profile**: `en.json`, `ar.json`
+- **Admin**: `en.json`, `ar.json`
+- **Categories**: `en.json`, `ar.json`
+- **Menu Items**: `en.json`, `ar.json`
+- **MenuItems**: `en.json`, `ar.json` (legacy)
 
 **Assets** (8)
 - Pizza and food images
@@ -458,7 +194,7 @@ dictionaries/
 
 **Built with 🍕 for pizza lovers worldwide.**
 
-*Last Updated: January 31, 2026*
+*Last Updated: January 31, 2026 - Enhanced with Admin Dashboard, Cloudinary Integration, and Advanced Translation System*
 
 ## 📁 SRC Folder Structure Diagram
 

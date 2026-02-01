@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
 import FormFields from "@/src/components/form-fields/form-fields";
@@ -20,7 +21,6 @@ import {
 import ItemOptions, { ItemOptionsKeys } from "./ItemOptions";
 import Link from "@/src/components/link";
 import { useParams } from "next/navigation";
-import { ValidationErrors } from "@/src/validations/auth";
 import { addProduct, deleteProduct, updateProduct } from "../_actions/product";
 import Loader from "@/src/components/ui/Loader";
 import { toast } from "@/src/hooks/use-toast";
@@ -76,22 +76,29 @@ function Form({
     categoryIdRef.current = categoryId;
   }, [sizes, extras, categoryId]);
 
-  // Create action that gets fresh values from refs
-  const createAction = () => {
+  const formAction = async (prevState: any, formData: FormData) => {
+    const options = { sizes: sizesRef.current, extras: extrasRef.current };
     if (product) {
-      return updateProduct.bind(null, {
-        productId: product.id,
-        options: { sizes: sizesRef.current, extras: extrasRef.current },
-      });
+      return await updateProduct(
+        {
+          productId: product.id,
+          options,
+        },
+        prevState,
+        formData,
+      );
     } else {
-      return addProduct.bind(null, {
-        categoryId: categoryIdRef.current,
-        options: { sizes: sizesRef.current, extras: extrasRef.current },
-      });
+      return await addProduct(
+        {
+          categoryId: categoryIdRef.current,
+          options,
+        },
+        prevState,
+        formData,
+      );
     }
   };
-
-  const [state, action, pending] = useActionState(createAction(), initialState);
+  const [state, action, pending] = useActionState(formAction, initialState);
   useEffect(() => {
     if (state.message && state.status && !pending) {
       toast({
