@@ -15,7 +15,7 @@ const Header = () => {
 
   if (loading || !navbarTranslations) {
     return (
-      <header className="py-4 md:py-6">
+      <header className="fixed top-0 left-0 right-0 z-50 py-4 md:py-6 bg-background/95 backdrop-blur-sm border-b">
         <div className="container flex justify-between items-center gap-6 lg:gap-10">
           <div className="h-8 w-32 bg-gray-200 rounded animate-pulse"></div>
           <div className="h-8 w-64 bg-gray-200 rounded animate-pulse"></div>
@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   return (
-    <header className="py-4 md:py-6">
+    <header className="fixed top-0 left-0 right-0 z-50 py-4 md:py-6 bg-background/95 backdrop-blur-sm border-b">
       <div className="container flex justify-between items-center gap-6 lg:gap-10">
         <Link
           href={`/${locale}`}
