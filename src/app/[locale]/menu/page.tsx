@@ -3,6 +3,9 @@ import { getProductsByCategory } from "@/server/db/products";
 import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import getTrans from "@/lib/translation";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 async function MenuPage() {
   const locale = await getCurrentLocale();
   const t = await getTrans(locale, "categories");
