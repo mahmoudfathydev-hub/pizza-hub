@@ -1,6 +1,7 @@
 import { Locale } from "@/i18n.config";
 import { getCategories } from "@/server/db/categories";
 import getTrans from "@/lib/translation";
+import { Category } from "@prisma/client";
 import Form from "./_components/Form";
 import CategoryItem from "./_components/CategoryItem";
 
@@ -23,7 +24,7 @@ async function CategoriesPage({
             <Form translations={t} />
             {Categories.length > 0 ? (
               <ul>
-                {Categories.map((category) => (
+                {Categories.map((category: Category) => (
                   <CategoryItem key={category.id} category={category} />
                 ))}
               </ul>
