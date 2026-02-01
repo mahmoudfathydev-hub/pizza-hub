@@ -4,6 +4,7 @@ import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import getTrans from "@/lib/translation";
 import { aosAnimations } from "@/utils/aos";
 import { Suspense } from "react";
+import { Category } from "@prisma/client";
 import { CategorySkeleton } from "@/components/ui/skeleton";
 
 // Force dynamic rendering
@@ -47,42 +48,44 @@ async function MenuPageContent({
           </p>
         </div>
       ) : (
-        categorites.map((category, index) => (
-          <section key={category.id} {...aosAnimations.fadeInUp()}>
-            <div className="container">
-              <h1 className="text-primary font-bold text-4xl italic mb-6 fade-in">
-                {getCategoryDisplayName(category.name)}
-              </h1>
-              {category.products.length === 0 ? (
-                <p className="text-gray-500 fade-in">
-                  {homeT.bestSellers.noProductsFound ||
-                    "No products in this category"}
-                </p>
-              ) : (
-                <Suspense
-                  fallback={
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      {Array.from(
-                        { length: Math.min(category.products.length, 6) },
-                        (_, i) => (
-                          <div key={i} className="animate-pulse">
-                            <div className="w-48 h-48 bg-gray-200 rounded-lg mb-4 mx-auto"></div>
-                            <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
-                            <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
-                            <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                            <div className="h-12 bg-gray-200 rounded-full"></div>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  }
-                >
-                  <Menu items={category.products} />
-                </Suspense>
-              )}
-            </div>
-          </section>
-        ))
+        categorites.map(
+          (category: Category & { products: any[] }, index: number) => (
+            <section key={category.id} {...aosAnimations.fadeInUp()}>
+              <div className="container">
+                <h1 className="text-primary font-bold text-4xl italic mb-6 fade-in">
+                  {getCategoryDisplayName(category.name)}
+                </h1>
+                {category.products.length === 0 ? (
+                  <p className="text-gray-500 fade-in">
+                    {homeT.bestSellers.noProductsFound ||
+                      "No products in this category"}
+                  </p>
+                ) : (
+                  <Suspense
+                    fallback={
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        {Array.from(
+                          { length: Math.min(category.products.length, 6) },
+                          (_, i) => (
+                            <div key={i} className="animate-pulse">
+                              <div className="w-48 h-48 bg-gray-200 rounded-lg mb-4 mx-auto"></div>
+                              <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                              <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
+                              <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                              <div className="h-12 bg-gray-200 rounded-full"></div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    }
+                  >
+                    <Menu items={category.products} />
+                  </Suspense>
+                )}
+              </div>
+            </section>
+          ),
+        )
       )}
     </main>
   );
