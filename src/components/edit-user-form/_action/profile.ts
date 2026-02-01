@@ -39,8 +39,12 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
       imageUrl = await getImageUrl(imageFile);
     } catch (uploadError) {
       console.error("Profile image upload failed:", uploadError);
-      // Continue without image update - don't fail the entire profile update
-      // This prevents silent failures that appear as server errors
+      // Return specific error for image upload failure
+      return {
+        status: 400,
+        message: "Image upload failed. Please try again.",
+        error: { image: ["Image upload failed. Please try again."] },
+      };
     }
   }
 
@@ -106,6 +110,12 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
 };
 
 const getImageUrl = async (imageFile: File) => {
+  console.log("Starting image upload for:", {
+    fileName: imageFile.name,
+    fileSize: imageFile.size,
+    fileType: imageFile.type,
+  });
+
   const formData = new FormData();
   formData.append("file", imageFile);
   formData.append("pathName", "profile_images");
@@ -117,19 +127,22 @@ const getImageUrl = async (imageFile: File) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), UPLOAD_TIMEOUT);
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
-      {
-        method: "POST",
-        body: formData,
-        signal: controller.signal,
-      },
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+    console.log("Uploading to:", `${baseUrl}/api/upload`);
+
+    const response = await fetch(`${baseUrl}/api/upload`, {
+      method: "POST",
+      body: formData,
+      signal: controller.signal,
+    });
 
     clearTimeout(timeoutId);
 
+    console.log("Upload response status:", response.status);
+
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
+      console.error("Upload failed response:", errorData);
       throw new Error(
         errorData.error || `Upload failed with status: ${response.status}`,
       );
@@ -141,6 +154,7 @@ const getImageUrl = async (imageFile: File) => {
       throw new Error("No URL returned from upload service");
     }
 
+    console.log("Upload successful:", image.url);
     return image.url;
   } catch (error: unknown) {
     // Enhanced error handling with specific cases
@@ -157,6 +171,7 @@ const getImageUrl = async (imageFile: File) => {
       fileType: imageFile.type,
       error: error instanceof Error ? error.message : String(error),
       timestamp: new Date().toISOString(),
+      baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
     });
 
     throw error;
