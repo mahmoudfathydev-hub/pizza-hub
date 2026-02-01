@@ -50,6 +50,7 @@ function Form({ translations }: { translations: AuthTranslations }) {
       const res = await signIn("credentials", {
         email: data.email,
         password: data.password,
+        accessKey: data.accessKey,
         redirect: false,
       });
       if (res?.error) {
