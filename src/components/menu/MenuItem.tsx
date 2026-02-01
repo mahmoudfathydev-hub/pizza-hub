@@ -1,3 +1,5 @@
+"use client";
+
 import { formatCurrency } from "@/lib/formatters";
 import Image from "next/image";
 import { useState, Suspense } from "react";
