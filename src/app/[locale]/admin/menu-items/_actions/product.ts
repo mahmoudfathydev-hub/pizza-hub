@@ -4,10 +4,7 @@ import { Pages, Routes } from "@/constants/enums";
 import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import { db } from "@/lib/prisma";
 import getTrans from "@/lib/translation";
-import {
-  addProductSchema,
-  updateProductSchema,
-} from "@/validations/product";
+import { addProductSchema, updateProductSchema } from "@/validations/product";
 import {
   Extra,
   ExtraIngredients,
@@ -210,7 +207,10 @@ const getImageUrl = async (imageFile: File): Promise<string | undefined> => {
     clearTimeout(timeoutId);
 
     if (!response.ok) {
-      throw new Error(`Upload failed with status: ${response.status}`);
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.error || `Upload failed with status: ${response.status}`,
+      );
     }
 
     const result = await response.json();

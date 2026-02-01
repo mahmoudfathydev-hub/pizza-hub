@@ -11,7 +11,6 @@ import { UserRole } from "@prisma/client";
 import AuthButtons from "./AuthButtons";
 import { useClientSession } from "@/hooks/useClientSession";
 import { Session } from "next-auth";
-import { aosAnimations } from "@/utils/aos";
 
 function Navbar({
   translations,
@@ -68,7 +67,7 @@ function Navbar({
           <XIcon className="w-6! h-6!" />
         </Button>
         {links.map((link) => (
-          <li key={link.id} {...aosAnimations.fadeInUp()}>
+          <li key={link.id}>
             <Link
               onClick={() => setOpenMenu(false)}
               href={`/${locale}/${link.href}`}

@@ -1,5 +1,7 @@
 import cloudinary from "@/lib/cloudinary";
 import { NextResponse } from "next/server";
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
 
 // Define the type for the form data file
 type FormDataFile = Blob & {
@@ -50,30 +52,67 @@ export async function POST(request: Request) {
       );
     }
 
-    // Convert the file to a format Cloudinary can handle (Buffer or Base64)
-    const fileBuffer = await file.arrayBuffer();
-    const base64File = Buffer.from(fileBuffer).toString("base64");
+    // Check if Cloudinary is configured
+    const isCloudinaryConfigured =
+      process.env.CLOUDINARY_CLOUD_NAME &&
+      process.env.CLOUDINARY_API_KEY &&
+      process.env.CLOUDINARY_API_SECRET;
 
-    // Upload to Cloudinary with timeout
-    const uploadController = new AbortController();
-    const uploadTimeoutId = setTimeout(() => uploadController.abort(), 30000); // 30 second timeout for upload
+    if (isCloudinaryConfigured) {
+      // Use Cloudinary upload
+      const fileBuffer = await file.arrayBuffer();
+      const base64File = Buffer.from(fileBuffer).toString("base64");
 
-    const uploadResponse = await cloudinary.uploader.upload(
-      `data:${file.type};base64,${base64File}`,
-      {
-        folder: pathName,
-        transformation: [
-          { width: 200, height: 200, crop: "fill", gravity: "face" },
-        ],
-        timeout: 30000, // Cloudinary SDK timeout
-      },
-    );
+      // Upload to Cloudinary with timeout
+      const uploadController = new AbortController();
+      const uploadTimeoutId = setTimeout(() => uploadController.abort(), 30000); // 30 second timeout for upload
 
-    console.log("Cloudinary upload successful:", uploadResponse.secure_url);
-    clearTimeout(uploadTimeoutId);
+      const uploadResponse = await cloudinary.uploader.upload(
+        `data:${file.type};base64,${base64File}`,
+        {
+          folder: pathName,
+          transformation: [
+            { width: 200, height: 200, crop: "fill", gravity: "face" },
+          ],
+          timeout: 30000, // Cloudinary SDK timeout
+        },
+      );
 
-    return NextResponse.json({ url: uploadResponse.secure_url });
+      console.log("Cloudinary upload successful:", uploadResponse.secure_url);
+      clearTimeout(uploadTimeoutId);
+
+      return NextResponse.json({ url: uploadResponse.secure_url });
+    } else {
+      // Fallback to local file storage
+      console.warn("Cloudinary not configured, using local storage fallback");
+
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      // Create uploads directory if it doesn't exist
+      const uploadsDir = join(process.cwd(), "public", "uploads", pathName);
+      try {
+        await mkdir(uploadsDir, { recursive: true });
+      } catch (error) {
+        // Directory might already exist
+      }
+
+      // Generate unique filename
+      const timestamp = Date.now();
+      const filename = `${timestamp}-${file.name || "image"}`;
+      const filepath = join(uploadsDir, filename);
+
+      // Write file to disk
+      await writeFile(filepath, buffer);
+
+      // Return public URL
+      const publicUrl = `/uploads/${pathName}/${filename}`;
+      console.log("Local upload successful:", publicUrl);
+
+      return NextResponse.json({ url: publicUrl });
+    }
   } catch (error: unknown) {
+    console.error("Upload error:", error);
     if (error instanceof Error) {
       if (error.name === "AbortError") {
         return NextResponse.json(
