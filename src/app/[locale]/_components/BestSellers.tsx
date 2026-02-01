@@ -1,8 +1,8 @@
-import MainHeading from "@/src/components/main-heading"
-import Menu from "@/src/components/menu"
-import { getBestSellers } from "@/src/server/db/products"
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale"
-import getTrans from "@/src/lib/translation"
+import MainHeading from "@/components/main-heading"
+import Menu from "@/components/menu"
+import { getBestSellers } from "@/server/db/products"
+import { getCurrentLocale } from "@/lib/getCurrentLocale"
+import getTrans from "@/lib/translation"
 
 async function BestSellers() {
     const locale = await getCurrentLocale()

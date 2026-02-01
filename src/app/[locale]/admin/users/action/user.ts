@@ -1,11 +1,11 @@
 "use server";
 
-import { Pages, Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import { db } from "@/src/lib/prisma";
+import { Pages, Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/src/server/auth";
+import { authOptions } from "@/server/auth";
 import { UserRole } from "@prisma/client";
 
 export const deleteUser = async (id: string) => {

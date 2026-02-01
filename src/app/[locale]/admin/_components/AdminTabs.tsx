@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "@/src/components/link";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Pages, Routes } from "@/src/constants/enums";
-import type { AdminTranslations } from "@/src/lib/translation";
+import Link from "@/components/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Pages, Routes } from "@/constants/enums";
+import type { AdminTranslations } from "@/lib/translation";
 import { useParams, usePathname } from "next/navigation";
 
 function AdminTabs({ translations }: { translations: AdminTranslations }) {

@@ -1,10 +1,10 @@
-import { Environments, Pages, Routes } from "@/src/constants/enums";
+import { Environments, Pages, Routes } from "@/constants/enums";
 import {  type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { db } from "@/src/lib/prisma";
+import { db } from "@/lib/prisma";
 import { login } from "./_actions/auth";
-import { Locale } from "@/src/i18n.config";
+import { Locale } from "@/i18n.config";
 import { UserRole } from "@prisma/client";
 import { JWT } from "next-auth/jwt";
 declare module "next-auth" {

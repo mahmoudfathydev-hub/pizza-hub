@@ -1,11 +1,11 @@
-import { IFormField } from "@/src/types/app";
+import { IFormField } from "@/types/app";
 import { useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { ValidationErrors } from "@/src/validations/auth";
+import { ValidationErrors } from "@/validations/auth";
 import { useParams } from "next/navigation";
-import { Languages } from "@/src/constants/enums";
+import { Languages } from "@/constants/enums";
 
 interface Props extends IFormField {
     error: ValidationErrors;

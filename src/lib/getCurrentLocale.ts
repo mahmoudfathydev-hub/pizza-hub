@@ -1,4 +1,4 @@
-import { i18n, Locale } from "@/src/i18n.config";
+import { i18n, Locale } from "@/i18n.config";
 import { headers } from "next/headers";
 
 export const getCurrentLocale = async (): Promise<Locale> => {

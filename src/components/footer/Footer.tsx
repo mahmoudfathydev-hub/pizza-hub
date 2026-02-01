@@ -12,7 +12,7 @@ import {
   Clock,
 } from "lucide-react";
 import { Button } from "../ui/button";
-import { useTranslations } from "@/src/hooks/use-translations";
+import { useTranslations } from "@/hooks/use-translations";
 
 const Footer = () => {
   const { t, loading } = useTranslations("footer");

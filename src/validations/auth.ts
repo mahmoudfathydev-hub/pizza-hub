@@ -1,6 +1,6 @@
 import * as z from "zod";
-import { Translations } from "@/src/types/Translations";
-import { AuthTranslations } from "@/src/lib/translation";
+import { Translations } from "@/types/Translations";
+import { AuthTranslations } from "@/lib/translation";
 
 export const loginSchema = (translations: Translations | AuthTranslations) => {
   return z.object({

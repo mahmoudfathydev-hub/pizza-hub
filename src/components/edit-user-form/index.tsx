@@ -1,8 +1,8 @@
 "use client";
-import { InputTypes, Routes } from "@/src/constants/enums";
-import useFormFields from "@/src/hooks/useFormFields";
-import { IFormField } from "@/src/types/app";
-import { ProfileTranslations } from "@/src/types/ProfileTranslations";
+import { InputTypes, Routes } from "@/constants/enums";
+import useFormFields from "@/hooks/useFormFields";
+import { IFormField } from "@/types/app";
+import { ProfileTranslations } from "@/types/ProfileTranslations";
 import { Session } from "next-auth";
 import Image from "next/image";
 import FormFields from "../form-fields/form-fields";
@@ -14,9 +14,9 @@ import Checkbox from "../form-fields/checkbox";
 import { useActionState, useEffect, useState } from "react";
 import { updateProfile } from "./_action/profile";
 import { CameraIcon } from "lucide-react";
-import { useToast } from "@/src/hooks/use-toast";
-import { useCurrentLocale } from "@/src/hooks/useCurrentLocale";
-import getTrans from "@/src/lib/translation";
+import { useToast } from "@/hooks/use-toast";
+import { useCurrentLocale } from "@/hooks/useCurrentLocale";
+import getTrans from "@/lib/translation";
 
 type ProfileUpdateState = {
     error?: Record<string, string[]>;

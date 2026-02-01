@@ -1,10 +1,10 @@
 "use client"
-import { Routes } from "@/src/constants/enums"
+import { Routes } from "@/constants/enums"
 import Link from "../link"
 import { ShoppingCart } from "lucide-react"
-import { getCartQuantity } from "@/src/lib/cart"
-import { useAppSelector } from "@/src/redux/hooks"
-import { selectCartItems } from "@/src/redux/features/cart/cartSlice"
+import { getCartQuantity } from "@/lib/cart"
+import { useAppSelector } from "@/redux/hooks"
+import { selectCartItems } from "@/redux/features/cart/cartSlice"
 
 const CartButton = () => {
     const cart = useAppSelector(selectCartItems)

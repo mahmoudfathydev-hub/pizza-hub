@@ -9,12 +9,12 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
+} from "@/components/ui/select";
 import { Category } from "@prisma/client";
-import { Translations } from "@/src/types/Translations";
-import { MenuItemsTranslations } from "@/src/lib/translation";
-import { Label } from "@/src/components/ui/label";
-import { Languages } from "@/src/constants/enums";
+import { Translations } from "@/types/Translations";
+import { MenuItemsTranslations } from "@/lib/translation";
+import { Label } from "@/components/ui/label";
+import { Languages } from "@/constants/enums";
 import { useParams } from "next/navigation";
 
 function SelectCategory({

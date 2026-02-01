@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogContent,
@@ -8,19 +8,19 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/src/components/ui/dialog";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import { Languages } from "@/src/constants/enums";
-import { CategoriesTranslations } from "@/src/lib/translation";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Languages } from "@/constants/enums";
+import { CategoriesTranslations } from "@/lib/translation";
 import { Category } from "@prisma/client";
 import { EditIcon } from "lucide-react";
 import { ValidationError } from "next/dist/compiled/amphtml-validator";
 import { useParams } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import { updateCategory } from "../_actions/category";
-import Loader from "@/src/components/ui/Loader";
-import { toast } from "@/src/hooks/use-toast";
+import Loader from "@/components/ui/Loader";
+import { toast } from "@/hooks/use-toast";
 
 type InitialStateType = {
     message?: string;

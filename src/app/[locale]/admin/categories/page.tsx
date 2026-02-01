@@ -1,6 +1,6 @@
-import { Locale } from "@/src/i18n.config";
-import { getCategories } from "@/src/server/db/categories";
-import getTrans from "@/src/lib/translation";
+import { Locale } from "@/i18n.config";
+import { getCategories } from "@/server/db/categories";
+import getTrans from "@/lib/translation";
 import Form from "./_components/Form";
 import CategoryItem from "./_components/CategoryItem";
 

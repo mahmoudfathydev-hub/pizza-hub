@@ -3,7 +3,7 @@
 import Link from "../link";
 import Navbar from "./Navbar";
 import CartButton from "./CartButton";
-import { useTranslations } from "@/src/hooks/use-translations";
+import { useTranslations } from "@/hooks/use-translations";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useParams } from "next/navigation";
 import AuthButtons from "./AuthButtons";

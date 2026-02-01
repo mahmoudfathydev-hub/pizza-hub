@@ -1,10 +1,10 @@
 "use client";
 
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { deleteUser } from "../action/user";
-import { toast } from "@/src/hooks/use-toast";
+import { toast } from "@/hooks/use-toast";
 import { DeleteState, DeleteUserButtonProps } from "../types";
 
 function DeleteUserButton({ userId }: DeleteUserButtonProps) {

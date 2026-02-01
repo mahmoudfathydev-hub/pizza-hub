@@ -1,10 +1,10 @@
-import Link from "@/src/components/link";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Languages, Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
-import getTrans from "@/src/lib/translation";
-import { authOptions } from "@/src/server/auth";
-import { getProducts } from "@/src/server/db/products";
+import Link from "@/components/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Languages, Pages, Routes } from "@/constants/enums";
+import { Locale } from "@/i18n.config";
+import getTrans from "@/lib/translation";
+import { authOptions } from "@/server/auth";
+import { getProducts } from "@/server/db/products";
 import { UserRole } from "@prisma/client";
 import { ArrowRightCircle } from "lucide-react";
 import { getServerSession } from "next-auth";

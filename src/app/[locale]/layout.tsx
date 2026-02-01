@@ -1,14 +1,14 @@
-import Header from "@/src/components/header";
-import Footer from "@/src/components/footer/Footer";
-import ReduxProvider from "@/src/provider/ReduxProvider";
-import { Directions, Languages } from "@/src/constants/enums";
+import Header from "@/components/header";
+import Footer from "@/components/footer/Footer";
+import ReduxProvider from "@/provider/ReduxProvider";
+import { Directions, Languages } from "@/constants/enums";
 import type { Metadata } from "next";
 import { Cairo, Roboto } from "next/font/google";
-import { Locale } from "@/src/i18n.config";
+import { Locale } from "@/i18n.config";
 import "./globals.css";
 import { AOSInit } from "../../components/aos-init";
-import { Toaster } from "@/src/components/ui/sonner";
-import NextAuthSessionProvider from "@/src/provider/NextAuthSessionProvider";
+import { Toaster } from "@/components/ui/sonner";
+import NextAuthSessionProvider from "@/provider/NextAuthSessionProvider";
 
 export async function generateStaticParams() {
   return [{ locale: Languages.ARABIC }, { locale: Languages.ENGLISH }];

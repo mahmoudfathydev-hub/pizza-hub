@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import getTrans from "@/src/lib/translation";
+import getTrans from "@/lib/translation";
 
 const AboutHero = () => {
   const [translations, setTranslations] = useState<any>(null);

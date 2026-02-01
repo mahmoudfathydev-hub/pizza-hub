@@ -1,8 +1,8 @@
-import Link from "@/src/components/link";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
-import { getUsers } from "@/src/server/db/users";
+import Link from "@/components/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Pages, Routes } from "@/constants/enums";
+import { Locale } from "@/i18n.config";
+import { getUsers } from "@/server/db/users";
 import { Edit, Users } from "lucide-react";
 import DeleteUserButton from "./_components/DeleteUserButton";
 

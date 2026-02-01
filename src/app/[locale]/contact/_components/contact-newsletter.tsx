@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { Button } from "@/src/components/ui/button";
-import { useTranslations } from "@/src/hooks/use-translations";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "@/hooks/use-translations";
 
 const ContactNewsletter = () => {
   const { t, loading } = useTranslations("contact");

@@ -1,5 +1,5 @@
-import { cache } from "@/src/lib/cashe";
-import { db } from "@/src/lib/prisma";
+import { cache } from "@/lib/cashe";
+import { db } from "@/lib/prisma";
 
 export const getCategories = cache(
   () => {

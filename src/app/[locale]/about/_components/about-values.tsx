@@ -1,10 +1,10 @@
 "use client";
 
-import MainHeading from "@/src/components/main-heading";
+import MainHeading from "@/components/main-heading";
 import { Leaf, Users, UtensilsCrossed } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import getTrans from "@/src/lib/translation";
+import getTrans from "@/lib/translation";
 
 const AboutValues = () => {
   const [translations, setTranslations] = useState<any>(null);

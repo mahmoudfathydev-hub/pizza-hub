@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import { Translations } from "@/src/types/Translations";
-import { MenuItemsTranslations } from "@/src/lib/translation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Translations } from "@/types/Translations";
+import { MenuItemsTranslations } from "@/lib/translation";
 import { Extra, ExtraIngredients, ProductSizes, Size } from "@prisma/client";
 import { Plus, Trash2 } from "lucide-react";
 import {
@@ -13,9 +13,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/components/ui/select";
+} from "@/components/ui/select";
 import { useParams } from "next/navigation";
-import { Languages } from "@/src/constants/enums";
+import { Languages } from "@/constants/enums";
 
 export enum ItemOptionsKeys {
   SIZES,

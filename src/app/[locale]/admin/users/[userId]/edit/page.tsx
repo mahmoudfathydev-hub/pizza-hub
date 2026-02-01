@@ -1,7 +1,7 @@
-import EditUserForm from "@/src/components/edit-user-form";
-import { Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
-import { getUser, getUsers } from "@/src/server/db/users";
+import EditUserForm from "@/components/edit-user-form";
+import { Pages, Routes } from "@/constants/enums";
+import { Locale } from "@/i18n.config";
+import { getUser, getUsers } from "@/server/db/users";
 import { redirect } from "next/navigation";
 
 export async function generateStaticParams() {

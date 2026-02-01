@@ -1,15 +1,15 @@
 "use client";
-import { Routes } from "@/src/constants/enums";
+import { Routes } from "@/constants/enums";
 import Link from "../link";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { Menu, XIcon } from "lucide-react";
 import { useParams, usePathname } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { Translations } from "@/src/types/Translations";
+import { Translations } from "@/types/Translations";
 import { UserRole } from "@prisma/client";
 import AuthButtons from "./AuthButtons";
-import { useClientSession } from "@/src/hooks/useClientSession";
+import { useClientSession } from "@/hooks/useClientSession";
 import { Session } from "next-auth";
 
 function Navbar({

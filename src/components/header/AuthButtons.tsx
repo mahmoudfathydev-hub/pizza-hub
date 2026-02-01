@@ -2,10 +2,10 @@
 
 import { signOut } from "next-auth/react";
 import { Button } from "../ui/button";
-import { Translations } from "@/src/types/Translations";
+import { Translations } from "@/types/Translations";
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { Pages, Routes } from "@/src/constants/enums";
-import { useClientSession } from "@/src/hooks/useClientSession";
+import { Pages, Routes } from "@/constants/enums";
+import { useClientSession } from "@/hooks/useClientSession";
 import { Session } from "next-auth";
 
 function AuthButtons({

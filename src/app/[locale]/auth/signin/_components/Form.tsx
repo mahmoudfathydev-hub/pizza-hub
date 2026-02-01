@@ -1,14 +1,14 @@
 "use client";
 
-import FormFields from "@/src/components/form-fields/form-fields";
-import { Button } from "@/src/components/ui/button";
-import Loader from "@/src/components/ui/Loader";
-import { Pages, Routes } from "@/src/constants/enums";
-import { useToast } from "@/src/hooks/use-toast";
-import useAuthFormFields from "@/src/hooks/useAuthFormFields";
-import { IFormField } from "@/src/types/app";
-import { AuthTranslations } from "@/src/types/AuthTranslations";
-import { ValidationErrors } from "@/src/validations/auth";
+import FormFields from "@/components/form-fields/form-fields";
+import { Button } from "@/components/ui/button";
+import Loader from "@/components/ui/Loader";
+import { Pages, Routes } from "@/constants/enums";
+import { useToast } from "@/hooks/use-toast";
+import useAuthFormFields from "@/hooks/useAuthFormFields";
+import { IFormField } from "@/types/app";
+import { AuthTranslations } from "@/types/AuthTranslations";
+import { ValidationErrors } from "@/validations/auth";
 import { signIn, useSession } from "next-auth/react";
 import { useParams, useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react";

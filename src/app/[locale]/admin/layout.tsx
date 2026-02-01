@@ -1,5 +1,5 @@
-import { Locale } from "@/src/i18n.config";
-import getTrans from "@/src/lib/translation";
+import { Locale } from "@/i18n.config";
+import getTrans from "@/lib/translation";
 import AdminTabs from "./_components/AdminTabs";
 
 async function AdminLayout({

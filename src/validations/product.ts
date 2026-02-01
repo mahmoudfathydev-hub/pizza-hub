@@ -1,4 +1,4 @@
-import { Translations } from "@/src/types/Translations";
+import { Translations } from "@/types/Translations";
 import { z } from "zod";
 
 const imageValidation = (translations: Translations, isRequired: boolean) => {

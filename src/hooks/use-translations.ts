@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useMemo, useState, useEffect } from "react";
-import getTrans from "@/src/lib/translation";
+import getTrans from "@/lib/translation";
 
 type PageType =
   | "home"

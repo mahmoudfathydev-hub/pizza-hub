@@ -1,13 +1,13 @@
 "use server";
 
-import { Pages, Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import { db } from "@/src/lib/prisma";
-import getTrans from "@/src/lib/translation";
+import { Pages, Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { db } from "@/lib/prisma";
+import getTrans from "@/lib/translation";
 import {
     addCategorySchema,
     updateCategorySchema,
-} from "@/src/validations/category";
+} from "@/validations/category";
 import { revalidatePath } from "next/cache";
 
 export const addCategory = async (prevState: unknown, formData: FormData) => {

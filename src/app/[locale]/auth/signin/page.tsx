@@ -1,9 +1,9 @@
-import Link from "@/src/components/link";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Pages, Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
+import Link from "@/components/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Pages, Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import Form from "./_components/Form";
-import getTrans from "@/src/lib/translation";
+import getTrans from "@/lib/translation";
 
 async function SigninPage() {
     const locale = await getCurrentLocale();

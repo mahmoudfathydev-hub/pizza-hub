@@ -1,7 +1,7 @@
-import { formatCurrency } from "@/src/lib/formatters"
+import { formatCurrency } from "@/lib/formatters"
 import Image from "next/image"
 import AddToCartButton from "./AddToCartButton"
-import { ProductWithRelation } from "@/src/types/product"
+import { ProductWithRelation } from "@/types/product"
 
 const MenuItem = ({ item }: { item: ProductWithRelation }) => {
     return (

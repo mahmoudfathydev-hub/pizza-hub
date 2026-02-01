@@ -1,8 +1,8 @@
-import Link from "@/src/components/link";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Languages, Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import getTrans from "@/src/lib/translation";
+import Link from "@/components/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Languages, Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import getTrans from "@/lib/translation";
 import { ArrowRightCircle } from "lucide-react";
 import Image from "next/image";
 

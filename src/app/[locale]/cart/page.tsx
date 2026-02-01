@@ -2,7 +2,7 @@
 
 import CartItems from "./_components/CartItems"
 import CheckoutForm from "./_components/CheckoutForm"
-import { useTranslations } from "@/src/hooks/use-translations"
+import { useTranslations } from "@/hooks/use-translations"
 
 const CartPage = () => {
     const { t, loading } = useTranslations('cart')

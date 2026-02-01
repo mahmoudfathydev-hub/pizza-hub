@@ -1,17 +1,17 @@
 "use server";
 
-import { Environments, Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import { db } from "@/src/lib/prisma";
-import getTrans from "@/src/lib/translation";
-import { loginSchema, signUpSchema } from "@/src/validations/auth";
+import { Environments, Pages, Routes } from "@/constants/enums";
+import { Locale } from "@/i18n.config";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { db } from "@/lib/prisma";
+import getTrans from "@/lib/translation";
+import { loginSchema, signUpSchema } from "@/validations/auth";
 import bcrypt from "bcrypt";
 import { revalidatePath } from "next/cache";
 
 export type SignupState = {
     message?: string;
-    error?: import("@/src/validations/auth").ValidationErrors;
+    error?: import("@/validations/auth").ValidationErrors;
     status?: number | null;
     values?: Record<string, string>;
     attempt?: number;

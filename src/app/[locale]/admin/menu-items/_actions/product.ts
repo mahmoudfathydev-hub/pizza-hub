@@ -1,13 +1,13 @@
 "use server";
 
-import { Pages, Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import { db } from "@/src/lib/prisma";
-import getTrans from "@/src/lib/translation";
+import { Pages, Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { db } from "@/lib/prisma";
+import getTrans from "@/lib/translation";
 import {
   addProductSchema,
   updateProductSchema,
-} from "@/src/validations/product";
+} from "@/validations/product";
 import {
   Extra,
   ExtraIngredients,
@@ -17,8 +17,8 @@ import {
 } from "@prisma/client";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
-import { Translations } from "@/src/types/Translations";
-import { MenuItemsTranslations } from "@/src/lib/translation";
+import { Translations } from "@/types/Translations";
+import { MenuItemsTranslations } from "@/lib/translation";
 
 // ------------------
 // Type-safe response interfaces

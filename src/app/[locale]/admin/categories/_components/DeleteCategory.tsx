@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { deleteCategory } from "../_actions/category";
-import { Button } from "@/src/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 
 type StateType = {

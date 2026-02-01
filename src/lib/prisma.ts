@@ -1,4 +1,4 @@
-import { Environments } from '@/src/constants/enums';
+import { Environments } from '@/constants/enums';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';

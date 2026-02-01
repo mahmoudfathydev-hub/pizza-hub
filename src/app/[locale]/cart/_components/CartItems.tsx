@@ -1,14 +1,14 @@
 'use client';
 
-import { Button } from '@/src/components/ui/button';
-import { deliveryFee, getSubTotal } from '@/src/lib/cart';
-import { formatCurrency } from '@/src/lib/formatters';
-import {removeItemFromCart,selectCartItems} from '@/src/redux/features/cart/cartSlice';
-import { useAppDispatch, useAppSelector } from '@/src/redux/hooks';
+import { Button } from '@/components/ui/button';
+import { deliveryFee, getSubTotal } from '@/lib/cart';
+import { formatCurrency } from '@/lib/formatters';
+import {removeItemFromCart,selectCartItems} from '@/redux/features/cart/cartSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { useTranslations } from '@/src/hooks/use-translations';
+import { useTranslations } from '@/hooks/use-translations';
 
 function CartItems() {
     const cart = useAppSelector(selectCartItems);

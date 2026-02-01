@@ -1,7 +1,7 @@
-import { IFormField } from "@/src/types/app";
+import { IFormField } from "@/types/app";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { ValidationErrors } from "@/src/validations/auth";
+import { ValidationErrors } from "@/validations/auth";
 
 interface Props extends IFormField {
     error: ValidationErrors;

@@ -1,5 +1,5 @@
-import { Locale } from "@/src/i18n.config";
-import { Languages } from "@/src/constants/enums";
+import { Locale } from "@/i18n.config";
+import { Languages } from "@/constants/enums";
 
 type PageType =
   | "home"
@@ -507,101 +507,101 @@ type TranslationMap = {
 const dictionaries = {
   ar: {
     home: () =>
-      import("@/src/dictionaries/home/ar.json").then(
+      import("@/dictionaries/home/ar.json").then(
         (module) => module.default as HomeTranslations,
       ),
     about: () =>
-      import("@/src/dictionaries/about/ar.json").then(
+      import("@/dictionaries/about/ar.json").then(
         (module) => module.default as AboutTranslations,
       ),
     cart: () =>
-      import("@/src/dictionaries/cart/ar.json").then(
+      import("@/dictionaries/cart/ar.json").then(
         (module) => module.default as CartTranslations,
       ),
     contact: () =>
-      import("@/src/dictionaries/contact/ar.json").then(
+      import("@/dictionaries/contact/ar.json").then(
         (module) => module.default as ContactTranslations,
       ),
     menu: () =>
-      import("@/src/dictionaries/menu/ar.json").then(
+      import("@/dictionaries/menu/ar.json").then(
         (module) => module.default as MenuTranslations,
       ),
     navbar: () =>
-      import("@/src/dictionaries/navbar/ar.json").then(
+      import("@/dictionaries/navbar/ar.json").then(
         (module) => module.default as NavbarTranslations,
       ),
     footer: () =>
-      import("@/src/dictionaries/footer/ar.json").then(
+      import("@/dictionaries/footer/ar.json").then(
         (module) => module.default as FooterTranslations,
       ),
     auth: () =>
-      import("@/src/dictionaries/auth/ar.json").then(
+      import("@/dictionaries/auth/ar.json").then(
         (module) => module.default as AuthTranslations,
       ),
     profile: () =>
-      import("@/src/dictionaries/profile/ar.json").then(
+      import("@/dictionaries/profile/ar.json").then(
         (module) => module.default as ProfileTranslations,
       ),
     admin: () =>
-      import("@/src/dictionaries/admin/ar.json").then(
+      import("@/dictionaries/admin/ar.json").then(
         (module) => module.default as AdminTranslations,
       ),
     categories: () =>
-      import("@/src/dictionaries/categories/ar.json").then(
+      import("@/dictionaries/categories/ar.json").then(
         (module) => module.default as CategoriesTranslations,
       ),
     menuItems: () =>
-      import("@/src/dictionaries/menuItems/ar.json").then(
+      import("@/dictionaries/menuItems/ar.json").then(
         (module) => module.default as MenuItemsTranslations,
       ),
   },
   en: {
     home: () =>
-      import("@/src/dictionaries/home/en.json").then(
+      import("@/dictionaries/home/en.json").then(
         (module) => module.default as HomeTranslations,
       ),
     about: () =>
-      import("@/src/dictionaries/about/en.json").then(
+      import("@/dictionaries/about/en.json").then(
         (module) => module.default as AboutTranslations,
       ),
     cart: () =>
-      import("@/src/dictionaries/cart/en.json").then(
+      import("@/dictionaries/cart/en.json").then(
         (module) => module.default as CartTranslations,
       ),
     contact: () =>
-      import("@/src/dictionaries/contact/en.json").then(
+      import("@/dictionaries/contact/en.json").then(
         (module) => module.default as ContactTranslations,
       ),
     menu: () =>
-      import("@/src/dictionaries/menu/en.json").then(
+      import("@/dictionaries/menu/en.json").then(
         (module) => module.default as MenuTranslations,
       ),
     navbar: () =>
-      import("@/src/dictionaries/navbar/en.json").then(
+      import("@/dictionaries/navbar/en.json").then(
         (module) => module.default as NavbarTranslations,
       ),
     footer: () =>
-      import("@/src/dictionaries/footer/en.json").then(
+      import("@/dictionaries/footer/en.json").then(
         (module) => module.default as FooterTranslations,
       ),
     auth: () =>
-      import("@/src/dictionaries/auth/en.json").then(
+      import("@/dictionaries/auth/en.json").then(
         (module) => module.default as AuthTranslations,
       ),
     profile: () =>
-      import("@/src/dictionaries/profile/en.json").then(
+      import("@/dictionaries/profile/en.json").then(
         (module) => module.default as ProfileTranslations,
       ),
     admin: () =>
-      import("@/src/dictionaries/admin/en.json").then(
+      import("@/dictionaries/admin/en.json").then(
         (module) => module.default as AdminTranslations,
       ),
     categories: () =>
-      import("@/src/dictionaries/categories/en.json").then(
+      import("@/dictionaries/categories/en.json").then(
         (module) => module.default as CategoriesTranslations,
       ),
     menuItems: () =>
-      import("@/src/dictionaries/menuItems/en.json").then(
+      import("@/dictionaries/menuItems/en.json").then(
         (module) => module.default as MenuItemsTranslations,
       ),
   },

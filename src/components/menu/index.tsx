@@ -1,7 +1,7 @@
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import MenuItem from "./MenuItem";
-import { ProductWithRelation } from "@/src/types/product";
-import getTrans from "@/src/lib/translation";
+import { ProductWithRelation } from "@/types/product";
+import getTrans from "@/lib/translation";
 
 async function Menu({ items }: { items: ProductWithRelation[] }) {
   const locale = await getCurrentLocale();

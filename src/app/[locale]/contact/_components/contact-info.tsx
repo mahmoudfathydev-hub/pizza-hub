@@ -1,7 +1,7 @@
 "use client";
 
 import { Mail, MapPin, Phone } from "lucide-react";
-import { useTranslations } from "@/src/hooks/use-translations";
+import { useTranslations } from "@/hooks/use-translations";
 
 const ContactInfo = () => {
   const { t, loading } = useTranslations("contact");

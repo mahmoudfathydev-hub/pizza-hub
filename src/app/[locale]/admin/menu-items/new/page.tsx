@@ -1,12 +1,12 @@
-import { Pages, Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import getTrans from "@/src/lib/translation";
-import { authOptions } from "@/src/server/auth";
+import { Pages, Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import getTrans from "@/lib/translation";
+import { authOptions } from "@/server/auth";
 import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import Form from "../_components/Form";
-import { getCategories } from "@/src/server/db/categories";
+import { getCategories } from "@/server/db/categories";
 
 async function NewProductPage() {
   const session = await getServerSession(authOptions);

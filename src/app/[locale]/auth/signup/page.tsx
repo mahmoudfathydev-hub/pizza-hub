@@ -1,8 +1,8 @@
-import Link from "@/src/components/link";
-import { buttonVariants } from "@/src/components/ui/button";
-import { Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
-import getTrans from "@/src/lib/translation";
+import Link from "@/components/link";
+import { buttonVariants } from "@/components/ui/button";
+import { Pages, Routes } from "@/constants/enums";
+import { Locale } from "@/i18n.config";
+import getTrans from "@/lib/translation";
 import Form from "./_components/Form";
 
 async function SignupPage({ params }: { params: Promise<{ locale: Locale }> }) {

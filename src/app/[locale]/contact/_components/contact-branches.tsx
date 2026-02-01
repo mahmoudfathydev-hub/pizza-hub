@@ -1,8 +1,8 @@
 "use client";
 
 import { MapPin } from "lucide-react";
-import MainHeading from "@/src/components/main-heading";
-import { useTranslations } from "@/src/hooks/use-translations";
+import MainHeading from "@/components/main-heading";
+import { useTranslations } from "@/hooks/use-translations";
 
 const ContactBranches = () => {
   const { t, loading } = useTranslations("contact");

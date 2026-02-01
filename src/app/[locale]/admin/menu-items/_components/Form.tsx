@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React from "react";
-import FormFields from "@/src/components/form-fields/form-fields";
-import { Button, buttonVariants } from "@/src/components/ui/button";
-import { Pages, Routes } from "@/src/constants/enums";
-import useFormFields from "@/src/hooks/useFormFields";
-import { IFormField } from "@/src/types/app";
-import { MenuItemsTranslations } from "@/src/lib/translation";
+import FormFields from "@/components/form-fields/form-fields";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Pages, Routes } from "@/constants/enums";
+import useFormFields from "@/hooks/useFormFields";
+import { IFormField } from "@/types/app";
+import { MenuItemsTranslations } from "@/lib/translation";
 import { CameraIcon } from "lucide-react";
 import Image from "next/image";
 import { useActionState, useEffect, useState, useRef } from "react";
@@ -17,14 +17,14 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/src/components/ui/accordion";
+} from "@/components/ui/accordion";
 import ItemOptions, { ItemOptionsKeys } from "./ItemOptions";
-import Link from "@/src/components/link";
+import Link from "@/components/link";
 import { useParams } from "next/navigation";
 import { addProduct, deleteProduct, updateProduct } from "../_actions/product";
-import Loader from "@/src/components/ui/Loader";
-import { toast } from "@/src/hooks/use-toast";
-import { ProductWithRelation } from "@/src/types/product";
+import Loader from "@/components/ui/Loader";
+import { toast } from "@/hooks/use-toast";
+import { ProductWithRelation } from "@/types/product";
 function Form({
   translations,
   categories,

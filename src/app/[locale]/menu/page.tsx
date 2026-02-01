@@ -1,7 +1,7 @@
-import Menu from "@/src/components/menu";
-import { getProductsByCategory } from "@/src/server/db/products";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import getTrans from "@/src/lib/translation";
+import Menu from "@/components/menu";
+import { getProductsByCategory } from "@/server/db/products";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import getTrans from "@/lib/translation";
 
 async function MenuPage() {
   const locale = await getCurrentLocale();

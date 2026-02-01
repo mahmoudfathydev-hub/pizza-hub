@@ -1,14 +1,14 @@
 'use client';
 
-import { Button } from '@/src/components/ui/button';
-import { Input } from '@/src/components/ui/input';
-import { Label } from '@/src/components/ui/label';
-import { Textarea } from '@/src/components/ui/textarea';
-import { getTotalAmount } from '@/src/lib/cart';
-import { formatCurrency } from '@/src/lib/formatters';
-import { selectCartItems } from '@/src/redux/features/cart/cartSlice';
-import { useAppSelector } from '@/src/redux/hooks';
-import { useTranslations } from '@/src/hooks/use-translations';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { getTotalAmount } from '@/lib/cart';
+import { formatCurrency } from '@/lib/formatters';
+import { selectCartItems } from '@/redux/features/cart/cartSlice';
+import { useAppSelector } from '@/redux/hooks';
+import { useTranslations } from '@/hooks/use-translations';
 
 function CheckoutForm() {
     const cart = useAppSelector(selectCartItems);

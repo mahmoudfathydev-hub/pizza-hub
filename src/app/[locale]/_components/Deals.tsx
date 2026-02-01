@@ -1,8 +1,8 @@
-import Link from "@/src/components/link";
-import MainHeading from "@/src/components/main-heading";
-import { Routes } from "@/src/constants/enums";
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale";
-import getTrans from "@/src/lib/translation";
+import Link from "@/components/link";
+import MainHeading from "@/components/main-heading";
+import { Routes } from "@/constants/enums";
+import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import getTrans from "@/lib/translation";
 import Image from "next/image";
 
 const Deals = async () => {

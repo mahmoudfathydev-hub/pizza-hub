@@ -1,9 +1,9 @@
 "use client";
 
-import MainHeading from "@/src/components/main-heading";
-import { Button } from "@/src/components/ui/button";
+import MainHeading from "@/components/main-heading";
+import { Button } from "@/components/ui/button";
 import { Clock, Send } from "lucide-react";
-import { useTranslations } from "@/src/hooks/use-translations";
+import { useTranslations } from "@/hooks/use-translations";
 
 const ContactHero = () => {
   const { t, loading } = useTranslations("contact");

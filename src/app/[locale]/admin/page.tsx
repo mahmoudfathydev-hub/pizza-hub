@@ -1,7 +1,7 @@
-import EditUserForm from "@/src/components/edit-user-form";
-import { Pages, Routes } from "@/src/constants/enums";
-import { Locale } from "@/src/i18n.config";
-import { authOptions } from "@/src/server/auth";
+import EditUserForm from "@/components/edit-user-form";
+import { Pages, Routes } from "@/constants/enums";
+import { Locale } from "@/i18n.config";
+import { authOptions } from "@/server/auth";
 import { UserRole } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

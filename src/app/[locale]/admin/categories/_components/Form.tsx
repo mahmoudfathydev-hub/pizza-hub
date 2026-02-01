@@ -1,11 +1,11 @@
 "use client";
 
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
-import { Label } from "@/src/components/ui/label";
-import Loader from "@/src/components/ui/Loader";
-import { toast } from "@/src/hooks/use-toast";
-import { CategoriesTranslations } from "@/src/lib/translation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Loader from "@/components/ui/Loader";
+import { toast } from "@/hooks/use-toast";
+import { CategoriesTranslations } from "@/lib/translation";
 import { ValidationError } from "next/dist/compiled/amphtml-validator";
 import { useActionState, useEffect } from "react";
 import { addCategory } from "../_actions/category";

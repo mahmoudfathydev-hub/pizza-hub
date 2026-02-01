@@ -1,6 +1,6 @@
 // src/server/db/products.ts
-import { cache } from "@/src/lib/cashe";
-import { db } from "@/src/lib/prisma";
+import { cache } from "@/lib/cashe";
+import { db } from "@/lib/prisma";
 
 // ----------------------------
 // Products by Category

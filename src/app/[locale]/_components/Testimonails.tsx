@@ -1,7 +1,7 @@
-import MainHeading from "@/src/components/main-heading"
+import MainHeading from "@/components/main-heading"
 import { Star } from "lucide-react"
-import { getCurrentLocale } from "@/src/lib/getCurrentLocale"
-import getTrans from "@/src/lib/translation"
+import { getCurrentLocale } from "@/lib/getCurrentLocale"
+import getTrans from "@/lib/translation"
 
 const Testimonials = async () => {
     const locale = await getCurrentLocale()

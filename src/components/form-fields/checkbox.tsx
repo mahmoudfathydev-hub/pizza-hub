@@ -1,4 +1,4 @@
-import { IFormField } from "@/src/types/app";
+import { IFormField } from "@/types/app";
 import { Label } from "../ui/label";
 import { Checkbox as ShadcnCheckbox } from "../ui/checkbox";
 

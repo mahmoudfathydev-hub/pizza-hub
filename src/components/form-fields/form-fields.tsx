@@ -1,9 +1,9 @@
-import { InputTypes } from "@/src/constants/enums";
+import { InputTypes } from "@/constants/enums";
 import TextField from "./text-field";
 import PasswordField from "./password-field";
-import { IFormField } from "@/src/types/app";
+import { IFormField } from "@/types/app";
 import Checkbox from "./checkbox";
-import { ValidationErrors } from "@/src/validations/auth";
+import { ValidationErrors } from "@/validations/auth";
 
 interface Props extends IFormField {
     error: ValidationErrors;
