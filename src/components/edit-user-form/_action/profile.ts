@@ -6,7 +6,7 @@ import { db } from "@/lib/prisma";
 import getTrans from "@/lib/translation";
 import { updateProfileSchema } from "@/validations/profile";
 import { UserRole } from "@prisma/client";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export const updateProfile = async (prevState: unknown, formData: FormData) => {
   const isAdmin = formData.get("isAdmin") === "true";
@@ -66,12 +66,29 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
         role: isAdmin ? UserRole.ADMIN : UserRole.USER,
       },
     });
-    revalidatePath(`/${locale}/${Routes.PROFILE}`);
-    revalidatePath(`/${locale}/${Routes.ADMIN}`);
-    revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.USERS}`);
-    revalidatePath(
-      `/${locale}/${Routes.ADMIN}/${Pages.USERS}/${user.id}/${Pages.EDIT}`,
-    );
+
+    // Cache revalidation with error handling
+    try {
+      revalidatePath(`/${locale}/${Routes.PROFILE}`);
+      revalidatePath(`/${locale}/${Routes.ADMIN}`);
+      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.USERS}`);
+      revalidatePath(
+        `/${locale}/${Routes.ADMIN}/${Pages.USERS}/${user.id}/${Pages.EDIT}`,
+      );
+
+      // Invalidate cached user data
+      try {
+        revalidateTag("users", "max");
+        revalidateTag("user-profile", "max");
+        revalidateTag("profile-images", "max");
+      } catch (cacheError) {
+        console.error("Cache invalidation failed:", cacheError);
+        // Continue with response even if cache invalidation fails
+      }
+    } catch (revalidateError) {
+      console.error("Path revalidation failed:", revalidateError);
+      // Don't fail the entire operation due to revalidation issues
+    }
     const successResult = {
       status: 200,
       message: profileTranslations.messages.updateProfileSucess,
