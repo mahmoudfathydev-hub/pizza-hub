@@ -39,6 +39,7 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const locale = (await params).locale as Locale;
+
   return (
     <html
       lang={locale}
@@ -50,13 +51,13 @@ export default async function RootLayout({
         }
       >
         <NextAuthSessionProvider>
-        <ReduxProvider>
-          <AOSInit />
-          <Header />
-          {children}
-          <Footer />
-          <Toaster position="top-center" />
-        </ReduxProvider>
+          <ReduxProvider>
+            <AOSInit />
+            <Header />
+            {children}
+            <Footer />
+            <Toaster position="top-center" />
+          </ReduxProvider>
         </NextAuthSessionProvider>
       </body>
     </html>
