@@ -4,6 +4,7 @@ import { Pages, Routes } from "@/constants/enums";
 import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import Form from "./_components/Form";
 import getTrans from "@/lib/translation";
+import { aosAnimations } from "@/utils/aos";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
@@ -13,9 +14,15 @@ async function SigninPage() {
   const translations = await getTrans(locale, "auth");
   return (
     <main>
-      <div className="py-44 md:py-40 bg-gray-50 element-center">
+      <div
+        className="py-44 md:py-40 bg-gray-50 element-center"
+        {...aosAnimations.fadeInUp()}
+      >
         <div className="container element-center">
-          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+          <div
+            className="w-full max-w-md p-6 bg-white rounded-lg shadow-md"
+            {...aosAnimations.zoomIn()}
+          >
             <h2 className="text-2xl font-semibold text-center text-black mb-4">
               {translations.login.title}
             </h2>

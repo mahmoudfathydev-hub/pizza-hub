@@ -9,6 +9,7 @@ import "./globals.css";
 import { AOSInit } from "../../components/aos-init";
 import { Toaster } from "@/components/ui/sonner";
 import NextAuthSessionProvider from "@/provider/NextAuthSessionProvider";
+import BackToTop from "@/components/back-to-top";
 
 export async function generateStaticParams() {
   return [{ locale: Languages.ARABIC }, { locale: Languages.ENGLISH }];
@@ -56,6 +57,7 @@ export default async function RootLayout({
             <Header />
             {children}
             <Footer />
+            <BackToTop />
             <Toaster position="top-center" />
           </ReduxProvider>
         </NextAuthSessionProvider>

@@ -69,6 +69,7 @@ export async function POST(request: Request) {
       },
     );
 
+    console.log("Cloudinary upload successful:", uploadResponse.secure_url);
     clearTimeout(uploadTimeoutId);
 
     return NextResponse.json({ url: uploadResponse.secure_url });

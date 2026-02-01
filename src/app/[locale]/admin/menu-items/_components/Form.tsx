@@ -25,6 +25,7 @@ import { addProduct, deleteProduct, updateProduct } from "../_actions/product";
 import Loader from "@/components/ui/Loader";
 import { toast } from "@/hooks/use-toast";
 import { ProductWithRelation } from "@/types/product";
+import { aosAnimations } from "@/utils/aos";
 function Form({
   translations,
   categories,
@@ -77,6 +78,13 @@ function Form({
   }, [sizes, extras, categoryId]);
 
   const formAction = async (prevState: any, formData: FormData) => {
+    // Capture current field values before submission
+    const currentValues: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      currentValues[key] = value.toString();
+    });
+    setFieldValues(currentValues);
+
     const options = { sizes: sizesRef.current, extras: extrasRef.current };
     if (product) {
       return await updateProduct(
@@ -99,19 +107,39 @@ function Form({
     }
   };
   const [state, action, pending] = useActionState(formAction, initialState);
+
+  // Track field values to preserve them on error
+  const [fieldValues, setFieldValues] = useState<Record<string, string>>({});
+  const formRef = useRef<HTMLFormElement>(null);
+
   useEffect(() => {
     if (state.message && state.status && !pending) {
+      const isSuccess = state.status === 201 || state.status === 200;
       toast({
         title: state.message,
-        className:
-          state.status === 201 || state.status === 200
-            ? "text-green-400"
-            : "text-destructive",
+        className: isSuccess
+          ? "bg-green-50 text-green-700 border border-green-200"
+          : "bg-red-50 text-red-700 border border-red-200",
       });
+
+      // Only clear form on success
+      if (isSuccess && formRef.current) {
+        formRef.current.reset();
+        setSelectedImage("");
+        setSizes([]);
+        setExtras([]);
+        setCategoryId(categories[0]?.id || "");
+        setFieldValues({});
+      }
     }
   }, [pending, state.message, state.status]);
   return (
-    <form action={action} className="flex flex-col md:flex-row gap-10">
+    <form
+      ref={formRef}
+      action={action}
+      className="flex flex-col md:flex-row gap-10"
+      {...aosAnimations.fadeInUp()}
+    >
       <div>
         <UploadImage
           selectedImage={selectedImage}
@@ -126,42 +154,61 @@ function Form({
       <div className="flex-1">
         {getFormFields().map((field: IFormField) => {
           const fieldValue = formData.get(field.name);
+          const hasError = state?.error?.[field.name];
+
           return (
-            <div key={field.name} className="mb-3">
+            <div
+              key={field.name}
+              className="mb-3"
+              {...aosAnimations.fadeInUp()}
+            >
               <FormFields
                 {...field}
                 error={state?.error}
-                defaultValue={fieldValue as string}
+                defaultValue={
+                  hasError
+                    ? fieldValues[field.name] || ""
+                    : (fieldValue as string)
+                }
               />
             </div>
           );
         })}
-        <SelectCategory
-          categoryId={categoryId}
-          categories={categories}
-          setCategoryId={setCategoryId}
-          translations={translations}
-        />
-        <AddSize
-          translations={translations}
-          sizes={sizes}
-          setSizes={setSizes}
-        />
-        <AddExtras
-          extras={extras}
-          setExtras={setExtras}
-          translations={translations}
-        />
-        <FormActions
-          translations={translations}
-          pending={pending}
-          product={product}
-        />
+        <div {...aosAnimations.fadeInUp()}>
+          <SelectCategory
+            categoryId={categoryId}
+            categories={categories}
+            setCategoryId={setCategoryId}
+            translations={translations}
+          />
+        </div>
+        <div {...aosAnimations.fadeInUp()}>
+          <AddSize
+            translations={translations}
+            sizes={sizes}
+            setSizes={setSizes}
+          />
+        </div>
+        <div {...aosAnimations.fadeInUp()}>
+          <AddExtras
+            extras={extras}
+            setExtras={setExtras}
+            translations={translations}
+          />
+        </div>
+        <div {...aosAnimations.fadeInUp()}>
+          <FormActions
+            translations={translations}
+            pending={pending}
+            product={product}
+          />
+        </div>
       </div>
     </form>
   );
 }
 export default Form;
+
 const UploadImage = ({
   selectedImage,
   setSelectedImage,
@@ -297,9 +344,12 @@ const FormActions = ({
   };
   useEffect(() => {
     if (state.message && state.status && !pending) {
+      const isSuccess = state.status === 200;
       toast({
         title: state.message,
-        className: state.status === 200 ? "text-green-400" : "text-destructive",
+        className: isSuccess
+          ? "bg-green-50 text-green-700 border border-green-200"
+          : "bg-red-50 text-red-700 border border-red-200",
       });
     }
   }, [pending, state.message, state.status]);

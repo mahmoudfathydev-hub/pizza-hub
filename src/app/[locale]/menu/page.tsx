@@ -2,6 +2,7 @@ import Menu from "@/components/menu";
 import { getProductsByCategory } from "@/server/db/products";
 import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import getTrans from "@/lib/translation";
+import { aosAnimations } from "@/utils/aos";
 
 // Force dynamic rendering
 export const dynamic = "force-dynamic";
@@ -20,14 +21,14 @@ async function MenuPage() {
   return (
     <main>
       {categorites.length === 0 ? (
-        <div className="container">
+        <div className="container" {...aosAnimations.fadeInUp()}>
           <p className="text-center text-gray-500 text-lg">
             {t.noCategoriesFound || "No categories found"}
           </p>
         </div>
       ) : (
-        categorites.map((category) => (
-          <section key={category.id}>
+        categorites.map((category, index) => (
+          <section key={category.id} {...aosAnimations.fadeInUp()}>
             <div className="container">
               <h1 className="text-primary font-bold text-4xl italic mb-6">
                 {getCategoryDisplayName(category.name)}

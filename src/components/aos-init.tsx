@@ -7,8 +7,11 @@ import "aos/dist/aos.css";
 export const AOSInit = () => {
   useEffect(() => {
     AOS.init({
-      duration: 1000,
-      once: true,// Custom breakpoint for better control
+      duration: 800,
+      easing: "ease-in-out",
+      once: true,
+      offset: 100,
+      delay: 0,
       startEvent: "DOMContentLoaded",
     });
   }, []);
