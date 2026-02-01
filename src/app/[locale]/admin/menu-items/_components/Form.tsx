@@ -232,12 +232,15 @@ const UploadImage = ({
       // Client-side validation: Check file type
       const ALLOWED_TYPES = [
         "image/jpeg",
+        "image/jfif", // Added JFIF support
         "image/png",
         "image/gif",
         "image/webp",
       ];
       if (!ALLOWED_TYPES.includes(file.type)) {
-        alert("Invalid file type. Only JPEG, PNG, GIF, and WebP are allowed.");
+        alert(
+          "Invalid file type. Only JPEG, JFIF, PNG, GIF, and WebP are allowed.",
+        );
         event.target.value = ""; // Clear the input
         return;
       }
@@ -260,6 +263,16 @@ const UploadImage = ({
     };
   }, [selectedImage]);
 
+  // Additional cleanup on component unmount
+  useEffect(() => {
+    return () => {
+      // Cleanup any remaining blob URLs when component unmounts
+      if (selectedImage && selectedImage.startsWith("blob:")) {
+        URL.revokeObjectURL(selectedImage);
+      }
+    };
+  }, []); // Empty dependency array means this runs only on unmount
+
   return (
     <div className="group mx-auto md:mx-0 relative w-50 h-50 overflow-hidden rounded-full">
       {selectedImage && (
@@ -280,7 +293,7 @@ const UploadImage = ({
       >
         <input
           type="file"
-          accept="image/jpeg,image/png,image/gif,image/webp"
+          accept="image/jpeg,image/jfif,image/png,image/gif,image/webp"
           className="hidden"
           id="image-upload"
           onChange={handleImageChange}
@@ -289,7 +302,7 @@ const UploadImage = ({
         <label
           htmlFor="image-upload"
           className="border rounded-full w-50 h-50 element-center cursor-pointer"
-          title="Upload image (Max 8MB, JPEG/PNG/GIF/WebP)"
+          title="Upload image (Max 8MB, JPEG/JFIF/PNG/GIF/WebP)"
         >
           <CameraIcon className="w-8 h-8 text-accent" />
         </label>

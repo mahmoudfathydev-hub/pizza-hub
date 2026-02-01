@@ -16,6 +16,10 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 import { Translations } from "@/types/Translations";
 import { MenuItemsTranslations } from "@/lib/translation";
+import {
+  executeWithTransaction,
+  monitorQueryPerformance,
+} from "@/lib/database-utils";
 
 // ------------------
 // Type-safe response interfaces
@@ -182,7 +186,7 @@ const menuItemsToValidationTranslations = (
 };
 
 // ------------------
-// Image upload helper with proper error handling and timeout
+// Image upload helper with proper error handling, timeout, and cleanup
 // ------------------
 const getImageUrl = async (imageFile: File): Promise<string | undefined> => {
   if (!imageFile || imageFile.size === 0) return undefined;
@@ -191,9 +195,12 @@ const getImageUrl = async (imageFile: File): Promise<string | undefined> => {
   formData.append("file", imageFile);
   formData.append("pathName", "product_images");
 
+  // Configurable timeout from environment or default to 30 seconds
+  const UPLOAD_TIMEOUT = parseInt(process.env.UPLOAD_TIMEOUT || "30000");
+
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), UPLOAD_TIMEOUT);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
@@ -221,9 +228,22 @@ const getImageUrl = async (imageFile: File): Promise<string | undefined> => {
 
     return result.url;
   } catch (error: unknown) {
+    // Enhanced error handling with specific cases
     if (error instanceof Error && error.name === "AbortError") {
-      throw new Error("Upload timed out. Please try again.");
+      throw new Error(
+        `Upload timed out after ${UPLOAD_TIMEOUT / 1000} seconds. Please try again.`,
+      );
     }
+
+    // Log detailed error for debugging
+    console.error("Image upload failed:", {
+      fileName: imageFile.name,
+      fileSize: imageFile.size,
+      fileType: imageFile.type,
+      error: error instanceof Error ? error.message : String(error),
+      timestamp: new Date().toISOString(),
+    });
+
     throw error;
   }
 };
@@ -289,62 +309,82 @@ export const addProduct = async (
     };
   }
 
-  // STEP 2: Database transaction - all or nothing
+  // STEP 2: Database transaction - all or nothing with enhanced error handling
   try {
-    const product = await db.$transaction(async (tx) => {
-      // Create product with image URL
-      const newProduct = await tx.product.create({
-        data: {
-          name: data.name,
-          description: data.description,
-          basePrice,
-          image: imageUrl || "",
-          categoryId: args.categoryId,
-        },
-      });
+    const product = await executeWithTransaction(
+      async (tx) => {
+        // Create product with image URL
+        const newProduct = await tx.product.create({
+          data: {
+            name: data.name,
+            description: data.description,
+            basePrice,
+            image: imageUrl || "",
+            categoryId: args.categoryId,
+            version: 0, // Initialize version for optimistic locking
+          },
+        });
 
-      // Create sizes if provided
-      if (args.options.sizes && args.options.sizes.length > 0) {
-        const validSizes = args.options.sizes
-          .filter((s) => s.name && s.price !== undefined)
-          .map((s) => ({
-            productId: newProduct.id,
-            name: s.name as ProductSizes,
-            price: Number(s.price),
-          }));
+        // Create sizes if provided
+        if (args.options.sizes && args.options.sizes.length > 0) {
+          const validSizes = args.options.sizes
+            .filter((s) => s.name && s.price !== undefined)
+            .map((s) => ({
+              productId: newProduct.id,
+              name: s.name as ProductSizes,
+              price: Number(s.price),
+            }));
 
-        if (validSizes.length > 0) {
-          await tx.size.createMany({ data: validSizes });
+          if (validSizes.length > 0) {
+            await tx.size.createMany({ data: validSizes });
+          }
         }
-      }
 
-      // Create extras if provided
-      if (args.options.extras && args.options.extras.length > 0) {
-        const validExtras = args.options.extras
-          .filter((e) => e.name && e.price !== undefined)
-          .map((e) => ({
-            productId: newProduct.id,
-            name: e.name as ExtraIngredients,
-            price: Number(e.price),
-          }));
+        // Create extras if provided
+        if (args.options.extras && args.options.extras.length > 0) {
+          const validExtras = args.options.extras
+            .filter((e) => e.name && e.price !== undefined)
+            .map((e) => ({
+              productId: newProduct.id,
+              name: e.name as ExtraIngredients,
+              price: Number(e.price),
+            }));
 
-        if (validExtras.length > 0) {
-          await tx.extra.createMany({ data: validExtras });
+          if (validExtras.length > 0) {
+            await tx.extra.createMany({ data: validExtras });
+          }
         }
-      }
 
-      return newProduct;
-    });
+        return newProduct;
+      },
+      {
+        maxRetries: 3,
+        timeout: 30000,
+        isolationLevel: "ReadCommitted",
+      },
+    );
 
     // STEP 3: Cache revalidation ONLY after successful transaction
-    revalidatePath(`/${locale}/${Routes.MENU}`);
-    revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
-    revalidatePath(`/${locale}`);
+    // Fixed: Add proper error handling for cache invalidation
+    try {
+      revalidatePath(`/${locale}/${Routes.MENU}`);
+      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
+      revalidatePath(`/${locale}`);
 
-    // Critical: Invalidate cached database queries
-    revalidateTag("products", "max");
-    revalidateTag("products-by-category", "max");
-    revalidateTag("best-sellers", "max");
+      // Critical: Invalidate cached database queries with error handling
+      try {
+        revalidateTag("products", "max");
+        revalidateTag("products-by-category", "max");
+        revalidateTag("best-sellers", "max");
+      } catch (cacheError) {
+        console.error("Cache invalidation failed:", cacheError);
+        // Continue with response even if cache invalidation fails
+        // This prevents the entire operation from failing due to cache issues
+      }
+    } catch (revalidateError) {
+      console.error("Path revalidation failed:", revalidateError);
+      // Don't fail the entire operation due to revalidation issues
+    }
 
     return {
       status: 201,
@@ -417,15 +457,42 @@ export const updateProduct = async (
   // Type guard: now imageFile is either undefined or File
   const validatedImageFile = imageFile as File | undefined;
 
-  // Validate product exists
-  const existingProduct = await db.product.findUnique({
-    where: { id: args.productId },
-  });
+  // Validate product exists and get current version
+  const existingProduct = await monitorQueryPerformance(
+    "getProductForUpdate",
+    () =>
+      db.product.findUnique({
+        where: { id: args.productId },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          image: true,
+          basePrice: true,
+          categoryId: true,
+          createdAt: true,
+          updatedAt: true,
+          order: true,
+          version: true, // Include version field
+        },
+      }),
+  );
 
   if (!existingProduct) {
     return {
       status: 404,
       message: "Product not found",
+    };
+  }
+
+  // Check for version conflict if version is provided
+  const currentVersion = formData.get("version") as string;
+  if (currentVersion && parseInt(currentVersion) !== existingProduct.version) {
+    return {
+      status: 409,
+      message:
+        "Product was modified by another user. Please refresh and try again.",
+      error: { version: ["Version conflict detected"] },
     };
   }
 
@@ -443,79 +510,101 @@ export const updateProduct = async (
     }
   }
 
-  // STEP 2: Database transaction - all or nothing
+  // STEP 2: Database transaction - all or nothing with enhanced error handling
   try {
-    const updatedProduct = await db.$transaction(async (tx) => {
-      // Update product
-      const product = await tx.product.update({
-        where: {
-          id: args.productId,
-        },
-        data: {
-          name: data.name,
-          description: data.description,
-          basePrice,
-          image: imageUrl ?? existingProduct.image,
-        },
-      });
+    const updatedProduct = await executeWithTransaction(
+      async (tx) => {
+        // Update product with version increment
+        const product = await tx.product.update({
+          where: {
+            id: args.productId,
+          },
+          data: {
+            name: data.name,
+            description: data.description,
+            basePrice,
+            image: imageUrl ?? existingProduct.image,
+            version: {
+              increment: 1, // Increment version for optimistic locking
+            },
+          },
+        });
 
-      // Delete and recreate sizes
-      await tx.size.deleteMany({
-        where: { productId: args.productId },
-      });
+        // Delete and recreate sizes
+        await tx.size.deleteMany({
+          where: { productId: args.productId },
+        });
 
-      if (args.options.sizes && args.options.sizes.length > 0) {
-        console.log("Processing sizes:", args.options.sizes);
+        if (args.options.sizes && args.options.sizes.length > 0) {
+          console.log("Processing sizes:", args.options.sizes);
 
-        const validSizes = args.options.sizes
-          .filter((s) => s.name && s.price !== undefined)
-          .map((s) => ({
-            productId: args.productId,
-            name: s.name as ProductSizes,
-            price: Number(s.price),
-          }));
+          const validSizes = args.options.sizes
+            .filter((s) => s.name && s.price !== undefined)
+            .map((s) => ({
+              productId: args.productId,
+              name: s.name as ProductSizes,
+              price: Number(s.price),
+            }));
 
-        console.log("Valid sizes to create:", validSizes);
+          console.log("Valid sizes to create:", validSizes);
 
-        if (validSizes.length > 0) {
-          await tx.size.createMany({ data: validSizes });
+          if (validSizes.length > 0) {
+            await tx.size.createMany({ data: validSizes });
+          }
         }
-      }
 
-      // Delete and recreate extras
-      await tx.extra.deleteMany({
-        where: { productId: args.productId },
-      });
+        // Delete and recreate extras
+        await tx.extra.deleteMany({
+          where: { productId: args.productId },
+        });
 
-      if (args.options.extras && args.options.extras.length > 0) {
-        const validExtras = args.options.extras
-          .filter((e) => e.name && e.price !== undefined)
-          .map((e) => ({
-            productId: args.productId,
-            name: e.name as ExtraIngredients,
-            price: Number(e.price),
-          }));
+        if (args.options.extras && args.options.extras.length > 0) {
+          const validExtras = args.options.extras
+            .filter((e) => e.name && e.price !== undefined)
+            .map((e) => ({
+              productId: args.productId,
+              name: e.name as ExtraIngredients,
+              price: Number(e.price),
+            }));
 
-        if (validExtras.length > 0) {
-          await tx.extra.createMany({ data: validExtras });
+          if (validExtras.length > 0) {
+            await tx.extra.createMany({ data: validExtras });
+          }
         }
-      }
 
-      return product;
-    });
+        return product;
+      },
+      {
+        maxRetries: 3,
+        timeout: 30000,
+        isolationLevel: "ReadCommitted",
+      },
+    );
 
     // STEP 3: Cache revalidation ONLY after successful transaction
-    revalidatePath(`/${locale}/${Routes.MENU}`);
-    revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
-    revalidatePath(
-      `/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${updatedProduct.id}/${Pages.EDIT}`,
-    );
-    revalidatePath(`/${locale}`);
+    // Fixed: Add proper error handling for cache invalidation
+    try {
+      revalidatePath(`/${locale}/${Routes.MENU}`);
+      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
+      revalidatePath(
+        `/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${updatedProduct.id}/${Pages.EDIT}`,
+      );
+      revalidatePath(`/${locale}`);
 
-    // Critical: Invalidate cached database queries
-    revalidateTag("products", "max");
-    revalidateTag("products-by-category", "max");
-    revalidateTag("best-sellers", "max");
+      // Critical: Invalidate cached database queries with error handling
+      try {
+        revalidateTag("products", "max");
+        revalidateTag("products-by-category", "max");
+        revalidateTag("best-sellers", "max");
+      } catch (cacheError) {
+        console.error("Cache invalidation failed:", cacheError);
+        // Continue with response even if cache invalidation fails
+        // This prevents the entire operation from failing due to cache issues
+      }
+    } catch (revalidateError) {
+      console.error("Path revalidation failed:", revalidateError);
+      // Don't fail the entire operation due to revalidation issues
+    }
 
     return {
       status: 200,
@@ -542,8 +631,8 @@ export const updateProduct = async (
 export const deleteProduct = async (
   id: string,
 ): Promise<ProductActionResponse> => {
-  // Validate ID format - Product IDs use CUID format, not UUID
-  const idSchema = z.string().min(1, "Invalid product ID format");
+  // Fixed: Validate ID format - Product IDs use CUID format, not UUID
+  const idSchema = z.string().cuid("Invalid product ID format");
   const idValidation = idSchema.safeParse(id);
 
   if (!idValidation.success) {
@@ -562,17 +651,29 @@ export const deleteProduct = async (
     });
 
     // Cache revalidation after successful deletion
-    revalidatePath(`/${locale}/${Routes.MENU}`);
-    revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
-    revalidatePath(
-      `/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${id}/${Pages.EDIT}`,
-    );
-    revalidatePath(`/${locale}`);
+    // Fixed: Add proper error handling for cache invalidation
+    try {
+      revalidatePath(`/${locale}/${Routes.MENU}`);
+      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
+      revalidatePath(
+        `/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${id}/${Pages.EDIT}`,
+      );
+      revalidatePath(`/${locale}`);
 
-    // Critical: Invalidate cached database queries
-    revalidateTag("products", "max");
-    revalidateTag("products-by-category", "max");
-    revalidateTag("best-sellers", "max");
+      // Critical: Invalidate cached database queries with error handling
+      try {
+        revalidateTag("products", "max");
+        revalidateTag("products-by-category", "max");
+        revalidateTag("best-sellers", "max");
+      } catch (cacheError) {
+        console.error("Cache invalidation failed:", cacheError);
+        // Continue with response even if cache invalidation fails
+        // This prevents the entire operation from failing due to cache issues
+      }
+    } catch (revalidateError) {
+      console.error("Path revalidation failed:", revalidateError);
+      // Don't fail the entire operation due to revalidation issues
+    }
 
     return {
       status: 200,

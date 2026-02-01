@@ -3,14 +3,22 @@ import { cache } from "@/lib/cashe";
 import { db } from "@/lib/prisma";
 
 // ----------------------------
-// Products by Category
+// Products by Category - Optimized to prevent N+1 queries
 // ----------------------------
 export const getProductsByCategory = cache(
   async () => {
+    // Single optimized query with proper includes to prevent N+1 problems
     return await db.category.findMany({
       include: {
         products: {
-          include: { sizes: true, extras: true },
+          include: {
+            sizes: {
+              orderBy: { price: "asc" }, // Order sizes by price for consistency
+            },
+            extras: {
+              orderBy: { name: "asc" }, // Order extras by name for consistency
+            },
+          },
           orderBy: { order: "asc" },
         },
       },
@@ -51,13 +59,20 @@ export const getBestSellers = cache(
 );
 
 // ----------------------------
-// All Products
+// All Products - Optimized with proper ordering
 // ----------------------------
 export const getProducts = cache(
   async () => {
     return await db.product.findMany({
       orderBy: { order: "asc" },
-      include: { sizes: true, extras: true },
+      include: {
+        sizes: {
+          orderBy: { price: "asc" },
+        },
+        extras: {
+          orderBy: { name: "asc" },
+        },
+      },
     });
   },
   ["products"],
@@ -65,13 +80,20 @@ export const getProducts = cache(
 );
 
 // ----------------------------
-// Single Product
+// Single Product - Optimized with proper ordering
 // ----------------------------
 export const getProduct = cache(
   async (id: string) => {
     return await db.product.findUnique({
       where: { id },
-      include: { sizes: true, extras: true },
+      include: {
+        sizes: {
+          orderBy: { price: "asc" },
+        },
+        extras: {
+          orderBy: { name: "asc" },
+        },
+      },
     });
   },
   ["product"],

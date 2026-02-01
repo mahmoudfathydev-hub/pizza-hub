@@ -75,6 +75,7 @@ model Product {
   updatedAt   DateTime       @updatedAt
   categoryId  String
   createdAt   DateTime       @default(now())
+  version     Int            @default(0) // Added for optimistic locking
   extras      Extra[]
   orders      OrderProduct[]
   category    Category       @relation(fields: [categoryId], references: [id])

@@ -31,9 +31,18 @@ export const updateProfile = async (prevState: unknown, formData: FormData) => {
   }
   const data = result.data;
   const imageFile = data.image as File;
-  const imageUrl = Boolean(imageFile.size)
-    ? await getImageUrl(imageFile)
-    : undefined;
+
+  // Fixed: Add proper error handling for image upload
+  let imageUrl: string | undefined;
+  if (Boolean(imageFile.size)) {
+    try {
+      imageUrl = await getImageUrl(imageFile);
+    } catch (uploadError) {
+      console.error("Profile image upload failed:", uploadError);
+      // Continue without image update - don't fail the entire profile update
+      // This prevents silent failures that appear as server errors
+    }
+  }
 
   try {
     const user = await db.user.findUnique({
@@ -84,14 +93,23 @@ const getImageUrl = async (imageFile: File) => {
   formData.append("file", imageFile);
   formData.append("pathName", "profile_images");
 
+  // Configurable timeout from environment or default to 30 seconds
+  const UPLOAD_TIMEOUT = parseInt(process.env.UPLOAD_TIMEOUT || "30000");
+
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), UPLOAD_TIMEOUT);
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/upload`,
       {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       },
     );
+
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -101,9 +119,29 @@ const getImageUrl = async (imageFile: File) => {
     }
 
     const image = (await response.json()) as { url: string };
+
+    if (!image.url) {
+      throw new Error("No URL returned from upload service");
+    }
+
     return image.url;
-  } catch (error) {
-    console.error("Error uploading file:", error);
+  } catch (error: unknown) {
+    // Enhanced error handling with specific cases
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error(
+        `Upload timed out after ${UPLOAD_TIMEOUT / 1000} seconds. Please try again.`,
+      );
+    }
+
+    // Log detailed error for debugging
+    console.error("Profile image upload failed:", {
+      fileName: imageFile.name,
+      fileSize: imageFile.size,
+      fileType: imageFile.type,
+      error: error instanceof Error ? error.message : String(error),
+      timestamp: new Date().toISOString(),
+    });
+
     throw error;
   }
 };

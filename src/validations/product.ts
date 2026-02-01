@@ -1,5 +1,6 @@
 import { Translations } from "@/types/Translations";
 import { z } from "zod";
+import { sanitizeInput, validateField } from "@/lib/security";
 
 const imageValidation = (translations: Translations, isRequired: boolean) => {
   return !isRequired
@@ -21,6 +22,7 @@ const imageValidation = (translations: Translations, isRequired: boolean) => {
 
           const validMimeTypes = [
             "image/jpeg",
+            "image/jfif", // Added JFIF support
             "image/png",
             "image/gif",
             "image/webp",
@@ -33,34 +35,55 @@ const imageValidation = (translations: Translations, isRequired: boolean) => {
           message:
             translations.admin?.["menu-items"]?.form?.image?.validation
               ?.required ||
-            "Invalid image file. Must be JPEG, PNG, GIF, or WebP and under 8MB.",
+            "Invalid image file. Must be JPEG, JFIF, PNG, GIF, or WebP and under 8MB.",
         },
       );
 };
 const getCommonValidations = (translations: Translations) => {
   return {
-    name: z.string().trim().min(1, {
-      message: translations.admin["menu-items"].form.name.validation.required,
-    }),
-    description: z.string().trim().min(1, {
-      message:
-        translations.admin["menu-items"].form.description.validation.required,
-    }),
+    name: z
+      .string()
+      .transform((val) => sanitizeInput(val.trim(), 100)) // Sanitize and limit length
+      .refine((val) => val.length >= 1, {
+        message:
+          translations.admin["menu-items"].form.name.validation.required ||
+          "Name is required",
+      })
+      .refine((val) => validateField("name", val).isValid, {
+        message: "Name contains invalid characters",
+      }),
+    description: z
+      .string()
+      .transform((val) => sanitizeInput(val.trim(), 2000)) // Sanitize and limit length
+      .refine((val) => val.length >= 1, {
+        message:
+          translations.admin["menu-items"].form.description.validation
+            .required || "Description is required",
+      })
+      .refine((val) => validateField("description", val).isValid, {
+        message: "Description contains invalid characters",
+      }),
     basePrice: z
       .string()
-      .min(1, {
+      .transform((val) => val.trim())
+      .refine((val) => val.length > 0, {
         message:
-          translations.admin["menu-items"].form.basePrice.validation.required,
+          translations.admin["menu-items"].form.basePrice.validation.required ||
+          "Price is required",
       })
       .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
         message: "Price must be a valid positive number",
       })
       .refine((val) => Number(val) <= 99999.99, {
         message: "Price cannot exceed $99,999.99",
+      })
+      .refine((val) => validateField("price", val).isValid, {
+        message: "Invalid price format",
       }),
     categoryId: z.string().min(1, {
       message:
-        translations.admin["menu-items"].form.category.validation.required,
+        translations.admin["menu-items"].form.category.validation.required ||
+        "Category is required",
     }),
   };
 };

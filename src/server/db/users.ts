@@ -2,18 +2,18 @@ import { cache } from "@/lib/cashe";
 import { db } from "@/lib/prisma";
 
 export const getUsers = cache(
-    () => {
-        const users = db.user.findMany();
-        return users;
-    },
-    ["users"],
-    { revalidate: 3600 }
+  async () => {
+    const users = await db.user.findMany();
+    return users;
+  },
+  ["users"],
+  { revalidate: 3600 },
 );
 export const getUser = cache(
-    (userId: string) => {
-        const user = db.user.findUnique({ where: { id: userId } });
-        return user;
-    },
-    [`user-${crypto.randomUUID()}`],
-    { revalidate: 3600 }
+  async (userId: string) => {
+    const user = await db.user.findUnique({ where: { id: userId } });
+    return user;
+  },
+  ["user"],
+  { revalidate: 3600 },
 );

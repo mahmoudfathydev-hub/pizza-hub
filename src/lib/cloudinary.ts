@@ -1,14 +1,15 @@
 import { v2 as cloudinary } from "cloudinary";
 
-// Validate environment variables
+// Validate environment variables - Fixed: Throw error instead of just logging
 if (
   !process.env.CLOUDINARY_CLOUD_NAME ||
   !process.env.CLOUDINARY_API_KEY ||
   !process.env.CLOUDINARY_API_SECRET
 ) {
-  console.error(
-    "Missing Cloudinary environment variables. Please check your .env.local file.",
-  );
+  const errorMessage =
+    "Missing Cloudinary environment variables. Please check your .env.local file.";
+  console.error(errorMessage);
+  throw new Error(errorMessage);
 }
 
 cloudinary.config({

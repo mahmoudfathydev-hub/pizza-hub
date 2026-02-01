@@ -70,7 +70,7 @@ export const login = async (
       message: translations.messages.loginSuccessful,
     };
   } catch (error) {
-    console.error(error);
+    console.error("Login failed:", error); // Fixed: Standardized error logging
     return {
       status: 500,
       message: translations.messages.unexpectedError,
@@ -138,7 +138,7 @@ export const signup = async (
       },
     };
   } catch (error) {
-    console.error(error);
+    console.error("Signup failed:", error); // Fixed: Standardized error logging
     const errorMessage =
       process.env.NODE_ENV === Environments.DEV
         ? `${translations.messages.unexpectedError}: ${error instanceof Error ? error.message : String(error)}`
