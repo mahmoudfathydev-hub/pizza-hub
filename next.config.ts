@@ -31,6 +31,7 @@ const nextConfig: NextConfig = {
     },
     optimizeCss: true,
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+    cacheComponents: true, // Enable cacheTag() support
   },
   // Performance optimizations
   compiler: {
