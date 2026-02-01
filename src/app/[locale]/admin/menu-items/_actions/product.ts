@@ -12,7 +12,7 @@ import {
   Size,
   Category,
 } from "@prisma/client";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { Translations } from "@/types/Translations";
 import { MenuItemsTranslations } from "@/lib/translation";
@@ -20,6 +20,7 @@ import {
   executeWithTransaction,
   monitorQueryPerformance,
 } from "@/lib/database-utils";
+import { revalidateProductCaches } from "@/lib/cache-utils";
 
 // ------------------
 // Type-safe response interfaces
@@ -365,24 +366,11 @@ export const addProduct = async (
     );
 
     // STEP 3: Cache revalidation ONLY after successful transaction
-    // Fixed: Add proper error handling for cache invalidation
+    // Fixed: Use centralized cache invalidation
     try {
-      revalidatePath(`/${locale}/${Routes.MENU}`);
-      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
-      revalidatePath(`/${locale}`);
-
-      // Critical: Invalidate cached database queries with error handling
-      try {
-        revalidateTag("products", "max");
-        revalidateTag("products-by-category", "max");
-        revalidateTag("best-sellers", "max");
-      } catch (cacheError) {
-        console.error("Cache invalidation failed:", cacheError);
-        // Continue with response even if cache invalidation fails
-        // This prevents the entire operation from failing due to cache issues
-      }
+      await revalidateProductCaches(locale);
     } catch (revalidateError) {
-      console.error("Path revalidation failed:", revalidateError);
+      console.error("Cache revalidation failed:", revalidateError);
       // Don't fail the entire operation due to revalidation issues
     }
 
@@ -582,27 +570,14 @@ export const updateProduct = async (
     );
 
     // STEP 3: Cache revalidation ONLY after successful transaction
-    // Fixed: Add proper error handling for cache invalidation
+    // Fixed: Add proper error handling
     try {
-      revalidatePath(`/${locale}/${Routes.MENU}`);
-      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
+      await revalidateProductCaches(locale);
       revalidatePath(
         `/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${updatedProduct.id}/${Pages.EDIT}`,
       );
-      revalidatePath(`/${locale}`);
-
-      // Critical: Invalidate cached database queries with error handling
-      try {
-        revalidateTag("products", "max");
-        revalidateTag("products-by-category", "max");
-        revalidateTag("best-sellers", "max");
-      } catch (cacheError) {
-        console.error("Cache invalidation failed:", cacheError);
-        // Continue with response even if cache invalidation fails
-        // This prevents the entire operation from failing due to cache issues
-      }
     } catch (revalidateError) {
-      console.error("Path revalidation failed:", revalidateError);
+      console.error("Cache revalidation failed:", revalidateError);
       // Don't fail the entire operation due to revalidation issues
     }
 
@@ -651,27 +626,14 @@ export const deleteProduct = async (
     });
 
     // Cache revalidation after successful deletion
-    // Fixed: Add proper error handling for cache invalidation
+    // Fixed: Add proper error handling
     try {
-      revalidatePath(`/${locale}/${Routes.MENU}`);
-      revalidatePath(`/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}`);
+      await revalidateProductCaches(locale);
       revalidatePath(
         `/${locale}/${Routes.ADMIN}/${Pages.MENU_ITEMS}/${id}/${Pages.EDIT}`,
       );
-      revalidatePath(`/${locale}`);
-
-      // Critical: Invalidate cached database queries with error handling
-      try {
-        revalidateTag("products", "max");
-        revalidateTag("products-by-category", "max");
-        revalidateTag("best-sellers", "max");
-      } catch (cacheError) {
-        console.error("Cache invalidation failed:", cacheError);
-        // Continue with response even if cache invalidation fails
-        // This prevents the entire operation from failing due to cache issues
-      }
     } catch (revalidateError) {
-      console.error("Path revalidation failed:", revalidateError);
+      console.error("Cache revalidation failed:", revalidateError);
       // Don't fail the entire operation due to revalidation issues
     }
 

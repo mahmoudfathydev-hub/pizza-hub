@@ -1,0 +1,24 @@
+# Cloudinary Configuration Template
+# Copy this file to .env.local and fill in your actual values
+
+# Required for Image Uploads - Get these from https://cloudinary.com/console
+CLOUDINARY_CLOUD_NAME="your_cloud_name"
+CLOUDINARY_API_KEY="your_api_key" 
+CLOUDINARY_API_SECRET="your_api_secret"
+
+# Application Configuration
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your_secret_here"
+
+# Database Configuration
+DATABASE_URL="your_database_url"
+
+# Optional: Upload timeout in milliseconds
+UPLOAD_TIMEOUT="30000"
+
+# Setup Instructions:
+# 1. Go to https://cloudinary.com and sign up
+# 2. Navigate to Dashboard → Settings → API Keys  
+# 3. Copy your credentials and replace the "your_*" values above
+# 4. Save this file as .env.local (remove the .template extension)
+# 5. Restart your development server

@@ -7,7 +7,7 @@ export const getUsers = cache(
     return users;
   },
   ["users"],
-  { revalidate: 3600 },
+  { revalidate: 3600, tags: ["users"] },
 );
 export const getUser = cache(
   async (userId: string) => {
@@ -15,5 +15,5 @@ export const getUser = cache(
     return user;
   },
   ["user"],
-  { revalidate: 3600 },
+  { revalidate: 3600, tags: ["user"] },
 );
