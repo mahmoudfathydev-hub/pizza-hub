@@ -16,6 +16,14 @@ const nextConfig: NextConfig = {
       bodySizeLimit: 10 * 1024 * 1024, // 10MB limit for image uploads
     },
   },
+  // Use webpack instead of turbopack to avoid memory issues
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals.push("_http_common");
+    }
+    return config;
+  },
+  turbopack: {},
 };
 
 export default nextConfig;

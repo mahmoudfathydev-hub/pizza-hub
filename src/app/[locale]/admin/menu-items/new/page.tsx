@@ -8,6 +8,9 @@ import { redirect } from "next/navigation";
 import Form from "../_components/Form";
 import { getCategories } from "@/server/db/categories";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 async function NewProductPage() {
   const session = await getServerSession(authOptions);
   const locale = await getCurrentLocale();

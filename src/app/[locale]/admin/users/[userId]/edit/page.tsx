@@ -4,8 +4,8 @@ import { Locale } from "@/i18n.config";
 import { getUser, getUsers } from "@/server/db/users";
 import { redirect } from "next/navigation";
 
-// Remove generateStaticParams to make this page dynamic
-// This will be server-rendered on demand instead of statically generated
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
 
 async function EditUserPage({
   params,

@@ -6,6 +6,9 @@ import { getUsers } from "@/server/db/users";
 import { Edit, Users } from "lucide-react";
 import DeleteUserButton from "./_components/DeleteUserButton";
 
+// Force dynamic rendering
+export const dynamic = "force-dynamic";
+
 async function UsersPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const users = await getUsers();
