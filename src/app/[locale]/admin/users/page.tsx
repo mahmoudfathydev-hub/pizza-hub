@@ -3,6 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Pages, Routes } from "@/constants/enums";
 import { Locale } from "@/i18n.config";
 import { getUsers } from "@/server/db/users";
+import { User } from "@prisma/client";
 import { Edit, Users } from "lucide-react";
 import DeleteUserButton from "./_components/DeleteUserButton";
 
@@ -34,7 +35,7 @@ async function UsersPage({ params }: { params: Promise<{ locale: Locale }> }) {
             </div>
           ) : (
             <ul className="flex flex-col gap-4">
-              {users.map((user) => (
+              {users.map((user: User) => (
                 <li
                   key={user.id}
                   className="flex justify-between items-center gap-4 p-4 rounded-md bg-gray-50 hover:bg-gray-100 transition-colors"
