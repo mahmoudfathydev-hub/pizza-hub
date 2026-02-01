@@ -3,9 +3,12 @@
 import { useState, useEffect } from "react";
 import { ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useParams } from "next/navigation";
+import { Languages } from "@/constants/enums";
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const { locale } = useParams();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -27,12 +30,18 @@ const BackToTop = () => {
     });
   };
 
+  // Position based on language direction
+  const positionClasses =
+    locale === Languages.ARABIC
+      ? "fixed bottom-8 left-8" // Left side for RTL (Arabic)
+      : "fixed bottom-8 right-8"; // Right side for LTR (English)
+
   return (
     <>
       {isVisible && (
         <Button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-40 w-12 h-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-110"
+          className={`${positionClasses} z-40 w-12 h-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 transition-all duration-300 transform hover:scale-110`}
           aria-label="Back to top"
         >
           <ChevronUp className="w-5 h-5" />
