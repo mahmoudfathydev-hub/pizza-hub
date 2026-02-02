@@ -11,6 +11,9 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import MenuItems from "./_components/MenuItems";
 
+// Opt out of prerendering for admin pages
+export const dynamic = "force-dynamic";
+
 async function MenuItemsPage({
   params,
 }: {

@@ -6,6 +6,9 @@ import Form from "../../_components/Form";
 import { getCategories } from "@/server/db/categories";
 import getTrans from "@/lib/translation";
 
+// Opt out of prerendering for dynamic product pages
+export const dynamic = "force-dynamic";
+
 async function EditProductPage({
   params,
 }: {

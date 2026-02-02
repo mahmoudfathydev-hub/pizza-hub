@@ -5,6 +5,9 @@ import { Category } from "@prisma/client";
 import Form from "./_components/Form";
 import CategoryItem from "./_components/CategoryItem";
 
+// Opt out of prerendering for admin pages
+export const dynamic = "force-dynamic";
+
 async function CategoriesPage({
   params,
 }: {
