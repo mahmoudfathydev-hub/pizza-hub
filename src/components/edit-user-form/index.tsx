@@ -1,3 +1,4 @@
+
 "use client";
 import { InputTypes, Routes } from "@/constants/enums";
 import useFormFields from "@/hooks/useFormFields";
@@ -101,7 +102,7 @@ function EditUserForm({ user }: { user: Session["user"] }) {
 
     return (
         <form action={action} className="flex flex-col md:flex-row gap-10">
-            
+
             <input type="hidden" name="isAdmin" value={isAdmin.toString()} />
             <div className="group relative w-50 h-50 overflow-hidden rounded-full mx-auto">
                 {selectedImage && (
@@ -116,11 +117,11 @@ function EditUserForm({ user }: { user: Session["user"] }) {
 
                 <div
                     className={`${selectedImage
-                            ? "group-hover:opacity-[1] opacity-0  transition-opacity duration-200"
-                            : ""
+                        ? "group-hover:opacity-[1] opacity-0  transition-opacity duration-200"
+                        : ""
                         } absolute top-0 left-0 w-full h-full bg-gray-50/40`}
                 >
-                    <UploadImage setSelectedImage={setSelectedImage} />
+                    <UploadImage setSelectedImage={setSelectedImage} selectedImage={selectedImage} />
                 </div>
             </div>
             <div className="flex-1">
@@ -161,21 +162,63 @@ export default EditUserForm;
 
 const UploadImage = ({
     setSelectedImage,
+    selectedImage,
 }: {
     setSelectedImage: React.Dispatch<React.SetStateAction<string>>;
+    selectedImage: string;
 }) => {
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files && event.target.files[0];
         if (file) {
+            // Client-side validation: Check file size (max 8MB)
+            const MAX_FILE_SIZE = 8 * 1024 * 1024; // 8MB
+            if (file.size > MAX_FILE_SIZE) {
+                alert(
+                    `File size must be less than 8MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB`,
+                );
+                event.target.value = ""; // Clear the input
+                return;
+            }
+
+            // Client-side validation: Check file type
+            const ALLOWED_TYPES = [
+                "image/jpeg",
+                "image/jfif",
+                "image/png",
+                "image/gif",
+                "image/webp",
+            ];
+            if (!ALLOWED_TYPES.includes(file.type)) {
+                alert(
+                    "Invalid file type. Only JPEG, JFIF, PNG, GIF, and WebP are allowed.",
+                );
+                event.target.value = ""; // Clear the input
+                return;
+            }
+
+            // Clean up previous object URL if it exists
+            if (selectedImage && selectedImage.startsWith("blob:")) {
+                URL.revokeObjectURL(selectedImage);
+            }
             const url = URL.createObjectURL(file);
             setSelectedImage(url);
         }
     };
+
+    // Cleanup object URLs to prevent memory leaks
+    useEffect(() => {
+        return () => {
+            if (selectedImage && selectedImage.startsWith("blob:")) {
+                URL.revokeObjectURL(selectedImage);
+            }
+        };
+    }, [selectedImage]);
+
     return (
         <>
             <input
                 type="file"
-                accept="image/*"
+                accept="image/jpeg,image/jfif,image/png,image/gif,image/webp"
                 className="hidden"
                 id="image-upload"
                 onChange={handleImageChange}
@@ -184,6 +227,7 @@ const UploadImage = ({
             <label
                 htmlFor="image-upload"
                 className="border rounded-full w-50 h-50 element-center cursor-pointer"
+                title="Upload image (Max 8MB, JPEG/JFIF/PNG/GIF/WebP)"
             >
                 <CameraIcon className="w-8! h-8! text-accent" />
             </label>
