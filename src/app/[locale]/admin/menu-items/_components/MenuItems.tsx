@@ -1,13 +1,18 @@
 import Link from "@/components/link";
 import { Pages, Routes } from "@/constants/enums";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
-import getTrans from "@/lib/translation";
+import { Locale } from "@/i18n.config";
 import { Product } from "@prisma/client";
 import Image from "next/image";
 
-async function MenuItems({ products }: { products: Product[] }) {
-    const locale = await getCurrentLocale();
-    const translations = await getTrans(locale , "menuItems");
+import { MenuItemsTranslations } from "@/lib/translation";
+
+interface MenuItemsProps {
+    products: Product[];
+    locale: Locale;
+    translations: MenuItemsTranslations;
+}
+
+function MenuItems({ products, locale, translations }: MenuItemsProps) {
     return products && products.length > 0 ? (
         <ul className="grid grid-cols-3 gap-4 sm:max-w-156.25 mx-auto">
             {products.map((product) => (

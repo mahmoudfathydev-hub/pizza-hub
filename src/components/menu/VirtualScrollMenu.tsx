@@ -5,8 +5,8 @@ import MenuItem from "./MenuItem";
 
 interface VirtualScrollProps {
   items: ProductWithRelation[];
-  itemHeight: number;
-  containerHeight: number;
+  itemHeight?: number;
+  containerHeight?: number;
   overscan?: number;
 }
 
@@ -28,12 +28,12 @@ const VirtualScrollItem: React.FC<VirtualScrollItemProps> = ({
   );
 };
 
-export const VirtualScrollMenu: React.FC<VirtualScrollProps> = ({
+export function VirtualScrollMenu({
   items,
-  itemHeight = 400,
-  containerHeight = 800,
+  itemHeight = 300,
+  containerHeight = 600,
   overscan = 5,
-}) => {
+}: VirtualScrollProps) {
   const [scrollTop, setScrollTop] = useState(0);
   const [containerSize, setContainerSize] = useState({
     width: 0,
@@ -95,6 +95,7 @@ export const VirtualScrollMenu: React.FC<VirtualScrollProps> = ({
               left: 0,
               right: 0,
               height: itemHeight,
+              // width: "100%", // Depending on grid/list layout
             }}
           />,
         );
@@ -139,7 +140,7 @@ export const VirtualScrollMenu: React.FC<VirtualScrollProps> = ({
       </div>
     </div>
   );
-};
+}
 
 // Fallback component for smaller lists
 export const OptimizedMenu: React.FC<{ items: ProductWithRelation[] }> = ({

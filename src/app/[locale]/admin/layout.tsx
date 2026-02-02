@@ -1,6 +1,7 @@
 import { Locale } from "@/i18n.config";
 import getTrans from "@/lib/translation";
 import AdminTabs from "./_components/AdminTabs";
+import { Suspense } from "react";
 
 async function AdminLayout({
   children,
@@ -13,7 +14,9 @@ async function AdminLayout({
   const translations = await getTrans(locale as Locale, "admin");
   return (
     <>
-      <AdminTabs translations={translations} />
+      <Suspense fallback={null}>
+        <AdminTabs translations={translations} />
+      </Suspense>
       {children}
     </>
   );

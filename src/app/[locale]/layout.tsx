@@ -10,6 +10,7 @@ import { AOSInit } from "../../components/aos-init";
 import { Toaster } from "@/components/ui/sonner";
 import NextAuthSessionProvider from "@/provider/NextAuthSessionProvider";
 import BackToTop from "@/components/back-to-top";
+import { Suspense } from "react";
 
 export async function generateStaticParams() {
   return [{ locale: Languages.ARABIC }, { locale: Languages.ENGLISH }];
@@ -54,10 +55,16 @@ export default async function RootLayout({
         <NextAuthSessionProvider>
           <ReduxProvider>
             <AOSInit />
-            <Header />
+            <Suspense fallback={null}>
+              <Header />
+            </Suspense>
             <main className="pt-20 md:pt-24">{children}</main>
-            <Footer />
-            <BackToTop />
+            <Suspense fallback={null}>
+              <Footer />
+            </Suspense>
+            <Suspense fallback={null}>
+              <BackToTop />
+            </Suspense>
             <Toaster position="top-center" />
           </ReduxProvider>
         </NextAuthSessionProvider>

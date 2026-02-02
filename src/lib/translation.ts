@@ -15,7 +15,7 @@ type PageType =
   | "categories"
   | "menuItems";
 
-interface HomeTranslations {
+export interface HomeTranslations {
   hero: {
     title: string;
     description: string;

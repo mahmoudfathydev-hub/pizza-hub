@@ -1,13 +1,15 @@
 import { Category } from "@prisma/client";
 import EditCategory from "./EditCategory";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
-import getTrans from "@/lib/translation";
 import DeleteCategory from "./DeleteCategory";
 
-async function CategoryItem({ category }: { category: Category }) {
-    const locale = await getCurrentLocale();
-    const t = await getTrans(locale, "categories");
+import { CategoriesTranslations } from "@/lib/translation";
 
+interface CategoryItemProps {
+    category: Category;
+    translations: CategoriesTranslations;
+}
+
+function CategoryItem({ category, translations: t }: CategoryItemProps) {
     // Helper function to get translated category name
     const getCategoryDisplayName = (categoryKey: string) => {
         return t.categoryName[categoryKey] || categoryKey;

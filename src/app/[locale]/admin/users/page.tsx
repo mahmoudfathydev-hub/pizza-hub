@@ -7,9 +7,6 @@ import { User } from "@prisma/client";
 import { Edit, Users } from "lucide-react";
 import DeleteUserButton from "./_components/DeleteUserButton";
 
-// Opt out of prerendering for admin pages
-export const dynamic = "force-dynamic";
-
 async function UsersPage({ params }: { params: Promise<{ locale: Locale }> }) {
   const { locale } = await params;
   const users = await getUsers();

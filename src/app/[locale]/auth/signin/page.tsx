@@ -1,13 +1,17 @@
 import Link from "@/components/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Pages, Routes } from "@/constants/enums";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { Locale } from "@/i18n.config";
 import Form from "./_components/Form";
 import getTrans from "@/lib/translation";
 import { aosAnimations } from "@/utils/aos";
 
-async function SigninPage() {
-  const locale = await getCurrentLocale();
+async function SigninPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
   const translations = await getTrans(locale, "auth");
   return (
     <main>

@@ -1,13 +1,16 @@
 import Link from "@/components/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Languages, Routes } from "@/constants/enums";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { Locale } from "@/i18n.config";
 import getTrans from "@/lib/translation";
 import { ArrowRightCircle } from "lucide-react";
 import Image from "next/image";
 
-async function Hero() {
-  const locale = await getCurrentLocale();
+interface HeroProps {
+  locale: Locale;
+}
+
+async function Hero({ locale }: HeroProps) {
   const translations = await getTrans(locale, "home");
 
   return (

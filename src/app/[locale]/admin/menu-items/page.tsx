@@ -11,9 +11,6 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import MenuItems from "./_components/MenuItems";
 
-// Opt out of prerendering for admin pages
-export const dynamic = "force-dynamic";
-
 async function MenuItemsPage({
   params,
 }: {
@@ -45,7 +42,7 @@ async function MenuItemsPage({
               className={`w-5! h-5! ${locale === Languages.ARABIC ? "rotate-180 " : ""}`}
             />
           </Link>
-          <MenuItems products={products} />
+          <MenuItems products={products} locale={locale} translations={translations} />
         </div>
       </section>
     </main>

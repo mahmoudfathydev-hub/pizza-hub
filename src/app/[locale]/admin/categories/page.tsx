@@ -5,9 +5,6 @@ import { Category } from "@prisma/client";
 import Form from "./_components/Form";
 import CategoryItem from "./_components/CategoryItem";
 
-// Opt out of prerendering for admin pages
-export const dynamic = "force-dynamic";
-
 async function CategoriesPage({
   params,
 }: {
@@ -25,7 +22,7 @@ async function CategoriesPage({
             {Categories.length > 0 ? (
               <ul>
                 {Categories.map((category: Category) => (
-                  <CategoryItem key={category.id} category={category} />
+                  <CategoryItem key={category.id} category={category} translations={t} />
                 ))}
               </ul>
             ) : (

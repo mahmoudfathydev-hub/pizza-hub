@@ -1,13 +1,16 @@
 import MainHeading from "@/components/main-heading"
 import { Star } from "lucide-react"
-import { getCurrentLocale } from "@/lib/getCurrentLocale"
+import { Locale } from "@/i18n.config"
 import getTrans from "@/lib/translation"
 
-const Testimonials = async () => {
-    const locale = await getCurrentLocale()
+interface TestimonialsProps {
+    locale: Locale;
+}
+
+const Testimonials = async ({ locale }: TestimonialsProps) => {
     const translations = await getTrans(locale, 'home')
     const { testimonials } = translations
-    
+
     return (
         <section className="container mx-auto section-gap">
             <div className="flex flex-col items-center justify-center gap-4 mb-16 text-center">

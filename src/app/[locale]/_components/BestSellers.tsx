@@ -1,11 +1,14 @@
 import MainHeading from "@/components/main-heading"
 import Menu from "@/components/menu"
 import { getBestSellers } from "@/server/db/products"
-import { getCurrentLocale } from "@/lib/getCurrentLocale"
+import { Locale } from "@/i18n.config"
 import getTrans from "@/lib/translation"
 
-async function BestSellers() {
-    const locale = await getCurrentLocale()
+interface BestSellersProps {
+    locale: Locale;
+}
+
+async function BestSellers({ locale }: BestSellersProps) {
     const translations = await getTrans(locale, 'home')
     const bestSeller = await getBestSellers(3)
     return (
@@ -14,7 +17,7 @@ async function BestSellers() {
                 <div className="text-center mb-4">
                     <MainHeading title={translations.bestSellers.heading.title} subTitle={translations.bestSellers.heading.subtitle} />
                 </div>
-                <Menu items={bestSeller} />
+                <Menu items={bestSeller} translations={translations} />
             </div>
         </section>
     )

@@ -1,5 +1,5 @@
 import { Pages, Routes } from "@/constants/enums";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { Locale } from "@/i18n.config";
 import getTrans from "@/lib/translation";
 import { authOptions } from "@/server/auth";
 import { UserRole } from "@prisma/client";
@@ -8,12 +8,13 @@ import { redirect } from "next/navigation";
 import Form from "../_components/Form";
 import { getCategories } from "@/server/db/categories";
 
-// Opt out of prerendering for admin pages
-export const dynamic = "force-dynamic";
-
-async function NewProductPage() {
+async function NewProductPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
   const session = await getServerSession(authOptions);
-  const locale = await getCurrentLocale();
+  const { locale } = await params;
   const translations = await getTrans(locale, "menuItems");
   const categories = await getCategories();
 

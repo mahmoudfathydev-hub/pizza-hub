@@ -1,14 +1,18 @@
 import Menu from "@/components/menu";
 import { getProductsByCategory } from "@/server/db/products";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { Locale } from "@/i18n.config";
 import getTrans from "@/lib/translation";
 import { aosAnimations } from "@/utils/aos";
 import { Suspense } from "react";
 import { Category } from "@prisma/client";
 import { CategorySkeleton } from "@/components/ui/skeleton";
 
-async function MenuPage() {
-  const locale = await getCurrentLocale();
+async function MenuPage({
+  params,
+}: {
+  params: Promise<{ locale: Locale }>;
+}) {
+  const { locale } = await params;
   const t = await getTrans(locale, "categories");
   const homeT = await getTrans(locale, "home");
 
@@ -71,17 +75,17 @@ async function MenuPageContent({
                               <div className="h-4 bg-gray-200 rounded mb-2"></div>
                               <div className="h-12 bg-gray-200 rounded-full"></div>
                             </div>
-                          ),
+                          )
                         )}
                       </div>
                     }
                   >
-                    <Menu items={category.products} />
+                    <Menu items={category.products} translations={homeT} />
                   </Suspense>
                 )}
               </div>
             </section>
-          ),
+          )
         )
       )}
     </main>

@@ -1,14 +1,16 @@
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
 import MenuItem from "./MenuItem";
-import { CategorySkeleton, MenuItemSkeleton } from "@/components/ui/skeleton";
+import { MenuItemSkeleton } from "@/components/ui/skeleton";
 import { ProductWithRelation } from "@/types/product";
-import getTrans from "@/lib/translation";
 import { Suspense } from "react";
 
-async function Menu({ items }: { items: ProductWithRelation[] }) {
-  const locale = await getCurrentLocale();
-  const translations = await getTrans(locale, "home");
+import { HomeTranslations } from "@/lib/translation";
 
+interface MenuProps {
+  items: ProductWithRelation[];
+  translations: HomeTranslations;
+}
+
+function Menu({ items, translations }: MenuProps) {
   return (
     <Suspense
       fallback={

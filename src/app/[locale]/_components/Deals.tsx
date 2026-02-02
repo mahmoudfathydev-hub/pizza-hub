@@ -1,12 +1,15 @@
 import Link from "@/components/link";
 import MainHeading from "@/components/main-heading";
 import { Routes } from "@/constants/enums";
-import { getCurrentLocale } from "@/lib/getCurrentLocale";
+import { Locale } from "@/i18n.config";
 import getTrans from "@/lib/translation";
 import Image from "next/image";
 
-const Deals = async () => {
-  const locale = await getCurrentLocale();
+interface DealsProps {
+  locale: Locale;
+}
+
+const Deals = async ({ locale }: DealsProps) => {
   const translations = await getTrans(locale, "home");
   const { deals } = translations;
 
