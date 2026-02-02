@@ -12,27 +12,27 @@ function AdminTabs({ translations }: { translations: AdminTranslations }) {
 
   const tabs = [
     {
-      id: crypto.randomUUID(),
+      id: "tab-profile",
       title: translations.tabs.profile,
       href: Routes.ADMIN,
     },
     {
-      id: crypto.randomUUID(),
+      id: "tab-categories",
       title: translations.tabs.categories,
       href: `${Routes.ADMIN}/${Pages.CATEGORIES}`,
     },
     {
-      id: crypto.randomUUID(),
+      id: "tab-menu-items",
       title: translations.tabs.menuItems,
       href: `${Routes.ADMIN}/${Pages.MENU_ITEMS}`,
     },
     {
-      id: crypto.randomUUID(),
+      id: "tab-users",
       title: translations.tabs.users,
       href: `${Routes.ADMIN}/${Pages.USERS}`,
     },
     {
-      id: crypto.randomUUID(),
+      id: "tab-orders",
       title: translations.tabs.orders,
       href: `${Routes.ADMIN}/${Pages.ORDERS}`,
     },
@@ -50,11 +50,10 @@ function AdminTabs({ translations }: { translations: AdminTranslations }) {
           <li key={tab.id}>
             <Link
               href={`/${locale}/${tab.href}`}
-              className={`hover:text-white! ${
-                isActiveTab(tab.href)
+              className={`hover:text-white! ${isActiveTab(tab.href)
                   ? buttonVariants({ variant: "default" })
                   : buttonVariants({ variant: "outline" })
-              }`}
+                }`}
             >
               {tab.title}
             </Link>
